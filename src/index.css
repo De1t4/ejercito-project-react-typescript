@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.h5-style{
+  @apply font-semibold text-xl text-gray-900 max-md:text-lg ;
+}
+
+.btn-green{
+  @apply bg-primary-color text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-primary-color/90 transition duration-300 ease-in-out;
+}
+
+.container-structure{
+  @apply bg-beige-color rounded-md py-3 px-4 flex  justify-start items-center shadow-md;
+}
