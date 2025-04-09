@@ -23,6 +23,19 @@
   @apply rounded-tl-md absolute transition-all duration-300 hover:bg-primary-color/80 top-0 left-0 h-12 w-1/2 bg-primary-color/90 text-white-color flex justify-center items-center;
 }
 
+
+.btn-login{
+  @apply bg-primary-color h-11 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-primary-color/80 transition duration-300 ease-in-out;
+}
+
 .input-login{
-  @apply bg-white-color border-2 border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-primary-color/80 transition duration-300 ease-in-out;
+  @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11  bg-[#F7FBFF] border rounded-lg  py-2 px-3 text-gray-700 leading-tight  ;
+  @layer focus {
+
+  }
+}
+
+.input-login-error{
+  @apply placeholder:text-[#8897AD] ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-11  bg-[#F7FBFF] border rounded-lg  py-2 px-3 text-gray-700 leading-tight  ;
+
 }
