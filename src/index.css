@@ -13,3 +13,12 @@
 .container-structure{
   @apply bg-beige-color rounded-md py-3 px-4 flex  justify-start items-center shadow-md;
 }
+
+
+.tab-right{
+  @apply rounded-tr-md  absolute transition-all duration-300 hover:bg-primary-color/60 top-0 right-0 h-12 w-1/2 bg-primary-color/50 text-white-color flex justify-center items-center;
+}
+
+.tab-left{
+  @apply rounded-tl-md absolute transition-all duration-300 hover:bg-primary-color/80 top-0 left-0 h-12 w-1/2 bg-primary-color/90 text-white-color flex justify-center items-center;
+}

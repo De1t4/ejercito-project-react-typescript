@@ -1,8 +1,8 @@
 import Navbar from "@/shared/components/Navbar";
-import Profile from "../components/Profile";
-import Structure from "../components/Structure";
-import TabServices from "../components/TabServices";
 import LayoutContent from "@/shared/layouts/LayoutContent";
+import Profile from "./components/Profile";
+import Structure from "./components/Structure";
+import TabServices from "./components/TabServices";
 
 export default function UserProfile() {
   return (

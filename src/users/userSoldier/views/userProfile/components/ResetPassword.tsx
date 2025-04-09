@@ -7,7 +7,7 @@ export default function ResetPassword() {
   return (
     <>
       <Modal
-        title="Reset Password"
+        title={<h5 className="h5-style">Services Assigned</h5>}
         centered
         open={modal1Open}
         style={{ content: "#000" }}
