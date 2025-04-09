@@ -24,6 +24,11 @@ export default function ModalService({ setStatusTab, statusTab }: { setStatusTab
       >
         <div className="grid relative col-span-2 pt-16 max-md:px-6 max-lg:col-span-3 bg-beige-clear-color px-10 py-5 rounded-lg shadow-lg">
           <TabButtons onTabChange={setStatusTab} />
+            <select defaultValue={0} className="w-60 p-2 bg-black-color font-medium text-white-color rounded-md mb-4 shadow-md">
+              <option value={0}  disabled>Sort Services</option>
+              <option value="asc">Sort Date Asc</option>
+              <option value="desc">Sort Date Desc</option>
+            </select>
           <TabContent statusTab={statusTab} />
         </div>
       </Modal>

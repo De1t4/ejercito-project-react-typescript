@@ -2,8 +2,8 @@ import { useState } from "react"
 import { TabButtons } from "../../../components/Tab/TabButtons";
 import TabContent from "../../../components/Tab/TabContent";
 import ModalService from "../../../components/Tab/ModalService";
+import { Tab } from "@/users/userSoldier/models/Tab";
 
-export type Tab = 'completed' | 'pending'
 
 export default function TabServices() {
   const [statusTab, setStatusTab] = useState<Tab>('completed')

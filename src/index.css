@@ -22,3 +22,7 @@
 .tab-left{
   @apply rounded-tl-md absolute transition-all duration-300 hover:bg-primary-color/80 top-0 left-0 h-12 w-1/2 bg-primary-color/90 text-white-color flex justify-center items-center;
 }
+
+.input-login{
+  @apply bg-white-color border-2 border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-primary-color/80 transition duration-300 ease-in-out;
+}

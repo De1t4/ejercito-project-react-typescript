@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import Profile from "@/pages/profile/profile"
+import Login from "./pages/login/Login"
 
 
 
@@ -7,10 +8,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" ></Route>
+      <Route path="/" element={<Login />} ></Route>
       <Route path="/login"></Route>
       <Route path="/register"></Route>
-      <Route path="/profile" element={<Profile/>}></Route>
+      <Route path="/profile" element={<Profile />}></Route>
 
       <Route path="/dashboard"></Route>
 
