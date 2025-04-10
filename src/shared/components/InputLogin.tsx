@@ -23,6 +23,7 @@ const InputLogin = ({ label, type, id, placeholder, name, control, error }: Inpu
           <input
             type={type}
             {...field}
+            maxLength={100}
             id={id}
             placeholder={placeholder}
             className={`focus:outline-none ${error? "input-login-error" : "input-login "}`}  

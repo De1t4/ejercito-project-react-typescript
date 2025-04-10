@@ -1,5 +1,5 @@
 import { VITE_BACK_END_URL } from "@/config/config-env";
-import { ResponseLogin, TokenData, TokenDecoded } from "@/models/authModels";
+import { ResponseError, ResponseLogin, TokenData, TokenDecoded } from "@/models/authModels";
 import { jwtDecode } from "jwt-decode";
 
 const API_URL = VITE_BACK_END_URL;
@@ -8,6 +8,7 @@ export const loginService = async (
   username: string,
   password: string
 ): Promise<string | TokenData> => {
+
   try {
     const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
@@ -16,6 +17,10 @@ export const loginService = async (
     });
 
     if (!res.ok) {
+      const errorResponse: ResponseError = await res.json();
+      if(errorResponse.httpStatus === "NOT_FOUND") {
+        return "NOT_FOUND";
+      }
       throw new Error("Error en la respuesta del servidor");
     }
 
@@ -34,6 +39,3 @@ export const loginService = async (
   }
 };
 
-export const logoutService = () => {
-  window.localStorage.clear()
-};

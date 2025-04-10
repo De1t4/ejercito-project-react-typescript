@@ -1,4 +1,8 @@
+import { useGlobalContext } from "@/context/globalContext"
+
 export default function Navbar() {
+  const { logout } = useGlobalContext()
+
   return (
     <nav className="flex justify-between items-center bg-primary-color p-4 shadow-md w-full z-10 h-20 sticky top-0">
       <div className="flex justify-between items-center w-[80rem] m-auto">
@@ -8,7 +12,7 @@ export default function Navbar() {
         <div className="flex gap-x-4 text-white-color">
           <a href="/profile" className="">Profile</a>
           <a href="/services" className="">Services</a>
-          <a href="/logout" className="">Logout</a>
+          <p onClick={logout} className=" cursor-pointer">Logout</p>
         </div>
       </div>
     </nav>

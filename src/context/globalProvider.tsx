@@ -1,9 +1,13 @@
 import { GlobalContextType, GlobalProps, TokenData } from "@/models/authModels";
-import { loginService, logoutService } from "@/services/authService";
+import { loginService } from "@/services/authService";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GlobalContext } from "./globalContext";
 
 const AUTH_INFO_USER = "USER_INFO_MILITARY_SYSTEM";
+
+const logoutService = () => {
+  window.localStorage.clear()
+};
 
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [authTokens, setAuthTokens] = useState<TokenData | null>(
@@ -67,5 +71,3 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     </GlobalContext.Provider>
   );
 };
-
-

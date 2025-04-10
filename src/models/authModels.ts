@@ -17,7 +17,7 @@ export interface GlobalContextType {
   logout: () => void;
   isLoggedIn: boolean;
   authTokens: TokenData | null;
-  getUserRole: () => string | null;
+  getUserRole: () => Role | null;
 }
 
 export interface ResponseLogin {
@@ -26,8 +26,15 @@ export interface ResponseLogin {
 
 export interface TokenDecoded {
   sub: string;
-  role: string;
+  role: Role;
   iss: string;
   id: number;
   exp: number;
+}
+
+export type Role = "SOLDADO" | "SUB_OFICIAL" | "OFICIAL";
+
+export interface ResponseError {
+  httpStatus: string
+  message: string
 }
