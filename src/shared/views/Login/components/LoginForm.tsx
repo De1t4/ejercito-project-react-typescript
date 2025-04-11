@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobalContext } from "@/context/globalContext";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
   const { login } = useGlobalContext();
@@ -69,7 +70,7 @@ export const LoginForm = () => {
           </div>
         </button>
         <div className="flex justify-center">
-          <p className="text-gray-600 text-sm font-roboto">Don't have an account? <span className="text-primary-color font-bold">Sign up</span></p>
+          <Link to="/register" className="text-gray-600 text-sm font-roboto">Don't have an account? <span className="text-primary-color font-bold">Sign up</span></Link>
         </div>
       </form>
     </div>

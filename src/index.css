@@ -30,7 +30,21 @@
 
 .input-login {
   @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+  @layer focus {}
+}
 
+.label-initial{
+  @apply block text-gray-700 text-sm font-roboto font-medium mb-2
+}
+
+.select-register {
+  @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+  @layer focus {}
+}
+
+
+.select-register-error {
+  @apply placeholder:text-[#8897AD] ring-1 ring-red-500  placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
   @layer focus {}
 }
 

@@ -38,7 +38,7 @@ export interface TokenDecoded {
 export type Role = "SOLDADO" | "SUB_OFICIAL" | "OFICIAL";
 
 
-type status = 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND'
+type status = 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND' | 'BAD_REQUEST'
 
 export interface ResponseError {
   httpStatus: status
