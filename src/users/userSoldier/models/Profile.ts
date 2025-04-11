@@ -34,8 +34,8 @@ export interface Body {
 }
 
 export interface Services {
-  completed: Completed[]
-  unfinished: Unfinished[]
+  completed: Completed[] | []
+  unfinished: Unfinished[] | []
 }
 
 export interface Completed {

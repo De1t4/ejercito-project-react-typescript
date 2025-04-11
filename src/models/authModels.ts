@@ -1,8 +1,9 @@
+import { ProfileProps } from "@/users/userSoldier/models/Profile";
 import { ReactNode } from "react";
 
 export interface TokenData {
   username: string,
-  role: string,
+  role: Role,
   id: number,
   token: string,
   accessExpiresIn: number
@@ -18,6 +19,8 @@ export interface GlobalContextType {
   isLoggedIn: boolean;
   authTokens: TokenData | null;
   getUserRole: () => Role | null;
+  reloadProfile: () => void
+  profile: ProfileProps
 }
 
 export interface ResponseLogin {
@@ -34,7 +37,10 @@ export interface TokenDecoded {
 
 export type Role = "SOLDADO" | "SUB_OFICIAL" | "OFICIAL";
 
+
+type status = 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND'
+
 export interface ResponseError {
-  httpStatus: string
+  httpStatus: status
   message: string
 }

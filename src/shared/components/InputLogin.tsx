@@ -15,7 +15,7 @@ interface InputLoginProps {
 const InputLogin = ({ label, type, id, placeholder, name, control, error }: InputLoginProps) => {
   return (
     <div className="w-full">
-      <label className="block text-gray-700 text-sm font-roboto font-medium mb-2" htmlFor="username">
+      <label className="block text-gray-700 text-sm font-roboto font-medium mb-2" htmlFor={name}>
         {label}
       </label>
       <Controller name={name} control={control}

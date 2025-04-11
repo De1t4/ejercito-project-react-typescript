@@ -2,40 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-.h5-style{
-  @apply font-semibold text-xl text-gray-900 max-md:text-lg ;
+.h5-style {
+  @apply font-semibold text-xl text-gray-900 max-md:text-lg;
 }
 
-.btn-green{
+.btn-green {
   @apply bg-primary-color text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-primary-color/90 transition duration-300 ease-in-out;
 }
 
-.container-structure{
-  @apply bg-beige-color rounded-md py-3 px-4 flex  justify-start items-center shadow-md;
+.container-structure {
+  @apply bg-beige-color rounded-md py-3 px-4 flex justify-start items-center shadow-md;
 }
 
 
-.tab-right{
-  @apply rounded-tr-md  absolute transition-all duration-300 hover:bg-primary-color/60 top-0 right-0 h-12 w-1/2 bg-primary-color/50 text-white-color flex justify-center items-center;
+.tab-right {
+  @apply rounded-tr-md absolute transition-all duration-300 hover:bg-primary-color/60 top-0 right-0 h-12 w-1/2 bg-primary-color/50 text-white-color flex justify-center items-center;
 }
 
-.tab-left{
+.tab-left {
   @apply rounded-tl-md absolute transition-all duration-300 hover:bg-primary-color/80 top-0 left-0 h-12 w-1/2 bg-primary-color/90 text-white-color flex justify-center items-center;
 }
 
 
-.btn-login{
+.btn-login {
   @apply bg-primary-color h-11 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-primary-color/80 transition duration-300 ease-in-out;
 }
 
-.input-login{
-  @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11  bg-[#F7FBFF] border rounded-lg  py-2 px-3 text-gray-700 leading-tight  ;
-  @layer focus {
+.input-login {
+  @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
 
-  }
+  @layer focus {}
 }
 
-.input-login-error{
-  @apply placeholder:text-[#8897AD] ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-11  bg-[#F7FBFF] border rounded-lg  py-2 px-3 text-gray-700 leading-tight  ;
+.input-login-error {
+  @apply placeholder:text-[#8897AD] ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+}
 
+.btn-finish {
+  @apply w-20 transition-all duration-300 hover:bg-primary-color/80 shadow-md bg-primary-color/90 text-white-color font-medium p-2 rounded-lg;
 }

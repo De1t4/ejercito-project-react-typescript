@@ -8,7 +8,7 @@ interface Structure {
 
 export default function Structure({ company, barrack, armyBody }: Structure) {
   return (
-    <section className="max-md:flex max-md:flex-col max-md:gap-4 grid col-span-2 max-md:w-full max-lg:col-span-3 max-md:p-6  bg-beige-clear-color px-10 py-5 rounded-lg shadow-lg border border-gray-color">
+    <section className="max-md:flex max-md:flex-col max-md:gap-4  grid col-span-2 max-md:w-full max-lg:col-span-3 max-md:p-6  bg-beige-clear-color px-10 py-5 rounded-lg shadow-lg border border-gray-color">
       <div className="">
         <h4 className="h5-style">Structure Military</h4>
         <p className="max-md:text-sm">Esta es la estructura militar en la que se encuentra organizado el usuario</p>

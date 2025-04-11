@@ -2,7 +2,6 @@ interface TabButtonsProps {
   onTabChange: (tab: "completed" | "pending") => void;
 }
 
-
 export const TabButtons: React.FC<TabButtonsProps> = ({ onTabChange }) => {
   return (
     <div className="flex items-center ">

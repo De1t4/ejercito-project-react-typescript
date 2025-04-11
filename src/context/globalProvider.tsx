@@ -2,6 +2,8 @@ import { GlobalContextType, GlobalProps, TokenData } from "@/models/authModels";
 import { loginService } from "@/services/authService";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GlobalContext } from "./globalContext";
+import { fetchSoldierData } from "@/services/ProfileService";
+import { initialStateProfile, ProfileProps } from "@/users/userSoldier/models/Profile";
 
 const AUTH_INFO_USER = "USER_INFO_MILITARY_SYSTEM";
 
@@ -10,6 +12,7 @@ const logoutService = () => {
 };
 
 export const GlobalProvider = ({ children }: GlobalProps) => {
+  const [profile, setProfile] = useState<ProfileProps>(initialStateProfile)
   const [authTokens, setAuthTokens] = useState<TokenData | null>(
     typeof window !== "undefined"
       ? JSON.parse(window.localStorage.getItem(AUTH_INFO_USER) || "null")
@@ -33,13 +36,14 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
         setAuthTokens(null);
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+
+
 
   const logout = useCallback(() => {
     logoutService();
@@ -54,6 +58,26 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     return null;
   }, [authTokens]);
 
+  const getProfileUser = useCallback(async () => {
+    if (!authTokens?.token) return
+    const data = await fetchSoldierData(authTokens.token)
+    return data
+  }, [authTokens])
+
+  const reloadProfile = useCallback(async () => {
+    const data = await getProfileUser()
+    if(data?.valueOf() === 'UNAUTHORIZED') {
+      logout()
+    }
+    if (typeof data === 'object') {
+      setProfile(data)
+    }
+  }, [getProfileUser, logout])
+
+  useEffect(() => {
+    reloadProfile()
+  }, [reloadProfile])
+
   const value = useMemo<GlobalContextType>(
     () => ({
       login,
@@ -61,8 +85,10 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
       authTokens,
       isLoggedIn: !!authTokens,
       getUserRole,
+      reloadProfile,
+      profile
     }),
-    [authTokens, login, logout, getUserRole]
+    [authTokens, login, logout, getUserRole, reloadProfile, profile]
   );
 
   return (
