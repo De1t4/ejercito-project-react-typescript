@@ -14,7 +14,7 @@ interface InputLoginProps {
 
 const InputLogin = ({ label, type, id, placeholder, name, control, error }: InputLoginProps) => {
   return (
-    <div className="w-full">
+    <div className="w-full h-auto ">
       <label className="label-initial" htmlFor={name}>
         {label}
       </label>
@@ -30,7 +30,7 @@ const InputLogin = ({ label, type, id, placeholder, name, control, error }: Inpu
           />
         )}
       />
-      <p className="h-5 text-red-600 text-sm  pt-1">{error && error}</p>
+      <p className=" text-red-600 text-sm  pt-1 h-auto">{error && error}</p>
     </div>
   );
 }

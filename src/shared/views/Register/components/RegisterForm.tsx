@@ -1,6 +1,7 @@
 import { registerService } from "@/services/authService";
 import InputLogin from "@/shared/components/InputLogin";
-import Select, { OptionsProps } from "@/shared/components/Select";
+import Select from "@/shared/components/Select";
+import { optionsRole } from "@/shared/constants/Roles";
 import { FormRegister, intiialStateRegister, schemanRegister } from "@/shared/models/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,24 +22,10 @@ const RegisterForm = () => {
     }
   }
 
-  const optionsRole: OptionsProps[] = [{
-    title: "Soldier",
-    value: "SOLDADO"
-  },
-  {
-    title: "Sub Oficial",
-    value: "SUB_OFICIAL"
-  }
-    , {
-    title: "Oficial",
-    value: "OFICIAL"
-  }
-  ]
-
   return (
     <div className="h-full justify-center flex items-center flex-col w-full gap-3">
       <h1 className="text-3xl font-bold mb-2 text-left  ">Register Now</h1>
-      <form onSubmit={handleSubmit(onSubmitRegister)} className="w-full flex flex-col gap-4 ">
+      <form onSubmit={handleSubmit(onSubmitRegister)} className="w-full flex flex-col gap-4">
         <InputLogin
           type="text"
           id="username"
