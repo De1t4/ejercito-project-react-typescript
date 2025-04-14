@@ -1,6 +1,6 @@
 import { useGlobalContext } from "@/context/globalContext";
 import { modifyPasswordUser } from "@/services/ProfileService";
-import InputPassword from "@/shared/components/InputPassword";
+import InputPassword from "@/users/shared/InputPassword";
 import { initialStatePassword, schemaValidation, FormValidation } from "@/users/userSoldier/models/Password.models";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";

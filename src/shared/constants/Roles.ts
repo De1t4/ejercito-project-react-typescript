@@ -1,4 +1,4 @@
-import { OptionsProps } from "../components/Select";
+import { OptionsProps } from "../components/FormSelect";
 
 export const optionsRole: OptionsProps[] = [{
   title: "Soldier",

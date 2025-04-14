@@ -4,6 +4,7 @@ import Login from "./pages/login/Login"
 import { PrivateRoute } from "./config/privateRoute"
 import PublicRoute from "./config/publicRoute"
 import Register from "./pages/register/Register"
+import Dashboard from "./pages/dashboard/Dashboard"
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["SUB_OFICIAL", "OFICIAL"]} />}>
-        <Route path="/dashboard" element={<h1>hola</h1>}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/soldiers"></Route>
         <Route path="/soldiers/:id"></Route>
         <Route path="/services"></Route>

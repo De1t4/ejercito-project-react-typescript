@@ -1,6 +1,7 @@
 import { registerService } from "@/services/authService";
-import InputLogin from "@/shared/components/InputLogin";
-import Select from "@/shared/components/Select";
+import FormInput from "@/shared/components/FormInput";
+import FormInputPassword from "@/shared/components/FormInputPassword";
+import FormSelect from "@/shared/components/FormSelect";
 import { optionsRole } from "@/shared/constants/Roles";
 import { FormRegister, intiialStateRegister, schemanRegister } from "@/shared/models/register";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +17,7 @@ const RegisterForm = () => {
 
   const onSubmitRegister: SubmitHandler<FormRegister> = async (data) => {
     const res = await registerService(data)
-    if (!res) console.log(navigate("/login"))
+    if (!res) navigate("/login")
     if (res === 'BAD_REQUEST') {
       alert("EL USUARIO YA EXISTE")
     }
@@ -26,7 +27,7 @@ const RegisterForm = () => {
     <div className="h-full justify-center flex items-center flex-col w-full gap-3">
       <h1 className="text-3xl font-bold mb-2 text-left  ">Register Now</h1>
       <form onSubmit={handleSubmit(onSubmitRegister)} className="w-full flex flex-col gap-4">
-        <InputLogin
+        <FormInput
           type="text"
           id="username"
           placeholder="Enter your username"
@@ -35,8 +36,7 @@ const RegisterForm = () => {
           error={errors.username?.message}
           control={control}
         />
-        <InputLogin
-          type="password"
+        <FormInputPassword
           id="password"
           placeholder="Enter your password"
           label="Password"
@@ -44,8 +44,7 @@ const RegisterForm = () => {
           error={errors.password?.message}
           control={control}
         />
-        <InputLogin
-          type="password"
+        <FormInputPassword
           id="confirmPassword"
           placeholder="Confirm your password"
           label="Confirm Password"
@@ -53,7 +52,7 @@ const RegisterForm = () => {
           error={errors.confirmPassword?.message}
           control={control}
         />
-        <Select
+        <FormSelect
           control={control}
           placeholder={"Select Options"}
           error={errors.role?.message}
