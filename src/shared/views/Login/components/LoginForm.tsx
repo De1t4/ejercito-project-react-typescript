@@ -1,10 +1,12 @@
 
-import InputLogin from "@/shared/components/InputLogin";
 import { initialState, Login, schemaLogin } from "@/shared/models/login";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobalContext } from "@/context/globalContext";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import FormInput from "@/shared/components/FormInput";
+import FormInputPassword from "@/shared/components/FormInputPassword";
 
 export const LoginForm = () => {
   const { login } = useGlobalContext();
@@ -32,7 +34,7 @@ export const LoginForm = () => {
         <p className=" text-black-color/90 font-medium font-sans">You've successfully logged into the Military System. We wish you a productive day.</p>
       </div>
       <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-4 w-full">
-        <InputLogin
+        <FormInput
           type="text"
           id="username"
           placeholder="Enter your username"
@@ -41,8 +43,7 @@ export const LoginForm = () => {
           error={errors.username?.message}
           control={control}
         />
-        <InputLogin
-          type="password"
+        <FormInputPassword
           id="password"
           placeholder="Enter your password"
           label="Password"
@@ -69,7 +70,7 @@ export const LoginForm = () => {
           </div>
         </button>
         <div className="flex justify-center">
-          <p className="text-gray-600 text-sm font-roboto">Don't have an account? <span className="text-primary-color font-bold">Sign up</span></p>
+          <Link to="/register" className="text-gray-600 text-sm font-roboto">Don't have an account? <span className="text-primary-color font-bold">Sign up</span></Link>
         </div>
       </form>
     </div>

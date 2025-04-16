@@ -1,5 +1,6 @@
 import { VITE_BACK_END_URL } from "@/config/config-env";
 import { ResponseError, ResponseLogin, TokenData, TokenDecoded } from "@/models/authModels";
+import { FormRegister } from "@/shared/models/register";
 import { jwtDecode } from "jwt-decode";
 
 const API_URL = VITE_BACK_END_URL;
@@ -18,7 +19,7 @@ export const loginService = async (
 
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
-      if(errorResponse.httpStatus === "NOT_FOUND") {
+      if (errorResponse.httpStatus === "NOT_FOUND") {
         return "NOT_FOUND";
       }
       throw new Error("Error en la respuesta del servidor");
@@ -39,3 +40,27 @@ export const loginService = async (
   }
 };
 
+export const registerService = async (dataRegister: FormRegister) => {
+
+  try {
+    const res = await fetch(`${API_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataRegister),
+    });
+
+    if (!res.ok) {
+      const errorResponse: ResponseError = await res.json();
+      if (errorResponse.httpStatus === "NOT_FOUND") {
+        return "NOT_FOUND";
+      }
+      if(errorResponse.httpStatus === "BAD_REQUEST"){
+        return "BAD_REQUEST"
+      }
+      throw new Error("Error en la respuesta del servidor");
+    }
+  } catch (err) {
+    console.error(err);
+    return "Ocurrió un error al intentar iniciar sesión";
+  }
+}

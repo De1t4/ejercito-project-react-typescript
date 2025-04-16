@@ -34,10 +34,36 @@
   @layer focus {}
 }
 
+.label-initial {
+  @apply block text-gray-700 text-sm font-roboto font-medium mb-2
+}
+
+.select-register {
+  @apply placeholder:text-[#8897AD] focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+
+  @layer focus {}
+}
+
+
+.select-register-error {
+  @apply placeholder:text-[#8897AD] ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+
+  @layer focus {}
+}
+
 .input-login-error {
   @apply placeholder:text-[#8897AD] ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-11 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
 }
 
 .btn-finish {
   @apply w-20 transition-all duration-300 hover:bg-primary-color/80 shadow-md bg-primary-color/90 text-white-color font-medium p-2 rounded-lg;
+}
+
+
+.li-menu {
+  @apply  text-black-color bg-beige-color font-sans border-gray-color p-2 rounded-md shadow-lg border
+}
+
+.li-menu:hover{
+  @apply  transition-all duration-300
 }

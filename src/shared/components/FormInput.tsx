@@ -1,21 +1,22 @@
+import { HTMLInputTypeAttribute } from "react";
 import { Control, Controller } from "react-hook-form";
-import { Login } from "../models/login";
 
 interface InputLoginProps {
   label: string;
-  type: string;
+  type: HTMLInputTypeAttribute;
   id: string;
   placeholder: string;
-  name: "username" | "password";
+  name: string
   error: string | undefined
-  control: Control<Login>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: Control<any>
 }
 
 
-const InputLogin = ({ label, type, id, placeholder, name, control, error }: InputLoginProps) => {
+const FormInput = ({ label, type, id, placeholder, name, control, error }: InputLoginProps) => {
   return (
-    <div className="w-full">
-      <label className="block text-gray-700 text-sm font-roboto font-medium mb-2" htmlFor={name}>
+    <div className="w-full h-auto ">
+      <label className="label-initial" htmlFor={name}>
         {label}
       </label>
       <Controller name={name} control={control}
@@ -30,9 +31,9 @@ const InputLogin = ({ label, type, id, placeholder, name, control, error }: Inpu
           />
         )}
       />
-      <p className="h-5 text-red-600 text-sm pl-1 pt-1">{error && error}</p>
+      <p className=" text-red-600 text-sm  pt-1 h-auto">{error && error}</p>
     </div>
   );
 }
 
-export default InputLogin;
+export default FormInput;
