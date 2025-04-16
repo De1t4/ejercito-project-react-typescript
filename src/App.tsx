@@ -21,11 +21,11 @@ function App() {
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["SUB_OFICIAL", "OFICIAL"]} />}>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/soldiers"></Route>
-        <Route path="/soldiers/:id"></Route>
-        <Route path="/services"></Route>
-        <Route path="/settings"></Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/soldiers"></Route>
+          <Route path="/soldiers/:id"></Route>
+          <Route path="/services"></Route>
+          <Route path="/settings"></Route>
       </Route>
       {/* ROUTES OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["OFICIAL"]} />}>

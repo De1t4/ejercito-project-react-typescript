@@ -13,7 +13,8 @@ export default {
         "black-color": "#1C1C18",
         "gray-color":"#A9A9A9",
         "red-color":"#8B0000",
-        "beige-color":"#F4F4ED"
+        "beige-color":"#F4F4ED",
+        "black-coil":"#121212"
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
