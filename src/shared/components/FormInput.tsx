@@ -1,7 +1,7 @@
 import { HTMLInputTypeAttribute } from "react";
 import { Control, Controller } from "react-hook-form";
 
-interface InputLoginProps {
+interface InputProps {
   label: string;
   type: HTMLInputTypeAttribute;
   id: string;
@@ -13,7 +13,7 @@ interface InputLoginProps {
 }
 
 
-const FormInput = ({ label, type, id, placeholder, name, control, error }: InputLoginProps) => {
+const FormInput = ({ label, type, id, placeholder, name, control, error }: InputProps) => {
   return (
     <div className="w-full h-auto ">
       <label className="label-initial" htmlFor={name}>

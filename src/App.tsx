@@ -5,6 +5,7 @@ import { PrivateRoute } from "./config/privateRoute"
 import PublicRoute from "./config/publicRoute"
 import Register from "./pages/register/Register"
 import Dashboard from "./pages/dashboard/Dashboard"
+import Soldiers from "./pages/soldier/Soldiers"
 
 function App() {
   return (
@@ -21,11 +22,11 @@ function App() {
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["SUB_OFICIAL", "OFICIAL"]} />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/soldiers"></Route>
-          <Route path="/soldiers/:id"></Route>
-          <Route path="/services"></Route>
-          <Route path="/settings"></Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/soldiers" element={<Soldiers />}></Route>
+        <Route path="/soldiers/:id"></Route>
+        <Route path="/services"></Route>
+        <Route path="/settings"></Route>
       </Route>
       {/* ROUTES OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["OFICIAL"]} />}>
