@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getSoldierList } from '@/users/userSubOficial/services/SoldierService';
+import { deleteSoldierById, getSoldierList } from '@/users/userSubOficial/services/SoldierService';
 import { useGlobalContext } from '@/context/globalContext';
 import { Soldier } from '@/users/userSubOficial/models/Soldier.models';
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
@@ -12,15 +12,27 @@ export const TableSoldier = () => {
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   // Pagination state
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const itemsPerPage: number = 10
   const { authTokens } = useGlobalContext()
+
+  const fetchSoldierList = async () => {
+    if (!authTokens) return
+    const res = await getSoldierList(authTokens.token)
+    if (res) setSoldiers(res)
+  }
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const productosPorPagina = 10;
+  const initPage = (currentPage - 1) * productosPorPagina;
+  const endPage = currentPage * productosPorPagina;
+  const totalPaginas = Math.ceil(soldiers.length / productosPorPagina);
+
+  const beforeProduct = () =>
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  const nextProduct = () =>
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPaginas));
+
+
   useEffect(() => {
-    const fetchSoldierList = async () => {
-      if (!authTokens) return
-      const res = await getSoldierList(authTokens.token)
-      if (res) setSoldiers(res)
-    }
     fetchSoldierList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -42,77 +54,24 @@ export const TableSoldier = () => {
   }
 
 
-  const filteredSoldiers = soldiers.filter(
-    (soldier) =>
-      soldier.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      soldier.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      soldier.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      soldier.barrack.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      soldier.army_body.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  // const filteredSoldiers = soldiers.filter(
+  //   (soldier) =>
+  //     soldier.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     soldier.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     soldier.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     soldier.barrack.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     soldier.army_body.toLowerCase().includes(searchQuery.toLowerCase()),
+  // )
 
+  const handleDeleteSoldier = async (id: number) => {
+    if (!authTokens) return
+    await deleteSoldierById(authTokens.token, id)
+    alert("El soldado fue eliminado")
+    fetchSoldierList()
+  }
 
   const handleDeleteSoldiers = () => {
     console.log(selectedSoldiers)
-  }
-
-  // Pagination logic
-  const totalPages = Math.ceil(soldiers.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedSoldiers = soldiers.slice(startIndex, startIndex + itemsPerPage)
-
-  // Handle page change
-  const goToPage = (page: number) => {
-    if (page < 1) page = 1
-    if (page > totalPages) page = totalPages
-    setCurrentPage(page)
-  }
-
-  // Generate page numbers for pagination
-  const getPageNumbers = () => {
-    const pageNumbers = []
-    const maxVisiblePages = 5
-
-    if (totalPages <= maxVisiblePages) {
-      // Show all pages if there are few
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i)
-      }
-    } else {
-      // Always show first page
-      pageNumbers.push(1)
-
-      // Calculate start and end of visible pages
-      let start = Math.max(2, currentPage - 1)
-      let end = Math.min(totalPages - 1, currentPage + 1)
-
-      // Adjust if we're near the beginning or end
-      if (currentPage <= 3) {
-        end = Math.min(totalPages - 1, 4)
-      } else if (currentPage >= totalPages - 2) {
-        start = Math.max(2, totalPages - 3)
-      }
-
-      // Add ellipsis if needed
-      if (start > 2) {
-        pageNumbers.push("...")
-      }
-
-      // Add middle pages
-      for (let i = start; i <= end; i++) {
-        pageNumbers.push(i)
-      }
-
-      // Add ellipsis if needed
-      if (end < totalPages - 1) {
-        pageNumbers.push("...")
-      }
-
-      // Always show last page
-      pageNumbers.push(totalPages)
-    }
-
-    return pageNumbers
   }
 
   return (
@@ -123,7 +82,7 @@ export const TableSoldier = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-800">Manage Soldiers</h1>
-              <p className="text-gray-500 mt-1">{filteredSoldiers.length} Soldiers Found</p>
+              <p className="text-gray-500 mt-1">{soldiers.length} Soldiers Found</p>
             </div>
             <div className="flex gap-2">
               {selectedSoldiers.length > 0 && (
@@ -141,9 +100,9 @@ export const TableSoldier = () => {
         {/* Toolbar */}
         <div className="p-4 bg-gray-50 border-b border-gray-100">
           <div className="flex flex-col sm:flex-row gap-3 justify-between">
-            <FormSoldier />
+            <FormSoldier reloadTable={fetchSoldierList} />
             <div className="flex gap-3">
-              <div className="relative">
+              <div className="relative w-full">
                 <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
@@ -156,7 +115,6 @@ export const TableSoldier = () => {
             </div>
           </div>
         </div>
-
         <div className="overflow-x-auto">
           <table className="w-full">
             <Thead
@@ -165,50 +123,37 @@ export const TableSoldier = () => {
               soldiersData={soldiers}
             />
             <Tbody
-              sortedSoldiers={paginatedSoldiers}
+              handleDeleteSoldier={handleDeleteSoldier}
+              sortedSoldiers={soldiers.slice(initPage, endPage)}
               selectedSoldiers={selectedSoldiers}
               handleSelect={handleSelect}
-              filteredSoldiers={filteredSoldiers}
+              filteredSoldiers={soldiers}
             />
           </table>
         </div>
         {/* Pagination */}
-        <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
-          <div className="text-sm text-gray-500">
-            Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
-            <span className="font-medium">{Math.min(startIndex + itemsPerPage, filteredSoldiers.length)}</span> of{" "}
-            <span className="font-medium">{filteredSoldiers.length}</span> soldiers
-          </div>
-          <div className="flex gap-2">
+        <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end items-center">
+          <div className="flex items-center gap-2">
             <button
               className="p-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={() => goToPage(currentPage - 1)}
+              onClick={beforeProduct}
               disabled={currentPage === 1}
             >
               Previous
             </button>
-            {getPageNumbers().map((page, index) =>
-              typeof page === "number" ? (
-                <button
-                  key={index}
-                  className={`w-9 h-9 flex items-center justify-center rounded-md ${page === currentPage
-                    ? "bg-blue-600 text-white"
-                    : "border border-gray-300 text-gray-600 hover:bg-gray-100"
-                    }`}
-                  onClick={() => goToPage(page)}
-                >
-                  {page}
-                </button>
-              ) : (
-                <span key={index} className="px-1">
-                  {page}
-                </span>
-              ),
-            )}
+            {Array.from({ length: totalPaginas }, (_, index) => (
+              <p
+                key={index}
+                className={` w-9 h-9 flex items-center justify-center  rounded-md hover:cursor-pointer border border-gray-300 text-gray-600 hover:bg-gray-100 ${index + 1 === currentPage ? "font-bold bg-blue-500" : "text-base bg-blue-100"}"
+                  }`}
+                onClick={() => setCurrentPage(index + 1)}>
+                {index + 1}
+              </p>
+            ))}
             <button
               className="p-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
+              onClick={nextProduct}
+              disabled={currentPage === totalPaginas}
             >
               Next
             </button>

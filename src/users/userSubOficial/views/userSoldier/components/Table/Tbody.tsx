@@ -1,6 +1,6 @@
 import { Soldier } from "@/users/userSubOficial/models/Soldier.models";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Popover, Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
 import { Link } from "react-router-dom";
 
@@ -9,9 +9,23 @@ interface TbodyProps {
   selectedSoldiers: number[]
   handleSelect: (id: number) => void
   filteredSoldiers: Soldier[]
+  handleDeleteSoldier: (id: number) => void
 }
 
-export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, filteredSoldiers }: TbodyProps) {
+export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
+  const contentPopover = (id_soldier: number) => {
+    return (
+      <>
+        <div className=" flex flex-col items-center justify-center gap-2">
+          <p>¿Are you sure you want to delete this soldier?</p>
+          <button className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_soldier)}>
+            I'm sure
+          </button>
+        </div>
+      </>
+    )
+  }
+
   return (
     <tbody>
       {sortedSoldiers.map((soldier) => (
@@ -35,23 +49,24 @@ export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, 
           <td className="p-4">
             <div className="flex justify-end gap-2">
               <Tooltip title="View More">
-                <Link to={`/soldiers/${soldier.id_soldier}`}>
+                <Link to={`/soldiers/${soldier.id_user}`}>
                   <button className="p-1 text-blue-600 hover:bg-blue-100 rounded-full transition-colors">
                     <EyeOutlined size={20} />
                   </button>
                 </Link>
               </Tooltip>
-              <Tooltip title="Edit Soldier">
-                <button className="p-1 text-green-600 hover:bg-green-100 rounded-full transition-colors">
+              {/* <Tooltip title="Edit Soldier">
+                <button onClick={() => console.log(soldier)} className="p-1 text-green-600 hover:bg-green-100 rounded-full transition-colors">
                   <EditOutlined size={20} />
                 </button>
-              </Tooltip>
-              <Tooltip title="Delete Soldier">
-                <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">
-                  <DeleteOutlined size={20} />
-                </button>
-              </Tooltip>
-
+              </Tooltip> */}
+              <Popover content={contentPopover(soldier.id_soldier)} title="Delete Soldier" trigger="click">
+                <Tooltip title="Delete Soldier">
+                  <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">
+                    <DeleteOutlined size={20} />
+                  </button>
+                </Tooltip>
+              </Popover>
             </div>
           </td>
         </tr>

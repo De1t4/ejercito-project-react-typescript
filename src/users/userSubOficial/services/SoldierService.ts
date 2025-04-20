@@ -41,3 +41,20 @@ export const createSoldier = async (token: string, soldierData: FormSoldier) => 
     console.error("Error create soldier", err)
   }
 }
+
+export const deleteSoldierById = async (token: string, id: number) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/soldiers/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (!res.ok) {
+      throw new Error("Error create soldier")
+    }
+  } catch (err) {
+    console.error("Error create soldier", err)
+  }
+}

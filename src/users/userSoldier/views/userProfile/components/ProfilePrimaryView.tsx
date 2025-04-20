@@ -23,7 +23,7 @@ const PrimaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'pri
       />
       <TabServices
         handleScreenView={handleScreenView}
-        services={profile?.services}
+        profile={profile}
       />
     </motion.div>
   );

@@ -6,8 +6,11 @@ export interface Soldier {
   username: string
   name: string
   lastname: string
+  id_barrack: number
   barrack: string
+  id_company: number
   company: string
+  id_body: number
   army_body: string
 }
 

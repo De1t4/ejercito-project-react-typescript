@@ -6,6 +6,7 @@ import PublicRoute from "./config/publicRoute"
 import Register from "./pages/register/Register"
 import Dashboard from "./pages/dashboard/Dashboard"
 import Soldiers from "./pages/soldier/Soldiers"
+import SoldierProfile from "./pages/soldierProfile/soldierProfile"
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
       <Route element={<PrivateRoute allowedRoles={["SUB_OFICIAL", "OFICIAL"]} />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/soldiers" element={<Soldiers />}></Route>
-        <Route path="/soldiers/:id"></Route>
+        <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
         <Route path="/services"></Route>
         <Route path="/settings"></Route>
       </Route>
