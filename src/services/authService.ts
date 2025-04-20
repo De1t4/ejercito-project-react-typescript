@@ -20,6 +20,7 @@ export const loginService = async (
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
       if (errorResponse.httpStatus === "NOT_FOUND") {
+        alert("Username or Password is incorrect")
         return "NOT_FOUND";
       }
       throw new Error("Error en la respuesta del servidor");

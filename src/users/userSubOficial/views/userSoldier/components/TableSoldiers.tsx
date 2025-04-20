@@ -2,17 +2,15 @@ import { useEffect, useState } from 'react';
 import { getSoldierList } from '@/users/userSubOficial/services/SoldierService';
 import { useGlobalContext } from '@/context/globalContext';
 import { Soldier } from '@/users/userSubOficial/models/Soldier.models';
-import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import Tbody from './Table/Tbody';
-import Checkbox from 'antd/es/checkbox';
 import FormSoldier from './ModalFormSoldier';
+import Thead from './Table/Thead';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Soldier[]>([])
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
-  const [sortField, setSortField] = useState<string | null>(null)
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
   // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1)
   const itemsPerPage: number = 10
@@ -43,14 +41,6 @@ export const TableSoldier = () => {
     }
   }
 
-  const handleSort = (field: string) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-    } else {
-      setSortField(field)
-      setSortDirection("asc")
-    }
-  }
 
   const filteredSoldiers = soldiers.filter(
     (soldier) =>
@@ -61,26 +51,15 @@ export const TableSoldier = () => {
       soldier.army_body.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
-  // Sort soldiers
-  const sortedSoldiers = [...filteredSoldiers].sort((a, b) => {
-    if (!sortField) return 0
-
-    const fieldA = a[sortField as keyof typeof a]
-    const fieldB = b[sortField as keyof typeof b]
-
-    if (fieldA < fieldB) return sortDirection === "asc" ? -1 : 1
-    if (fieldA > fieldB) return sortDirection === "asc" ? 1 : -1
-    return 0
-  })
 
   const handleDeleteSoldiers = () => {
     console.log(selectedSoldiers)
   }
 
   // Pagination logic
-  const totalPages = Math.ceil(sortedSoldiers.length / itemsPerPage)
+  const totalPages = Math.ceil(soldiers.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedSoldiers = sortedSoldiers.slice(startIndex, startIndex + itemsPerPage)
+  const paginatedSoldiers = soldiers.slice(startIndex, startIndex + itemsPerPage)
 
   // Handle page change
   const goToPage = (page: number) => {
@@ -180,59 +159,11 @@ export const TableSoldier = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 text-left">
-                <th className="p-3 w-12">
-                  <Checkbox
-                    checked={selectedSoldiers.length === soldiers.length && soldiers.length > 0}
-                    onChange={handleSelectAll} />
-
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("id")}>
-                  <div className="flex items-center gap-1">
-                    ID
-                    {sortField === "id" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("username")}>
-                  <div className="flex items-center gap-1">
-                    Username
-                    {sortField === "username" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("name")}>
-                  <div className="flex items-center gap-1">
-                    Name
-                    {sortField === "name" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("company")}>
-                  <div className="flex items-center gap-1">
-                    Company
-                    {sortField === "company" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("barrack")}>
-                  <div className="flex items-center gap-1">
-                    Barrack
-                    {sortField === "barrack" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("armyBody")}>
-                  <div className="flex items-center gap-1">
-                    Army Body
-                    {sortField === "armyBody" &&
-                      (sortDirection === "asc" ? <ArrowUpOutlined size={16} /> : <ArrowDownOutlined size={16} />)}
-                  </div>
-                </th>
-                <th className="p-4 font-medium text-gray-600 text-center">Actions</th>
-              </tr>
-            </thead>
+            <Thead
+              handleSelectAll={handleSelectAll}
+              selectedSoldiers={selectedSoldiers}
+              soldiersData={soldiers}
+            />
             <Tbody
               sortedSoldiers={paginatedSoldiers}
               selectedSoldiers={selectedSoldiers}
@@ -241,7 +172,6 @@ export const TableSoldier = () => {
             />
           </table>
         </div>
-
         {/* Pagination */}
         <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
           <div className="text-sm text-gray-500">

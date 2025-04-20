@@ -2,6 +2,7 @@ import { Soldier } from "@/users/userSubOficial/models/Soldier.models";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
+import { Link } from "react-router-dom";
 
 interface TbodyProps {
   sortedSoldiers: Soldier[]
@@ -34,9 +35,11 @@ export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, 
           <td className="p-4">
             <div className="flex justify-end gap-2">
               <Tooltip title="View More">
-                <button className="p-1 text-blue-600 hover:bg-blue-100 rounded-full transition-colors">
-                  <EyeOutlined size={20} />
-                </button>
+                <Link to={`/soldiers/${soldier.id_soldier}`}>
+                  <button className="p-1 text-blue-600 hover:bg-blue-100 rounded-full transition-colors">
+                    <EyeOutlined size={20} />
+                  </button>
+                </Link>
               </Tooltip>
               <Tooltip title="Edit Soldier">
                 <button className="p-1 text-green-600 hover:bg-green-100 rounded-full transition-colors">
