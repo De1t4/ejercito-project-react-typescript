@@ -21,7 +21,6 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
     resolver: zodResolver(schemaFormSoldier)
   })
   const handleSubmitSoldier: SubmitHandler<FormSoldier> = async (data) => {
-    console.log(data)
     if (!authTokens) return
     try {
       setIsSubmitting(true)

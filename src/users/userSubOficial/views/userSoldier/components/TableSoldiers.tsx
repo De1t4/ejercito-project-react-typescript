@@ -111,6 +111,7 @@ export const TableSoldier = () => {
             />
             <Tbody
               structure={structure}
+              reloadTable={fetchSoldierList}
               handleDeleteSoldier={handleDeleteSoldier}
               sortedSoldiers={soldiers.slice(initPage, endPage)}
               selectedSoldiers={selectedSoldiers}

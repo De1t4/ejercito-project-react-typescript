@@ -27,6 +27,7 @@ export const schemaFormSoldier = z.object({
   id_company: z.number().min(1, "Company is required").or(z.string().min(1, "Company is required")),
   id_barrack: z.number().min(1, "Barrack is required").or(z.string().min(1, "Barrack is required")),
   id_body: z.number().min(1, "Army body is required").or(z.string().min(1, "Army body is required")),
+  id_soldier: z.optional(z.number())
 })
 
 export type FormSoldier = z.infer<typeof schemaFormSoldier>;

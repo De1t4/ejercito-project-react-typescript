@@ -1,26 +1,37 @@
+import { useGlobalContext } from "@/context/globalContext";
 import FormInput from "@/shared/components/FormInput";
-import FormInputPassword from "@/shared/components/FormInputPassword";
 import FormSelect from "@/shared/components/FormSelect";
 import { FormSoldier, schemaFormSoldier, Soldier, Structure } from "@/users/userSubOficial/models/Soldier.models";
+import { updateProfileUser } from "@/users/userSubOficial/services/AdminService";
 import { mapBarracksToOptions, mapCompaniesToOptions, mapBodiesToOptions } from "@/utils/utils";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalEditSoldier({ soldier, structure }: { soldier: Soldier, structure: Structure }) {
+export default function ModalEditSoldier({ soldier, structure, reloadTable }: { soldier: Soldier, structure: Structure, reloadTable: () => void }) {
+  const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { handleSubmit, control, formState: { errors } } = useForm<FormSoldier>({
-    defaultValues: soldier,
+    defaultValues: { ...soldier, password: "TestPass123.", id_soldier: soldier.id_soldier},
     resolver: zodResolver(schemaFormSoldier)
   })
 
-  console.log(errors)
+  const onSubmitEdit: SubmitHandler<FormSoldier> = async (data) => {
+    try {
+      if (!authTokens) return
+      setIsSubmitting(true)
+      await updateProfileUser(authTokens.token, data)
+      reloadTable()
+    } catch (err) {
+      console.error("Error edit profile soldier" + err)
 
-  const onSubmitEdit: SubmitHandler<FormSoldier> = (data) => {
-    console.log(data)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -36,6 +47,35 @@ export default function ModalEditSoldier({ soldier, structure }: { soldier: Sold
         open={modalOpen}
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
+        footer={
+          <>
+            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <button
+                type="button"
+                disabled={isSubmitting}
+                onClick={() => setModalOpen(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onClick={handleSubmit(onSubmitEdit)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70 flex items-center justify-center min-w-[100px]"
+              >
+                {isSubmitting ? (
+                  <>
+                    <ReloadOutlined size={16} className="animate-spin mr-2" />
+                    Creating...
+                  </>
+                ) : (
+                  "Update Soldier"
+                )}
+              </button>
+            </div>
+          </>
+        }
+
       >
         <form onSubmit={handleSubmit(onSubmitEdit)}>
           <div className="space-y-4">
@@ -48,14 +88,6 @@ export default function ModalEditSoldier({ soldier, structure }: { soldier: Sold
                 placeholder="Enter username"
                 name="username"
                 error={errors.username?.message}
-                control={control}
-              />
-              <FormInputPassword
-                label="Password"
-                id="password"
-                placeholder="Enter password"
-                name="password"
-                error={errors.password?.message}
                 control={control}
               />
             </div>
@@ -115,10 +147,8 @@ export default function ModalEditSoldier({ soldier, structure }: { soldier: Sold
               />
             </div>
           </div>
-          <button type="submit">Ver</button>
         </form>
-
-      </Modal>
+      </Modal >
     </>
   )
 }

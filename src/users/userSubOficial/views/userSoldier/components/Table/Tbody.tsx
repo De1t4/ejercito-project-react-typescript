@@ -9,12 +9,13 @@ interface TbodyProps {
   sortedSoldiers: Soldier[]
   structure: Structure
   selectedSoldiers: number[]
+  reloadTable: () => void
   handleSelect: (id: number) => void
   filteredSoldiers: Soldier[]
   handleDeleteSoldier: (id: number) => void
 }
 
-export default function Tbody({ sortedSoldiers, selectedSoldiers, structure, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
+export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, structure, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
   const contentPopover = (id_soldier: number) => {
     return (
       <>
@@ -57,7 +58,7 @@ export default function Tbody({ sortedSoldiers, selectedSoldiers, structure, han
                   </button>
                 </Link>
               </Tooltip>
-              <ModalEditSoldier soldier={soldier} structure={structure} />
+              <ModalEditSoldier reloadTable={reloadTable} soldier={soldier} structure={structure} />
               <Popover content={contentPopover(soldier.id_soldier)} title="Delete Soldier" trigger="click">
                 <Tooltip title="Delete Soldier">
                   <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">
