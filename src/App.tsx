@@ -6,7 +6,8 @@ import PublicRoute from "./config/publicRoute"
 import Register from "./pages/register/Register"
 import Dashboard from "./pages/dashboard/Dashboard"
 import Soldiers from "./pages/soldier/Soldiers"
-import SoldierProfile from "./pages/soldierProfile/soldierProfile"
+import SoldierProfile from "./pages/soldierProfile/SoldierProfile"
+import Services from "./pages/services/Services"
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/soldiers" element={<Soldiers />}></Route>
         <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
-        <Route path="/services"></Route>
+        <Route path="/services" element={<Services />}></Route>
         <Route path="/settings"></Route>
       </Route>
       {/* ROUTES OFICIAL */}
