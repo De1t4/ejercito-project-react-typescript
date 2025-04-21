@@ -24,14 +24,14 @@ export default function FormSelect({ id, name, label, control, error, options, p
       <Controller
         name={name}
         control={control}
-        defaultValue=""
+        defaultValue={0}
         render={({ field }) => (
           <select
             id={id}
             {...field}
             className={`${error ? 'select-register-error' : 'select-register'}  outline-none`}
           >
-            <option value="" disabled hidden>
+            <option value={0} disabled hidden>
               {placeholder}
             </option>
             {options.map((option) => (

@@ -13,3 +13,8 @@ export const optionsRole: OptionsProps[] = [{
   value: "OFICIAL"
 }
 ]
+
+
+export const SOLDIER = "SOLDADO"
+export const SUB_OFICIAL = "SUB_OFICIAL"
+export const OFICIAL = "OFICIAL"

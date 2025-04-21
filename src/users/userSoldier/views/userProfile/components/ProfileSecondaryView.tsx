@@ -15,15 +15,7 @@ const SecondaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'p
     await handleFinishService([id], authTokens?.token)
     reloadProfile()
 
-    // setServiceData((prev) => {
-    //   const peddingServices = prev.unfinished.filter((pendding) => pendding.id_services_soldier !== id)
-    //   const finishServices = [...prev.completed, ...prev.unfinished.filter((pedding) => pedding.id_services_soldier === id)]
-    //   return {
-    //     ...prev,
-    //     unfinished: peddingServices,
-    //     completed: finishServices
-    //   }
-    // })
+ 
   }
   return (
     <motion.div
