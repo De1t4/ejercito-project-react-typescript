@@ -1,84 +1,43 @@
-import { useGlobalContext } from "@/context/globalContext";
 import FormInput from "@/shared/components/FormInput";
 import FormInputPassword from "@/shared/components/FormInputPassword";
 import FormSelect from "@/shared/components/FormSelect";
-import { FormSoldier, initialStateFormSoldier, schemaFormSoldier, Structure } from "@/users/userSubOficial/models/Soldier.models";
-import { createSoldier } from "@/users/userSubOficial/services/SoldierService";
-import { mapBarracksToOptions, mapBodiesToOptions, mapCompaniesToOptions } from "@/utils/utils";
-import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import { FormSoldier, schemaFormSoldier, Soldier, Structure } from "@/users/userSubOficial/models/Soldier.models";
+import { mapBarracksToOptions, mapCompaniesToOptions, mapBodiesToOptions } from "@/utils/utils";
+import { EditOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DatePicker, Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalFormSoldier({ reloadTable, structure }: { reloadTable: () => Promise<void>, structure: Structure }) {
-  const { authTokens } = useGlobalContext()
+export default function ModalEditSoldier({ soldier, structure }: { soldier: Soldier, structure: Structure }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { handleSubmit, control, formState: { errors }, reset, setValue } = useForm<FormSoldier>({
-    defaultValues: initialStateFormSoldier,
+  const { handleSubmit, control, formState: { errors } } = useForm<FormSoldier>({
+    defaultValues: soldier,
     resolver: zodResolver(schemaFormSoldier)
   })
-  const handleSubmitSoldier: SubmitHandler<FormSoldier> = async (data) => {
+
+  console.log(errors)
+
+  const onSubmitEdit: SubmitHandler<FormSoldier> = (data) => {
     console.log(data)
-    if (!authTokens) return
-    try {
-      setIsSubmitting(true)
-      const res = await createSoldier(authTokens?.token, data)
-      if (res) {
-        alert("creado")
-        reset(initialStateFormSoldier)
-        reloadTable()
-      }
-    } catch (err) {
-      console.error("Error create soldier" + err)
-    } finally {
-      setIsSubmitting(false)
-    }
   }
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-        <PlusOutlined size={16} />
-        <span>Add Soldier</span>
-      </button>
+      <Tooltip title="Edit Soldier">
+        <button onClick={() => setModalOpen(true)} className="p-1 text-green-600 hover:bg-green-100 rounded-full transition-colors">
+          <EditOutlined size={20} />
+        </button>
+      </Tooltip>
       <Modal
-        title="Create New Soldier"
+        title="Edit Soldier"
         centered
         open={modalOpen}
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
-        footer={<>
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-            <button
-              type="button"
-              disabled={isSubmitting}
-              onClick={() => setModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              onClick={handleSubmit(handleSubmitSoldier)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70 flex items-center justify-center min-w-[100px]"
-            >
-              {isSubmitting ? (
-                <>
-                  <ReloadOutlined size={16} className="animate-spin mr-2" />
-                  Creating...
-                </>
-              ) : (
-                "Create Soldier"
-              )}
-            </button>
-          </div>
-        </>}
       >
-        <form onSubmit={handleSubmit(handleSubmitSoldier)} className="space-y-6">
-          {/* Data Account Section */}
+        <form onSubmit={handleSubmit(onSubmitEdit)}>
           <div className="space-y-4">
             <h3 className="text-md font-semibold text-gray-700 pb-1 border-b border-gray-100">Account Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -122,12 +81,6 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
                 error={errors.lastname?.message}
                 control={control}
               />
-              <div className="">
-                <label className="label-initial" htmlFor={"graduation"}>
-                  Enter graduation soldier
-                </label>
-                <DatePicker format="YYYY-MM-DD" name="graduation" className="input-login" onChange={(_date, dateString) => setValue('graduation', typeof dateString === 'string' ? dateString : undefined)} />
-              </div>
             </div>
           </div>
           <div className="space-y-4">
@@ -162,7 +115,9 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
               />
             </div>
           </div>
+          <button type="submit">Ver</button>
         </form>
+
       </Modal>
     </>
   )

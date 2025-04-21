@@ -1,18 +1,20 @@
-import { Soldier } from "@/users/userSubOficial/models/Soldier.models";
+import { Soldier, Structure } from "@/users/userSubOficial/models/Soldier.models";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Popover, Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
 import { Link } from "react-router-dom";
+import ModalEditSoldier from "../ModalEditSoldier";
 
 interface TbodyProps {
   sortedSoldiers: Soldier[]
+  structure: Structure
   selectedSoldiers: number[]
   handleSelect: (id: number) => void
   filteredSoldiers: Soldier[]
   handleDeleteSoldier: (id: number) => void
 }
 
-export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
+export default function Tbody({ sortedSoldiers, selectedSoldiers, structure, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
   const contentPopover = (id_soldier: number) => {
     return (
       <>
@@ -55,11 +57,7 @@ export default function Tbody({ sortedSoldiers, selectedSoldiers, handleSelect, 
                   </button>
                 </Link>
               </Tooltip>
-              {/* <Tooltip title="Edit Soldier">
-                <button onClick={() => console.log(soldier)} className="p-1 text-green-600 hover:bg-green-100 rounded-full transition-colors">
-                  <EditOutlined size={20} />
-                </button>
-              </Tooltip> */}
+              <ModalEditSoldier soldier={soldier} structure={structure} />
               <Popover content={contentPopover(soldier.id_soldier)} title="Delete Soldier" trigger="click">
                 <Tooltip title="Delete Soldier">
                   <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">

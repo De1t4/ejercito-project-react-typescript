@@ -1,3 +1,4 @@
+import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
@@ -32,11 +33,16 @@ export const createSoldier = async (token: string, soldierData: FormSoldier) => 
       },
       body: JSON.stringify(payload)
     })
+
     if (!res.ok) {
+      const errorResponse: ResponseError = await res.json();
+      if (errorResponse.httpStatus === "BAD_REQUEST") {
+        alert("The user " + soldierData.username + "has already been registered")
+        throw ("The user " + soldierData.username + "has already been registered")
+      }
       throw new Error("Error create soldier")
     }
     return "success"
-
   } catch (err) {
     console.error("Error create soldier", err)
   }

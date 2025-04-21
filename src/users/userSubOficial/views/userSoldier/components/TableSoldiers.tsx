@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react';
 import { deleteSoldierById, getSoldierList } from '@/users/userSubOficial/services/SoldierService';
 import { useGlobalContext } from '@/context/globalContext';
-import { Soldier } from '@/users/userSubOficial/models/Soldier.models';
-import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { initialStateStructure, Soldier, Structure } from '@/users/userSubOficial/models/Soldier.models';
+import { SearchOutlined } from '@ant-design/icons';
 import Tbody from './Table/Tbody';
 import FormSoldier from './ModalFormSoldier';
 import Thead from './Table/Thead';
+import HeaderTable from '@/users/shared/HeaderTable';
+import { getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Soldier[]>([])
+  const [structure, setStructure] = useState<Structure>(initialStateStructure)
+
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
-  // Pagination state
   const { authTokens } = useGlobalContext()
 
   const fetchSoldierList = async () => {
     if (!authTokens) return
-    const res = await getSoldierList(authTokens.token)
-    if (res) setSoldiers(res)
+    const resSoldier = await getSoldierList(authTokens.token)
+    const resStructure = await getStructureMilitary(authTokens.token)
+
+    if (resSoldier) setSoldiers(resSoldier)
+    if (resStructure) setStructure(resStructure)
   }
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,6 +40,7 @@ export const TableSoldier = () => {
 
   useEffect(() => {
     fetchSoldierList()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -53,16 +60,6 @@ export const TableSoldier = () => {
     }
   }
 
-
-  // const filteredSoldiers = soldiers.filter(
-  //   (soldier) =>
-  //     soldier.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     soldier.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     soldier.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     soldier.barrack.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     soldier.army_body.toLowerCase().includes(searchQuery.toLowerCase()),
-  // )
-
   const handleDeleteSoldier = async (id: number) => {
     if (!authTokens) return
     await deleteSoldierById(authTokens.token, id)
@@ -78,29 +75,19 @@ export const TableSoldier = () => {
     <>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Header */}
-        <div className="p-6 border-b border-gray-100">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">Manage Soldiers</h1>
-              <p className="text-gray-500 mt-1">{soldiers.length} Soldiers Found</p>
-            </div>
-            <div className="flex gap-2">
-              {selectedSoldiers.length > 0 && (
-                <button
-                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                  onClick={handleDeleteSoldiers}
-                >
-                  <DeleteOutlined size={16} />
-                  <span>Delete Selected ({selectedSoldiers.length})</span>
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
+        <HeaderTable
+          title='Soldiers'
+          handleDelete={handleDeleteSoldiers}
+          selected={selectedSoldiers}
+          totalElements={soldiers.length}
+        />
         {/* Toolbar */}
         <div className="p-4 bg-gray-50 border-b border-gray-100">
           <div className="flex flex-col sm:flex-row gap-3 justify-between">
-            <FormSoldier reloadTable={fetchSoldierList} />
+            <FormSoldier
+              structure={structure}
+              reloadTable={fetchSoldierList}
+            />
             <div className="flex gap-3">
               <div className="relative w-full">
                 <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -123,6 +110,7 @@ export const TableSoldier = () => {
               soldiersData={soldiers}
             />
             <Tbody
+              structure={structure}
               handleDeleteSoldier={handleDeleteSoldier}
               sortedSoldiers={soldiers.slice(initPage, endPage)}
               selectedSoldiers={selectedSoldiers}

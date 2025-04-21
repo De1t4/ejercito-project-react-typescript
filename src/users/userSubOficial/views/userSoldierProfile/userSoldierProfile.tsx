@@ -35,7 +35,7 @@ export default function UserSoldierProfile() {
     <>
       <LayoutContent>
         <div className="transition-all ease-in-out duration-300 grid max-lg:grid-cols-2 max-lg:grid-rows-4 grid-cols-3 grid-rows-2 max-md:w-full w-[78rem] max-xl:w-full max-xl:gap-5 m-auto gap-10 max-md:grid-cols-1 max-md:grid-rows-2 max-md:gap-y-10 max-md:gap-x-0">
-          <Profile profile={profile} />
+          <Profile profileSoldier={profile} />
           <Structure
             company={profile?.soldier?.company}
             barrack={profile?.soldier?.barrack}
@@ -43,7 +43,7 @@ export default function UserSoldierProfile() {
           />
           <TabServices
             handleScreenView={(view) => setScreen(view)}
-            profile={profile}
+            profileSoldier={profile}
           />
         </div>
       </LayoutContent >

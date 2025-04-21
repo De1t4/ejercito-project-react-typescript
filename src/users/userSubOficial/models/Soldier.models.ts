@@ -48,6 +48,12 @@ export interface Structure {
   barracks: Barrack[]
 }
 
+export const initialStateStructure: Structure = {
+  companies: [],
+  army_bodies: [],
+  barracks: []
+}
+
 export interface Company {
   id_company: number
   activity: string

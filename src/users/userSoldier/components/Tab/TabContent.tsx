@@ -1,4 +1,6 @@
+import { useGlobalContext } from "@/context/globalContext";
 import { Completed, Unfinished } from "../../models/Profile";
+import { SOLDIER } from "@/shared/constants/Roles";
 
 interface TabContentProps {
   statusTab: 'completed' | 'pending'
@@ -8,8 +10,7 @@ interface TabContentProps {
 }
 
 export default function TabContent({ statusTab, completed, unfinished, handleFinishService }: TabContentProps) {
-
-
+  const { profile } = useGlobalContext()
   return (
     <div key={"tab"} className=" flex flex-col gap-4   ">
       {
@@ -50,9 +51,12 @@ export default function TabContent({ statusTab, completed, unfinished, handleFin
                             <p>{service.description}</p>
                             <p>Date init: {service.at_service}</p>
                           </div>
-                          <div className="">
-                            <button type="button" onClick={() => handleFinishService(service.id_services_soldier)} className="btn-finish">Finish</button>
-                          </div>
+                          {profile.role === SOLDIER && (
+                            <div className="">
+                              <button type="button" onClick={() => handleFinishService(service.id_services_soldier)} className="btn-finish">Finish</button>
+                            </div>
+                          )
+                          }
                         </div >
                       </div>
                     </>
