@@ -49,15 +49,12 @@ export const TableSoldier = () => {
     }
   }
 
-  const handleDeleteSoldier = async (id: number) => {
+  const handleDeleteSoldiers = async () => {
     if (!authTokens) return
-    await deleteSoldierById(authTokens.token, id)
+    await deleteSoldierById(authTokens.token, selectedSoldiers)
     alert("El soldado fue eliminado")
+    setSelectedSoldiers([])
     fetchSoldierList()
-  }
-
-  const handleDeleteSoldiers = () => {
-    console.log(selectedSoldiers)
   }
 
   return (
@@ -101,7 +98,6 @@ export const TableSoldier = () => {
             <Tbody
               structure={structure}
               reloadTable={fetchSoldierList}
-              handleDeleteSoldier={handleDeleteSoldier}
               sortedSoldiers={soldiers?.content}
               selectedSoldiers={selectedSoldiers}
               handleSelect={handleSelect}

@@ -49,14 +49,15 @@ export const createSoldier = async (token: string, soldierData: FormSoldier) => 
   }
 }
 
-export const deleteSoldierById = async (token: string, id: number) => {
+export const deleteSoldierById = async (token: string, id: number[]) => {
   try {
-    const res = await fetch(`${API_URL}/v1/soldiers/${id}`, {
+    const res = await fetch(`${API_URL}/v1/users/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(id)
     })
     if (!res.ok) {
       throw new Error("Error create soldier")
