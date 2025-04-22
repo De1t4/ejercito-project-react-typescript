@@ -7,12 +7,12 @@ import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import Thead from "./Table/Thead"
 import Tbody from "./Table/Tbody"
 import ModalFormService from "./ModalFormService"
-import PaginationTable from "./Pagination"
+import PaginationTable from "../../../../shared/PaginationTable"
 import HeaderTable from "@/users/shared/HeaderTable"
 
 export default function TableServices() {
   const [services, setServices] = useState<Pagination<AssignedServices>>()
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [selectedServices, setSelectedServices] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const { authTokens } = useGlobalContext()
@@ -93,6 +93,8 @@ export default function TableServices() {
       </div>
       <PaginationTable
         page={page}
+        first={services?.first}
+        title={"services"}
         setPage={setPage}
         totalElements={services?.totalElements}
         last={services?.last}

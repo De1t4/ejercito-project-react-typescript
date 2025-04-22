@@ -8,47 +8,36 @@ import FormSoldier from './ModalFormSoldier';
 import Thead from './Table/Thead';
 import HeaderTable from '@/users/shared/HeaderTable';
 import { getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
+import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
+import PaginationTable from '../../../../shared/PaginationTable';
 
 export const TableSoldier = () => {
-  const [soldiers, setSoldiers] = useState<Soldier[]>([])
+  const [soldiers, setSoldiers] = useState<Pagination<Soldier>>()
   const [structure, setStructure] = useState<Structure>(initialStateStructure)
-
+  const [page, setPage] = useState<number>(0)
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const { authTokens } = useGlobalContext()
 
   const fetchSoldierList = async () => {
     if (!authTokens) return
-    const resSoldier = await getSoldierList(authTokens.token)
+    const resSoldier = await getSoldierList(authTokens.token, page)
     const resStructure = await getStructureMilitary(authTokens.token)
-
     if (resSoldier) setSoldiers(resSoldier)
     if (resStructure) setStructure(resStructure)
   }
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const productosPorPagina = 10;
-  const initPage = (currentPage - 1) * productosPorPagina;
-  const endPage = currentPage * productosPorPagina;
-  const totalPaginas = Math.ceil(soldiers.length / productosPorPagina);
-
-  const beforeProduct = () =>
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  const nextProduct = () =>
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPaginas));
-
 
   useEffect(() => {
     fetchSoldierList()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [page])
 
   const handleSelectAll = () => {
-    if (selectedSoldiers.length === soldiers.length) {
+    if (selectedSoldiers.length === soldiers?.content.length) {
       setSelectedSoldiers([])
     } else {
-      setSelectedSoldiers(soldiers.map((soldier) => soldier.id_user))
+      setSelectedSoldiers(soldiers?.content.map((soldier) => soldier.id_user) || [])
     }
   }
 
@@ -79,7 +68,7 @@ export const TableSoldier = () => {
           title='Soldiers'
           handleDelete={handleDeleteSoldiers}
           selected={selectedSoldiers}
-          totalElements={soldiers.length}
+          totalElements={soldiers?.totalElements}
         />
         {/* Toolbar */}
         <div className="p-4 bg-gray-50 border-b border-gray-100">
@@ -107,47 +96,27 @@ export const TableSoldier = () => {
             <Thead
               handleSelectAll={handleSelectAll}
               selectedSoldiers={selectedSoldiers}
-              soldiersData={soldiers}
+              soldiersData={soldiers?.content}
             />
             <Tbody
               structure={structure}
               reloadTable={fetchSoldierList}
               handleDeleteSoldier={handleDeleteSoldier}
-              sortedSoldiers={soldiers.slice(initPage, endPage)}
+              sortedSoldiers={soldiers?.content}
               selectedSoldiers={selectedSoldiers}
               handleSelect={handleSelect}
-              filteredSoldiers={soldiers}
+              filteredSoldiers={soldiers?.content}
             />
           </table>
         </div>
-        {/* Pagination */}
-        <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end items-center">
-          <div className="flex items-center gap-2">
-            <button
-              className="p-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={beforeProduct}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPaginas }, (_, index) => (
-              <p
-                key={index}
-                className={` w-9 h-9 flex items-center justify-center  rounded-md hover:cursor-pointer border border-gray-300 text-gray-600 hover:bg-gray-100 ${index + 1 === currentPage ? "font-bold bg-blue-500" : "text-base bg-blue-100"}"
-                  }`}
-                onClick={() => setCurrentPage(index + 1)}>
-                {index + 1}
-              </p>
-            ))}
-            <button
-              className="p-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={nextProduct}
-              disabled={currentPage === totalPaginas}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        <PaginationTable
+          page={page}
+          first={soldiers?.first}
+          title={"soldiers"}
+          setPage={setPage}
+          totalElements={soldiers?.totalElements}
+          last={soldiers?.last}
+        />
       </div>
     </>
   );

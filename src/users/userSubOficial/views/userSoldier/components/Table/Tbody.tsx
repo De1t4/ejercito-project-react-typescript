@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 import ModalEditSoldier from "../ModalEditSoldier";
 
 interface TbodyProps {
-  sortedSoldiers: Soldier[]
+  sortedSoldiers: Soldier[] | undefined
   structure: Structure
   selectedSoldiers: number[]
   reloadTable: () => void
   handleSelect: (id: number) => void
-  filteredSoldiers: Soldier[]
+  filteredSoldiers: Soldier[] | undefined
   handleDeleteSoldier: (id: number) => void
 }
 
@@ -31,7 +31,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
 
   return (
     <tbody>
-      {sortedSoldiers.map((soldier) => (
+      {sortedSoldiers && sortedSoldiers.map((soldier) => (
         <tr
           key={soldier.id_user}
           className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedSoldiers.includes(soldier.id_user) ? "bg-blue-50" : ""
@@ -70,7 +70,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
           </td>
         </tr>
       ))}
-      {filteredSoldiers.length === 0 && (
+      {filteredSoldiers && filteredSoldiers.length === 0 && (
         <tr>
           <td colSpan={8} className="p-8 text-center text-gray-500">
             No soldiers found matching your search criteria.

@@ -1,11 +1,12 @@
 import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
+import { Pagination } from "../models/Pagination.models"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSoldierList = async (token: string) => {
+export const getSoldierList = async (token: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/soldiers`, {
+    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?page=${page}&size=${size}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +16,7 @@ export const getSoldierList = async (token: string) => {
     if (!res.ok) {
       throw new Error("Error finishing soldiers")
     }
-    const data: Soldier[] = await res.json()
+    const data: Pagination<Soldier> = await res.json()
     return data
   } catch (err) {
     console.error("Error finishing soldiers", err)
