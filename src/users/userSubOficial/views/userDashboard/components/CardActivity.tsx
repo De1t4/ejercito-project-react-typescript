@@ -9,7 +9,6 @@ export default function CardActivity({ data }: { data: DashboardData }) {
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 p-6 ">
         <h2 className="text-lg font-semibold mb-1">Recent Activity</h2>
         <p className="text-sm text-gray-600 mb-4">Overview of recent user activities and tasks over the past 7 days</p>
-
         <Empty className="mt-32 text-xl max-lg:mt-2" />
       </div>
     </>

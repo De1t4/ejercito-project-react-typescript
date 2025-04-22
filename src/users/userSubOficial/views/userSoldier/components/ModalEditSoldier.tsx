@@ -66,10 +66,10 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
                 {isSubmitting ? (
                   <>
                     <ReloadOutlined size={16} className="animate-spin mr-2" />
-                    Creating...
+                    Editing...
                   </>
                 ) : (
-                  "Update Soldier"
+                  "Edit Soldier"
                 )}
               </button>
             </div>
