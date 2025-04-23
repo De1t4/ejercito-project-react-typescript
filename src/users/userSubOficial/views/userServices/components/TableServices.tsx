@@ -97,8 +97,10 @@ export default function TableServices() {
             servicesData={assignedServices?.content}
           />
           <Tbody
+            reloadTable={fetchAssignedServicesList}
+            services={services}
             handleDeleteService={handleDeleteServices}
-            services={assignedServices?.content}
+            assignedServices={assignedServices?.content}
             selectedServices={selectedServices}
             handleSelect={handleSelect}
           />

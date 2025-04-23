@@ -61,3 +61,31 @@ export const assignedServiceSoldier = async (token: string, payload: FormService
     console.error("Error assigned services", err)
   }
 }
+
+
+export const updateAssignedServiceSoldier = async (token: string, id_services_soldiers: number, payload: {
+  description: string | undefined;
+  id_service?: undefined;
+} | {
+  id_service: string | number;
+  description?: undefined;
+}) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/admin/services/${Number(id_services_soldiers)}/assignments`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      alert("Error update service")
+      throw new Error("Error update assigned services")
+    }
+    return "SUCCESS"
+
+  } catch (err) {
+    console.error("Error update assigned services", err)
+  }
+}
