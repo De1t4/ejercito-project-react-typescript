@@ -67,6 +67,7 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
   const reloadProfile = useCallback(async () => {
     const data = await getProfileUser()
     if(data?.valueOf() === 'UNAUTHORIZED') {
+      alert("Your token expired")
       logout()
     }
     if (typeof data === 'object') {

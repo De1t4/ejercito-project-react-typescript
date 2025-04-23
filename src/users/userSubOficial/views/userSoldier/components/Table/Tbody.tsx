@@ -4,24 +4,34 @@ import { Popover, Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
 import { Link } from "react-router-dom";
 import ModalEditSoldier from "../ModalEditSoldier";
+import { useGlobalContext } from "@/context/globalContext";
+import { deleteSoldierById } from "@/users/userSubOficial/services/SoldierService";
 
 interface TbodyProps {
-  sortedSoldiers: Soldier[]
+  sortedSoldiers: Soldier[] | undefined
   structure: Structure
   selectedSoldiers: number[]
   reloadTable: () => void
   handleSelect: (id: number) => void
-  filteredSoldiers: Soldier[]
-  handleDeleteSoldier: (id: number) => void
+  filteredSoldiers: Soldier[] | undefined
 }
 
-export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, structure, handleSelect, filteredSoldiers, handleDeleteSoldier }: TbodyProps) {
-  const contentPopover = (id_soldier: number) => {
+export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, structure, handleSelect, filteredSoldiers }: TbodyProps) {
+  const { authTokens } = useGlobalContext()
+
+  const handleDeleteSoldier = async (id: number) => {
+    if (!authTokens) return
+    await deleteSoldierById(authTokens.token, [id])
+    alert("El soldado fue eliminado")
+    reloadTable()
+  }
+
+  const contentPopover = (id_user: number) => {
     return (
       <>
         <div className=" flex flex-col items-center justify-center gap-2">
           <p>¿Are you sure you want to delete this soldier?</p>
-          <button className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_soldier)}>
+          <button className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_user)}>
             I'm sure
           </button>
         </div>
@@ -31,7 +41,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
 
   return (
     <tbody>
-      {sortedSoldiers.map((soldier) => (
+      {sortedSoldiers && sortedSoldiers.map((soldier) => (
         <tr
           key={soldier.id_user}
           className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedSoldiers.includes(soldier.id_user) ? "bg-blue-50" : ""
@@ -59,7 +69,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
                 </Link>
               </Tooltip>
               <ModalEditSoldier reloadTable={reloadTable} soldier={soldier} structure={structure} />
-              <Popover content={contentPopover(soldier.id_soldier)} title="Delete Soldier" trigger="click">
+              <Popover content={contentPopover(soldier.id_user)} title="Delete Soldier" trigger="click">
                 <Tooltip title="Delete Soldier">
                   <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">
                     <DeleteOutlined size={20} />
@@ -70,7 +80,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
           </td>
         </tr>
       ))}
-      {filteredSoldiers.length === 0 && (
+      {filteredSoldiers && filteredSoldiers.length === 0 && (
         <tr>
           <td colSpan={8} className="p-8 text-center text-gray-500">
             No soldiers found matching your search criteria.

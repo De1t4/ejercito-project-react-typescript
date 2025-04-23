@@ -3,11 +3,11 @@ export interface ProfileProps {
   username: string
   password: string
   role: string
-  soldier: Soldier | null
-  services: Services | null
+  soldier: SoldierProfile | null
+  services: ServicesStatus | null
 }
 
-export interface Soldier {
+export interface SoldierProfile {
   id_soldier: number
   name: string
   lastname: string
@@ -33,7 +33,7 @@ export interface Body {
   denomination: string
 }
 
-export interface Services {
+export interface ServicesStatus {
   completed: Completed[] | []
   unfinished: Unfinished[] | []
 }

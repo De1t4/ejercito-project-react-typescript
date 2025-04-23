@@ -3,7 +3,7 @@ import { Checkbox } from "antd";
 
 interface TheadProps {
   handleSelectAll: () => void
-  soldiersData: Soldier[]
+  soldiersData: Soldier[] | undefined
   selectedSoldiers: number[]
 }
 
@@ -13,7 +13,7 @@ export default function Thead({handleSelectAll, selectedSoldiers, soldiersData}:
       <tr className="bg-gray-50 text-left">
         <th className="p-3 w-12">
           <Checkbox
-            checked={selectedSoldiers.length === soldiersData.length && soldiersData.length > 0}
+            checked={selectedSoldiers.length === soldiersData?.length && soldiersData.length > 0}
             onChange={handleSelectAll} />
         </th>
         <th className="p-4 font-medium text-gray-600 cursor-pointer">

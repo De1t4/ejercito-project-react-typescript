@@ -66,10 +66,10 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
                 {isSubmitting ? (
                   <>
                     <ReloadOutlined size={16} className="animate-spin mr-2" />
-                    Creating...
+                    Editing...
                   </>
                 ) : (
-                  "Update Soldier"
+                  "Edit Soldier"
                 )}
               </button>
             </div>
@@ -77,8 +77,8 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
         }
 
       >
-        <form onSubmit={handleSubmit(onSubmitEdit)}>
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitEdit)} className="flex flex-col gap-2">
+          <div className="space-y-6">
             <h3 className="text-md font-semibold text-gray-700 pb-1 border-b border-gray-100">Account Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormInput
