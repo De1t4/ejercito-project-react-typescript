@@ -16,7 +16,10 @@ export interface Service {
 
 
 export const schemaFormServices = z.object({
-  id_service: z.number().min(1, "Service is required").or(z.string().min(1, "Service is required")),
+  id_service: z.union([
+    z.number(),
+    z.string()
+  ]),
   id_soldier: z.array(z.string()).min(1, "One Soldier is required"),
   createNewService: z.boolean(),
   description: z.optional(z.string())
@@ -32,8 +35,20 @@ export const schemaFormServices = z.object({
     path: ["description"],
     message: "Description is required when creating a new service",
   }
+).refine(
+  (data) => {
+    // Si NO está creando un nuevo servicio, id_service debe ser válido
+    if (!data.createNewService) {
+      const value = typeof data.id_service === "string" ? parseInt(data.id_service) : data.id_service
+      return value > 0
+    }
+    return true
+  },
+  {
+    path: ["id_service"],
+    message: "Service is required",
+  }
 )
-
 
 export type FormService = z.infer<typeof schemaFormServices>;
 

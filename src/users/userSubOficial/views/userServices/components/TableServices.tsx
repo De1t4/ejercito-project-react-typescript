@@ -28,8 +28,8 @@ export default function TableServices() {
     const resSoldiers = await getSoldiers(authTokens.token)
     const resServices = await getServices(authTokens.token)
     if (res) setAssignedServices(res)
-    if(resSoldiers) setSoldiers(resSoldiers)
-    if(resServices) setServices(resServices)
+    if (resSoldiers) setSoldiers(resSoldiers)
+    if (resServices) setServices(resServices)
   }
 
   useEffect(() => {
@@ -70,6 +70,7 @@ export default function TableServices() {
       <div className="p-4 bg-gray-50 border-b border-gray-100">
         <div className="flex flex-col sm:flex-row gap-3 justify-between">
           <ModalFormService
+            reloadTable={fetchAssignedServicesList}
             services={services}
             soldiers={soldiers}
           />

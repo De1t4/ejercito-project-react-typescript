@@ -1,27 +1,45 @@
+import { useGlobalContext } from "@/context/globalContext";
 import FormInput from "@/shared/components/FormInput";
 import FormSelect from "@/shared/components/FormSelect";
 import { FormService, initialStateFormService, schemaFormServices, Service } from "@/users/userSubOficial/models/Services.models";
 import { Soldier } from "@/users/userSubOficial/models/Soldier.models";
+import { assignedNewServiceSoldier, assignedServiceSoldier } from "@/users/userSubOficial/services/AssignedService";
 import { mapServicesToOptions, mapSoldiersToOptions } from "@/utils/utils";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Select, Space } from "antd";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalFormService({ services, soldiers }: { services: Service[], soldiers: Soldier[] }) {
+export default function ModalFormService({ services, soldiers, reloadTable }: { services: Service[], soldiers: Soldier[], reloadTable: () => void }) {
+  const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
-  const { control, formState: { errors }, setValue, handleSubmit, watch } = useForm<FormService>({
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { control, formState: { errors }, setValue, handleSubmit, watch, reset } = useForm<FormService>({
     defaultValues: initialStateFormService,
     resolver: zodResolver(schemaFormServices)
   })
 
   const watchCheck = watch("createNewService")
-  const handleSubmitService: SubmitHandler<FormService> = (data) => {
-    console.log(data)
+  const handleSubmitService: SubmitHandler<FormService> = async (data) => {
+    try {
+      if (!authTokens) return
+      setIsSubmitting(true)
+
+      if (data.createNewService) {
+        await assignedNewServiceSoldier(authTokens.token, data)
+      } else {
+        await assignedServiceSoldier(authTokens.token, data)
+      }
+      alert("Assigned services success")
+      reloadTable()
+      reset()
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
-
-
 
   return (
     <>
@@ -50,15 +68,14 @@ export default function ModalFormService({ services, soldiers }: { services: Ser
               onClick={handleSubmit(handleSubmitService)}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70 flex items-center justify-center min-w-[100px]"
             >
-              {/* {isSubmitting ? (
+              {isSubmitting ? (
                 <>
                   <ReloadOutlined size={16} className="animate-spin mr-2" />
                   Creating...
                 </>
               ) : (
-                "Create Soldier"
-              )} */}
-              Create Service
+                "Create Service"
+              )}
             </button>
           </div>
         </>}
@@ -69,18 +86,19 @@ export default function ModalFormService({ services, soldiers }: { services: Ser
             <h3 className="text-md font-semibold text-gray-700 pb-1 border-b border-gray-100">
               Service Information
             </h3>
-
             {/* Select de servicios */}
-            <FormSelect
-              id="id_service"
-              control={control}
-              name="id_service"
-              error={errors.id_service?.message}
-              placeholder="Select an option"
-              label="Select Service"
-              options={mapServicesToOptions(services)}
-            />
-
+            {!watchCheck && (
+              <FormSelect
+                id="id_service"
+                control={control}
+                name="id_service"
+                error={errors.id_service?.message}
+                placeholder="Select an option"
+                label="Select Service"
+                options={mapServicesToOptions(services)}
+              />
+            )
+            }
             {/* Checkbox: crear nuevo servicio */}
             <Controller
               control={control}
@@ -92,9 +110,7 @@ export default function ModalFormService({ services, soldiers }: { services: Ser
                     type="checkbox"
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
-                    onBlur={field.onBlur}
                     name={field.name}
-                    ref={field.ref}
                   />
                   <label htmlFor="createNewService">Create new Service</label>
                 </div>
