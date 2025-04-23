@@ -79,6 +79,7 @@ export default function TableServices() {
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
+                aria-label="Search soldiers"
                 placeholder="Search soldiers..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
                 value={searchQuery}
@@ -97,10 +98,9 @@ export default function TableServices() {
           />
           <Tbody
             handleDeleteService={handleDeleteServices}
-            sortedServices={assignedServices?.content}
+            services={assignedServices?.content}
             selectedServices={selectedServices}
             handleSelect={handleSelect}
-            filteredServices={assignedServices?.content}
           />
         </table>
       </div>
@@ -115,3 +115,4 @@ export default function TableServices() {
     </div>
   )
 }
+

@@ -12,7 +12,7 @@ import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
 import PaginationTable from '../../../../shared/PaginationTable';
 
 export const TableSoldier = () => {
-  const [soldiers, setSoldiers] = useState<Pagination<Soldier>>()
+  const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
   const [structure, setStructure] = useState<Structure>(initialStateStructure)
   const [page, setPage] = useState<number>(0)
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
@@ -98,10 +98,9 @@ export const TableSoldier = () => {
             <Tbody
               structure={structure}
               reloadTable={fetchSoldierList}
-              sortedSoldiers={soldiers?.content}
               selectedSoldiers={selectedSoldiers}
               handleSelect={handleSelect}
-              filteredSoldiers={soldiers?.content}
+              soldiers={soldiers?.content}
             />
           </table>
         </div>
@@ -117,4 +116,3 @@ export const TableSoldier = () => {
     </>
   );
 };
-

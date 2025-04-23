@@ -8,17 +8,15 @@ import { useGlobalContext } from "@/context/globalContext";
 import { deleteSoldierById } from "@/users/userSubOficial/services/SoldierService";
 
 interface TbodyProps {
-  sortedSoldiers: Soldier[] | undefined
+  soldiers: Soldier[] | undefined
   structure: Structure
   selectedSoldiers: number[]
   reloadTable: () => void
   handleSelect: (id: number) => void
-  filteredSoldiers: Soldier[] | undefined
 }
 
-export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, structure, handleSelect, filteredSoldiers }: TbodyProps) {
+export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structure, handleSelect }: TbodyProps) {
   const { authTokens } = useGlobalContext()
-
   const handleDeleteSoldier = async (id: number) => {
     if (!authTokens) return
     await deleteSoldierById(authTokens.token, [id])
@@ -41,7 +39,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
 
   return (
     <tbody>
-      {sortedSoldiers && sortedSoldiers.map((soldier) => (
+      {soldiers && soldiers.map((soldier) => (
         <tr
           key={soldier.id_user}
           className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedSoldiers.includes(soldier.id_user) ? "bg-blue-50" : ""
@@ -80,7 +78,7 @@ export default function Tbody({ sortedSoldiers, reloadTable, selectedSoldiers, s
           </td>
         </tr>
       ))}
-      {filteredSoldiers && filteredSoldiers.length === 0 && (
+      {soldiers && soldiers.length === 0 && (
         <tr>
           <td colSpan={8} className="p-8 text-center text-gray-500">
             No soldiers found matching your search criteria.

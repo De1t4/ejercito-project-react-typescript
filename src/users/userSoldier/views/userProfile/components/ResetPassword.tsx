@@ -36,7 +36,7 @@ export default function ResetPassword() {
         footer={null}
         onCancel={() => setModal1Open(false)}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <InputPassword
             label="Current Password"
             type="password"

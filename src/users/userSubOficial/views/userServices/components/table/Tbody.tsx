@@ -3,14 +3,13 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Checkbox, Popover, Tooltip } from "antd"
 
 interface TbodyProps {
-  sortedServices: AssignedServices[] | undefined
+  services: AssignedServices[] | undefined
   selectedServices: number[]
   handleSelect: (id: number) => void
-  filteredServices: AssignedServices[] | undefined
   handleDeleteService: (id: number) => void
 }
 
-export default function Tbody({ sortedServices, selectedServices, handleSelect, filteredServices, handleDeleteService }: TbodyProps) {
+export default function Tbody({ services, selectedServices, handleSelect, handleDeleteService }: TbodyProps) {
   const contentPopover = (id_service: number) => {
     return (
       <>
@@ -26,7 +25,7 @@ export default function Tbody({ sortedServices, selectedServices, handleSelect, 
 
   return (
     <tbody>
-      {sortedServices?.map((services) => (
+      {services?.map((services) => (
         <tr
           key={services.id_services_soldiers}
           className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedServices.includes(services.id_services_soldiers) ? "bg-blue-50" : ""
@@ -61,7 +60,7 @@ export default function Tbody({ sortedServices, selectedServices, handleSelect, 
           </td>
         </tr>
       ))}
-      {filteredServices?.length === 0 && (
+      {services?.length === 0 && (
         <tr>
           <td colSpan={8} className="p-8 text-center text-gray-500">
             No services found matching your search criteria.
