@@ -34,7 +34,7 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
 
   switch (userRole) {
     case "OFICIAL":
-      return <Outlet />
+      return <MainLayout />
     case "SUB_OFICIAL":
       return <MainLayout />
     case "SOLDADO":
