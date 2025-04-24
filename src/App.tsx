@@ -8,6 +8,7 @@ import Dashboard from "./pages/dashboard/Dashboard"
 import Soldiers from "./pages/soldier/Soldiers"
 import SoldierProfile from "./pages/soldierProfile/SoldierProfile"
 import Services from "./pages/services/Services"
+import Settings from "./pages/settings/Settings"
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route path="/soldiers" element={<Soldiers />}></Route>
         <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
         <Route path="/services" element={<Services />}></Route>
-        <Route path="/settings"></Route>
+        <Route path="/settings" element={<Settings />}></Route>
       </Route>
       {/* ROUTES OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["OFICIAL"]} />}>

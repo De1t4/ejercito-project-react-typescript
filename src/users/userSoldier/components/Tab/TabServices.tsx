@@ -13,7 +13,7 @@ interface TabServicesProps {
 }
 
 export default function TabServices({ profileSoldier, handleScreenView }: TabServicesProps) {
-  const [statusTab, setStatusTab] = useState<Tab>('completed')
+  const [statusTab, setStatusTab] = useState<Tab>('pending')
   const { authTokens, profile, reloadProfile } = useGlobalContext()
 
   const finishService = async (id: number) => {

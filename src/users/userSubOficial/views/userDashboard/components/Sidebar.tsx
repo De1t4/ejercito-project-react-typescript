@@ -63,9 +63,10 @@ ${openMenu ? 'block' : 'max-md:hidden'}
               </Link>
             ))}
             <div
+              onClick={logout}
               className={`flex items-center gap-4 p-3 rounded transition-all cursor-pointer hover:bg-gray-700 `}>
               <span className="text-lg ml-[0.1em]"><LogoutOutlined /></span>
-              <span onClick={logout} className="opacity-0 group-hover:opacity-100 transition-all duration-200">
+              <span className="opacity-0 group-hover:opacity-100 transition-all duration-200">
                 Logout
               </span>
             </div>

@@ -7,6 +7,7 @@ export interface AssignedServices {
   soldier: string
   at_service: string
   end_service?: string
+  id_service: number
 }
 
 export interface Service {
@@ -22,7 +23,8 @@ export const schemaFormServices = z.object({
   ]),
   id_soldier: z.array(z.string()).min(1, "One Soldier is required"),
   createNewService: z.boolean(),
-  description: z.optional(z.string())
+  description: z.optional(z.string()),
+  id_services_soldiers: z.optional(z.number())
 }).refine(
   (data) => {
     // Solo validar que description exista si createNewService es true
@@ -56,5 +58,6 @@ export const initialStateFormService: FormService = {
   id_service: 0,
   id_soldier: [],
   createNewService: false,
-  description: ""
+  description: "",
+  id_services_soldiers: 0
 }

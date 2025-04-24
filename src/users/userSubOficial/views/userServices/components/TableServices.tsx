@@ -1,6 +1,6 @@
 import { useGlobalContext } from "@/context/globalContext"
 import { AssignedServices, Service } from "@/users/userSubOficial/models/Services.models"
-import { getListAssignedServices } from "@/users/userSubOficial/services/AssignedService"
+import { deleteAssignedService, getListAssignedServices } from "@/users/userSubOficial/services/AssignedService"
 import { SearchOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
@@ -24,10 +24,19 @@ export default function TableServices() {
 
   const fetchAssignedServicesList = async () => {
     if (!authTokens) return
-    const res = await getListAssignedServices(authTokens.token, page)
-    const resSoldiers = await getSoldiers(authTokens.token)
-    const resServices = await getServices(authTokens.token)
+    const res = await getListAssignedServices(authTokens.token, searchQuery, page)
+    // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
+    if (res?.empty && page > 0) {
+      setPage(0)
+      return // Cortamos, y el useEffect con [page] se vuelve a disparar
+    }
+    // Si no está vacío, seteamos normalmente
     if (res) setAssignedServices(res)
+    // Estas pueden ir en paralelo
+    const [resSoldiers, resServices] = await Promise.all([
+      getSoldiers(authTokens.token),
+      getServices(authTokens.token)
+    ])
     if (resSoldiers) setSoldiers(resSoldiers)
     if (resServices) setServices(resServices)
   }
@@ -37,8 +46,11 @@ export default function TableServices() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeleteServices = () => {
-    console.log(selectedServices)
+  const handleDeleteServices = async () => {
+    if (!authTokens) return
+    await deleteAssignedService(authTokens.token, selectedServices)
+    fetchAssignedServicesList()
+    setSelectedServices([])
   }
 
   const handleSelectAll = () => {
@@ -75,16 +87,20 @@ export default function TableServices() {
             soldiers={soldiers}
           />
           <div className="flex gap-3">
-            <div className="relative w-full">
+            <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-md:flex flex gap-1">
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
+                aria-label="Search soldiers"
                 placeholder="Search soldiers..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </div>
+              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 ' onClick={fetchAssignedServicesList}>
+                <SearchOutlined />
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -96,11 +112,11 @@ export default function TableServices() {
             servicesData={assignedServices?.content}
           />
           <Tbody
-            handleDeleteService={handleDeleteServices}
-            sortedServices={assignedServices?.content}
+            reloadTable={fetchAssignedServicesList}
+            services={services}
+            assignedServices={assignedServices?.content}
             selectedServices={selectedServices}
             handleSelect={handleSelect}
-            filteredServices={assignedServices?.content}
           />
         </table>
       </div>
@@ -115,3 +131,4 @@ export default function TableServices() {
     </div>
   )
 }
+

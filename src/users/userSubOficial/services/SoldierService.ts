@@ -1,12 +1,13 @@
 import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
 import { Pagination } from "../models/Pagination.models"
+import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSoldierList = async (token: string, page: number, size: number = 10) => {
+export const getSoldierList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?${urlParams(search, page, size)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -1,11 +1,12 @@
+import { urlParams } from "@/utils/utils"
 import { Pagination } from "../models/Pagination.models"
 import { AssignedServices, FormService } from "../models/Services.models"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getListAssignedServices = async (token: string, page: number, size: number = 10) => {
+export const getListAssignedServices = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/services/assignments?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/services/assignments?${urlParams(search, page, size)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +25,7 @@ export const getListAssignedServices = async (token: string, page: number, size:
 
 export const assignedNewServiceSoldier = async (token: string, payload: FormService) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/services/created/assignments`, {
+    const res = await fetch(`${API_URL}/v1/services/created/assignments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export const assignedNewServiceSoldier = async (token: string, payload: FormServ
 
 export const assignedServiceSoldier = async (token: string, payload: FormService) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/services/${payload.id_service}/assignments`, {
+    const res = await fetch(`${API_URL}/v1/services/${payload.id_service}/assignments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,5 +60,54 @@ export const assignedServiceSoldier = async (token: string, payload: FormService
 
   } catch (err) {
     console.error("Error assigned services", err)
+  }
+}
+
+
+export const updateAssignedServiceSoldier = async (token: string, id_services_soldiers: number, payload: {
+  description: string | undefined;
+  id_service?: undefined;
+} | {
+  id_service: string | number;
+  description?: undefined;
+}) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/services/${Number(id_services_soldiers)}/assignments`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      alert("Error update service")
+      throw new Error("Error update assigned services")
+    }
+    alert("Service edit success")
+    return "SUCCESS"
+
+  } catch (err) {
+    console.error("Error update assigned services", err)
+  }
+}
+
+export const deleteAssignedService = async (token: string, payload: number[]) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/services/deleted/assignments`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error delete assigned services")
+    }
+    alert("Delete services asigned")
+    return "SUCCESS"
+  } catch (err) {
+    console.error("Error delete assigned services", err)
   }
 }
