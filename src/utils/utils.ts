@@ -21,6 +21,19 @@ export const getDaysDifferenceFromToday = (dateString: string): string => {
   return diffInDays + " days"
 }
 
+export const urlParams = (search: string, page: number, size: number) => {
+  const params = new URLSearchParams()
+
+  if (search.trim() !== "") {
+    params.append("search", search)
+  }
+
+  params.append("page", page.toString())
+  params.append("size", size.toString())
+  return params
+}
+
+
 export const mapBarracksToOptions = (barracks: Barrack[]): OptionsProps[] =>
   barracks.map(b => ({
     title: b.name,

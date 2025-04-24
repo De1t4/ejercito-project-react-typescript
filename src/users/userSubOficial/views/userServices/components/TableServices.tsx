@@ -109,6 +109,7 @@ export default function TableServices() {
         </table>
       </div>
       <PaginationTable
+        empty={assignedServices?.empty}
         page={page}
         first={assignedServices?.first}
         title={"services"}

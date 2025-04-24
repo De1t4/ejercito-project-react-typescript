@@ -21,7 +21,7 @@ export const TableSoldier = () => {
 
   const fetchSoldierList = async () => {
     if (!authTokens) return
-    const resSoldier = await getSoldierList(authTokens.token, page)
+    const resSoldier = await getSoldierList(authTokens.token, searchQuery, page)
     const resStructure = await getStructureMilitary(authTokens.token)
     if (resSoldier) setSoldiers(resSoldier)
     if (resStructure) setStructure(resStructure)
@@ -75,7 +75,7 @@ export const TableSoldier = () => {
               reloadTable={fetchSoldierList}
             />
             <div className="flex gap-3">
-              <div className="relative w-full">
+              <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-md:flex flex gap-1">
                 <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
@@ -84,7 +84,10 @@ export const TableSoldier = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </div>
+                <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 ' onClick={fetchSoldierList}>
+                  <SearchOutlined />
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -111,6 +114,7 @@ export const TableSoldier = () => {
           setPage={setPage}
           totalElements={soldiers?.totalElements}
           last={soldiers?.last}
+          empty={soldiers?.empty}
         />
       </div>
     </>
