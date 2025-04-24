@@ -6,13 +6,10 @@ interface PropsPagination {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
   title: string
-  empty: boolean | undefined
 }
 
-export default function PaginationTable({ totalElements, first, last, page, setPage, title, empty }: PropsPagination) {
-  if (empty) {
-    setPage(0)
-  }
+export default function PaginationTable({ totalElements, first, last, page, setPage, title }: PropsPagination) {
+
   return (
     <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
       <div className="text-sm text-gray-500">

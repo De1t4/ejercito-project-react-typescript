@@ -91,6 +91,13 @@ export default function Tbody({ assignedServices, services, selectedServices, ha
           </td>
         </tr>
       )}
+      {assignedServices?.length === 0 && (
+        <tr>
+          <td colSpan={8} className="p-8 text-center text-gray-500">
+            No services found matching your search criteria.
+          </td>
+        </tr>
+      )}
     </tbody>
   )
 }

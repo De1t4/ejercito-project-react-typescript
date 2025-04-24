@@ -85,6 +85,13 @@ export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structu
           </td>
         </tr>
       )}
+      {soldiers?.length === 0 && (
+        <tr>
+          <td colSpan={8} className="p-8 text-center text-gray-500">
+            No soldiers found matching your search criteria.
+          </td>
+        </tr>
+      )}
     </tbody>
   )
 }

@@ -22,8 +22,13 @@ export const TableSoldier = () => {
   const fetchSoldierList = async () => {
     if (!authTokens) return
     const resSoldier = await getSoldierList(authTokens.token, searchQuery, page)
-    const resStructure = await getStructureMilitary(authTokens.token)
+    // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
+    if (resSoldier?.empty && page > 0) {
+      setPage(0)
+      return // Cortamos, y el useEffect con [page] se vuelve a disparar
+    }
     if (resSoldier) setSoldiers(resSoldier)
+    const resStructure = await getStructureMilitary(authTokens.token)
     if (resStructure) setStructure(resStructure)
   }
 
@@ -114,7 +119,6 @@ export const TableSoldier = () => {
           setPage={setPage}
           totalElements={soldiers?.totalElements}
           last={soldiers?.last}
-          empty={soldiers?.empty}
         />
       </div>
     </>

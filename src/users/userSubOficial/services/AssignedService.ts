@@ -1,11 +1,12 @@
+import { urlParams } from "@/utils/utils"
 import { Pagination } from "../models/Pagination.models"
 import { AssignedServices, FormService } from "../models/Services.models"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getListAssignedServices = async (token: string, page: number, size: number = 10) => {
+export const getListAssignedServices = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services/assignments?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/services/assignments?${urlParams(search, page, size)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

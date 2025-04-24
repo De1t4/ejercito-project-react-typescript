@@ -24,10 +24,19 @@ export default function TableServices() {
 
   const fetchAssignedServicesList = async () => {
     if (!authTokens) return
-    const res = await getListAssignedServices(authTokens.token, page)
-    const resSoldiers = await getSoldiers(authTokens.token)
-    const resServices = await getServices(authTokens.token)
+    const res = await getListAssignedServices(authTokens.token, searchQuery, page)
+    // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
+    if (res?.empty && page > 0) {
+      setPage(0)
+      return // Cortamos, y el useEffect con [page] se vuelve a disparar
+    }
+    // Si no está vacío, seteamos normalmente
     if (res) setAssignedServices(res)
+    // Estas pueden ir en paralelo
+    const [resSoldiers, resServices] = await Promise.all([
+      getSoldiers(authTokens.token),
+      getServices(authTokens.token)
+    ])
     if (resSoldiers) setSoldiers(resSoldiers)
     if (resServices) setServices(resServices)
   }
@@ -78,7 +87,7 @@ export default function TableServices() {
             soldiers={soldiers}
           />
           <div className="flex gap-3">
-            <div className="relative w-full">
+            <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-md:flex flex gap-1">
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
@@ -88,7 +97,10 @@ export default function TableServices() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </div>
+              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 ' onClick={fetchAssignedServicesList}>
+                <SearchOutlined />
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -109,7 +121,6 @@ export default function TableServices() {
         </table>
       </div>
       <PaginationTable
-        empty={assignedServices?.empty}
         page={page}
         first={assignedServices?.first}
         title={"services"}
