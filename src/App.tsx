@@ -9,6 +9,10 @@ import Soldiers from "./pages/soldier/Soldiers"
 import SoldierProfile from "./pages/soldierProfile/SoldierProfile"
 import Services from "./pages/services/Services"
 import Settings from "./pages/settings/Settings"
+import SubOficials from "./pages/subOficials/SubOficials"
+import Companies from "./pages/companies/Companies"
+import Barracks from "./pages/barracks/Barracks"
+import ArmyBodies from "./pages/armyBodies/ArmyBodies"
 
 function App() {
   return (
@@ -33,10 +37,10 @@ function App() {
       </Route>
       {/* ROUTES OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={["OFICIAL"]} />}>
-        <Route path="/sub-oficials"></Route>
-        <Route path="/companies"></Route>
-        <Route path="/barracks"></Route>
-        <Route path="/army-bodies"></Route>
+        <Route path="/sub-oficials" element={<SubOficials/>}></Route>
+        <Route path="/companies" element={<Companies/>}></Route>
+        <Route path="/barracks" element={<Barracks/>}></Route>
+        <Route path="/army-bodies" element={<ArmyBodies/>}></Route>
       </Route>
     </Routes>
   )
