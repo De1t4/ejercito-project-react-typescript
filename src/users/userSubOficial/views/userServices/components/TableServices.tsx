@@ -1,6 +1,6 @@
 import { useGlobalContext } from "@/context/globalContext"
 import { AssignedServices, Service } from "@/users/userSubOficial/models/Services.models"
-import { getListAssignedServices } from "@/users/userSubOficial/services/AssignedService"
+import { deleteAssignedService, getListAssignedServices } from "@/users/userSubOficial/services/AssignedService"
 import { SearchOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
@@ -37,8 +37,11 @@ export default function TableServices() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeleteServices = () => {
-    console.log(selectedServices)
+  const handleDeleteServices = async () => {
+    if (!authTokens) return
+    await deleteAssignedService(authTokens.token, selectedServices)
+    fetchAssignedServicesList()
+    setSelectedServices([])
   }
 
   const handleSelectAll = () => {
@@ -99,7 +102,6 @@ export default function TableServices() {
           <Tbody
             reloadTable={fetchAssignedServicesList}
             services={services}
-            handleDeleteService={handleDeleteServices}
             assignedServices={assignedServices?.content}
             selectedServices={selectedServices}
             handleSelect={handleSelect}

@@ -83,9 +83,30 @@ export const updateAssignedServiceSoldier = async (token: string, id_services_so
       alert("Error update service")
       throw new Error("Error update assigned services")
     }
+    alert("Service edit success")
     return "SUCCESS"
 
   } catch (err) {
     console.error("Error update assigned services", err)
+  }
+}
+
+export const deleteAssignedService = async (token: string, payload: number[]) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/services/deleted/assignments`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error delete assigned services")
+    }
+    alert("Delete services asigned")
+    return "SUCCESS"
+  } catch (err) {
+    console.error("Error delete assigned services", err)
   }
 }

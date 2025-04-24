@@ -1,4 +1,5 @@
 import { useGlobalContext } from "@/context/globalContext"
+import { Link } from "react-router-dom"
 
 export default function Navbar() {
   const { logout } = useGlobalContext()
@@ -9,9 +10,8 @@ export default function Navbar() {
         <div className="flex items-center gap-x-2">
           <h1 className="text-xl font-bold text-white-color">Military App</h1>
         </div>
-        <div className="flex gap-x-4 text-white-color">
-          <a href="/profile" className="">Profile</a>
-          <a href="/services" className="">Services</a>
+        <div className="flex gap-x-4 text-white-color  font-semibold">
+          <Link to="/profile" className="">Profile</Link>
           <p onClick={logout} className=" cursor-pointer">Logout</p>
         </div>
       </div>

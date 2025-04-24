@@ -57,7 +57,7 @@ export default function ModalFormService({ services, soldiers, reloadTable }: { 
         footer={<>
           <FooterModal
             setModalOpen={setModalOpen}
-            title="Edit Service"
+            title="Create Service"
             handleSubmit={handleSubmit(handleSubmitService)}
             isSubmitting={isSubmitting}
           />

@@ -10,7 +10,7 @@ interface TheadProps {
 export default function Thead({ handleSelectAll, selectedServices, servicesData }: TheadProps) {
   return (
     <thead>
-      <tr className="bg-gray-50 text-left">
+      <tr className="bg-gray-50 text-left border shadow-md">
         <th className="p-3 w-12">
           <Checkbox
             checked={selectedServices.length === servicesData?.length && servicesData.length > 0}

@@ -30,6 +30,7 @@ export default function ModalEditService({ services, soldier, reloadTable }: { s
   const handleSubmitService: SubmitHandler<FormService> = async (data) => {
     try {
       if (!authTokens) return
+      setIsSubmitting(true)
       const payload = data.createNewService ? { description: data.description } : { id_service: data.id_service }
       await updateAssignedServiceSoldier(authTokens.token, Number(data.id_services_soldiers), payload)
       reloadTable()
