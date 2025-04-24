@@ -1,4 +1,3 @@
-import Navbar from "@/shared/components/Navbar";
 import LayoutContent from "@/shared/layouts/LayoutContent";
 import { useState } from "react";
 import PrimaryView from "./components/ProfilePrimaryView";
@@ -11,7 +10,6 @@ export default function UserProfile() {
   const [screen, setScreen] = useState<typeScreen>('primary')
   return (
     <>
-      <Navbar />
       <LayoutContent>
         <AnimatePresence >
           {
