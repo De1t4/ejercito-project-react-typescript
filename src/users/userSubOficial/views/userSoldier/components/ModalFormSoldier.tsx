@@ -24,7 +24,7 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
     if (!authTokens) return
     try {
       setIsSubmitting(true)
-      const res = await createSoldier(authTokens?.token, data)
+      const res = await createSoldier(authTokens.token, data)
       if (res) {
         alert("creado")
         reset(initialStateFormSoldier)
@@ -39,7 +39,7 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+      <button onClick={() => setModalOpen(true)} className="z-10 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
         <PlusOutlined size={16} />
         <span>Add Soldier</span>
       </button>
@@ -166,3 +166,4 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
     </>
   )
 }
+

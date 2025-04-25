@@ -1,5 +1,6 @@
 import { useGlobalContext } from '@/context/globalContext';
 import { Role } from '@/models/authModels';
+import LayoutContent from '@/shared/layouts/LayoutContent';
 import MainLayout from '@/shared/layouts/MainLayout';
 import { Navigate, Outlet } from 'react-router-dom';
 
@@ -38,6 +39,6 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     case "SUB_OFICIAL":
       return <MainLayout />
     case "SOLDADO":
-      return <Outlet />
+      return <LayoutContent ><Outlet/></LayoutContent>
   }
 }

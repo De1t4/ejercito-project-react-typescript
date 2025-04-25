@@ -2,7 +2,7 @@ import { useGlobalContext } from "@/context/globalContext";
 import FormInput from "@/shared/components/FormInput";
 import FormSelect from "@/shared/components/FormSelect";
 import { FormSoldier, schemaFormSoldier, Soldier, Structure } from "@/users/userSubOficial/models/Soldier.models";
-import { updateProfileUser } from "@/users/userSubOficial/services/AdminService";
+import { updateProfileUser } from "@/users/userSubOficial/services/SoldierService";
 import { mapBarracksToOptions, mapCompaniesToOptions, mapBodiesToOptions } from "@/utils/utils";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";

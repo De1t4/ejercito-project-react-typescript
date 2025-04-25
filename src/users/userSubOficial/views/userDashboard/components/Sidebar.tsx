@@ -106,7 +106,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div style={{ width: 256 }} className="bg-transparent absolute z-20 top-20">
+      <div  className="bg-transparent absolute z-20 top-20">
         {openMenu && (
           <>
             <Button className="mb-3 w-20" type="primary" onClick={toggleCollapsed} >

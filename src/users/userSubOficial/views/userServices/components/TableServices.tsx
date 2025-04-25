@@ -7,11 +7,11 @@ import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import Thead from "./Table/Thead"
 import Tbody from "./Table/Tbody"
 import ModalFormService from "./ModalFormService"
-import PaginationTable from "@/shared/components/PaginationTable"
-import HeaderTable from "@/shared/components/HeaderTable"
 import { Soldier } from "@/users/userSubOficial/models/Soldier.models"
 import { getSoldiers } from "@/users/userSubOficial/services/SoldierService"
 import { getServices } from "@/users/userSoldier/services/AssignmetsService"
+import HeaderTable from "@/shared/components/HeaderTable"
+import PaginationTable from "@/shared/components/PaginationTable"
 
 export default function TableServices() {
   const [assignedServices, setAssignedServices] = useState<Pagination<AssignedServices>>()
