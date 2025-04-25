@@ -4,12 +4,12 @@ import { initialStateStructure, Soldier, Structure } from '@/users/userSubOficia
 import { SearchOutlined } from '@ant-design/icons';
 import Tbody from './Table/Tbody';
 import FormSoldier from './ModalFormSoldier';
-import Thead from './Table/Thead';
 import { getSoldierList, getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
 import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
 import { deleteSoldierById } from '@/users/userSubOficial/services/SoldierService';
 import HeaderTable from '@/shared/components/HeaderTable';
 import PaginationTable from '@/shared/components/PaginationTable';
+import Thead from '@/shared/components/THead';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
@@ -100,8 +100,9 @@ export const TableSoldier = () => {
           <table className="w-full">
             <Thead
               handleSelectAll={handleSelectAll}
-              selectedSoldiers={selectedSoldiers}
-              soldiersData={soldiers?.content}
+              selected={selectedSoldiers}
+              items={["ID", "Username", "Fullname", "Company", "Barrack", "Army Body"]}
+              content={soldiers?.content.length}
             />
             <Tbody
               structure={structure}

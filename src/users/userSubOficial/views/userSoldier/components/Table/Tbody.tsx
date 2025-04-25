@@ -53,7 +53,7 @@ export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structu
           </td>
           <td className="p-4 font-medium">{soldier.id_user}</td>
           <td className="p-4 text-gray-600">{soldier.username}</td>
-          <td className="p-4">{soldier.name}</td>
+          <td className="p-4">{soldier.name} {soldier.lastname}</td>
           <td className="p-4"> {soldier.company}</td>
           <td className="p-4 text-gray-600">{soldier.barrack}</td>
           <td className="p-4 text-gray-600">{soldier.army_body}</td>

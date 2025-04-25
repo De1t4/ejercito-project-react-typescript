@@ -4,7 +4,6 @@ import { deleteAssignedService, getListAssignedServices } from "@/users/userSubO
 import { SearchOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
-import Thead from "./Table/Thead"
 import Tbody from "./Table/Tbody"
 import ModalFormService from "./ModalFormService"
 import { Soldier } from "@/users/userSubOficial/models/Soldier.models"
@@ -12,6 +11,7 @@ import { getSoldiers } from "@/users/userSubOficial/services/SoldierService"
 import { getServices } from "@/users/userSoldier/services/AssignmetsService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
+import Thead from "@/shared/components/THead"
 
 export default function TableServices() {
   const [assignedServices, setAssignedServices] = useState<Pagination<AssignedServices>>()
@@ -57,7 +57,7 @@ export default function TableServices() {
     if (selectedServices.length === assignedServices?.content.length) {
       setSelectedServices([])
     } else {
-      setSelectedServices(assignedServices?.content.map((soldier) => soldier.id_services_soldiers) || [])
+      setSelectedServices(assignedServices?.content.map((service) => service.id_services_soldiers) || [])
     }
   }
 
@@ -91,8 +91,8 @@ export default function TableServices() {
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
-                aria-label="Search soldiers"
-                placeholder="Search soldiers..."
+                aria-label="Search services"
+                placeholder="Search services..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -108,8 +108,9 @@ export default function TableServices() {
         <table className="w-full">
           <Thead
             handleSelectAll={handleSelectAll}
-            selectedServices={selectedServices}
-            servicesData={assignedServices?.content}
+            selected={selectedServices}
+            items={["ID", "Service", "At Service", "End Service", "Soldier"]}
+            content={assignedServices?.content.length}
           />
           <Tbody
             reloadTable={fetchAssignedServicesList}
