@@ -1,5 +1,7 @@
 import { OptionsProps } from "@/shared/components/FormSelect"
-import { Barrack, Company, Body } from "@/users/userSoldier/models/Profile"
+import { ArmyBody } from "@/models/ArmyBody.models"
+import { Barrack } from "@/models/Barrack.models"
+import { Company } from "@/models/Company.models"
 import { Service } from "@/users/userSubOficial/models/Services.models"
 import { Soldier } from "@/users/userSubOficial/models/Soldier.models"
 
@@ -46,7 +48,7 @@ export const mapCompaniesToOptions = (barracks: Company[]): OptionsProps[] =>
     value: b.id_company.toString()
   }));
 
-export const mapBodiesToOptions = (barracks: Body[]): OptionsProps[] =>
+export const mapBodiesToOptions = (barracks: ArmyBody[]): OptionsProps[] =>
   barracks.map(b => ({
     title: b.denomination,
     value: b.id_body.toString()

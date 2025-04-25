@@ -1,3 +1,7 @@
+import { ArmyBody } from "@/models/ArmyBody.models"
+import { Barrack } from "@/models/Barrack.models"
+import { Company } from "@/models/Company.models"
+
 export interface ProfileProps {
   id_user: number
   username: string
@@ -14,24 +18,9 @@ export interface SoldierProfile {
   graduation: string
   company: Company
   barrack: Barrack
-  body: Body
+  body: ArmyBody
 }
 
-export interface Company {
-  id_company: number
-  activity: string
-}
-
-export interface Barrack {
-  id_barrack: number
-  name: string
-  location: string
-}
-
-export interface Body {
-  id_body: number
-  denomination: string
-}
 
 export interface ServicesStatus {
   completed: Completed[] | []

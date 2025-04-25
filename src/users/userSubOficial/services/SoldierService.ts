@@ -14,12 +14,12 @@ export const getSoldiers = async (token: string) => {
       },
     })
     if (!res.ok) {
-      throw new Error("Error finishing soldiers")
+      throw new Error("Error fetching data soldiers")
     }
     const data: Soldier[] = await res.json()
     return data;
   } catch (err) {
-    console.error("Error finishing soldiers", err)
+    console.error("Error fetching data soldiers", err)
   }
 }
 
@@ -60,10 +60,10 @@ export const deleteSoldierById = async (token: string, id: number[]) => {
       body: JSON.stringify(id)
     })
     if (!res.ok) {
-      throw new Error("Error create soldier")
+      throw new Error("Error delete soldier")
     }
   } catch (err) {
-    console.error("Error create soldier", err)
+    console.error("Error delete soldier", err)
   }
 }
 

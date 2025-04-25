@@ -1,9 +1,11 @@
-import { Barrack, Company, Body } from "@/users/userSoldier/models/Profile";
+import { ArmyBody } from "@/models/ArmyBody.models"
+import { Barrack } from "@/models/Barrack.models"
+import { Company } from "@/models/Company.models"
 
 interface Structure {
   company: Company | undefined
   barrack: Barrack | undefined
-  armyBody: Body | undefined
+  armyBody: ArmyBody | undefined
 }
 
 export default function Structure({ company, barrack, armyBody }: Structure) {

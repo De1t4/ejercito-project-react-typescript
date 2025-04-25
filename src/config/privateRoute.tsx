@@ -17,7 +17,6 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
 
   const userRole = getUserRole()?.toUpperCase();
 
-
   const hasAccess = allowedRoles.some((role) => role.toUpperCase() === getUserRole());
   if (!hasAccess) {
     switch (userRole) {
@@ -31,7 +30,6 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
         return <Navigate to="/" />;
     }
   }
-
 
   switch (userRole) {
     case "OFICIAL":
