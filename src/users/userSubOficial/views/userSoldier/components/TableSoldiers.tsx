@@ -6,10 +6,10 @@ import { SearchOutlined } from '@ant-design/icons';
 import Tbody from './Table/Tbody';
 import FormSoldier from './ModalFormSoldier';
 import Thead from './Table/Thead';
-import HeaderTable from '@/users/shared/HeaderTable';
+import HeaderTable from '@/shared/components/HeaderTable';
 import { getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
 import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
-import PaginationTable from '../../../../shared/PaginationTable';
+import PaginationTable from '../../../../../shared/components/PaginationTable';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
