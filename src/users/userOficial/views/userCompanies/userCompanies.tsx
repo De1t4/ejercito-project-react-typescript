@@ -6,6 +6,7 @@ import { useGlobalContext } from "@/context/globalContext"
 import HeaderTable from "@/shared/components/HeaderTable"
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons"
 import Thead from "@/shared/components/THead"
+import { Checkbox } from "antd"
 
 
 export default function UserCompanies() {
@@ -16,7 +17,7 @@ export default function UserCompanies() {
   useEffect(() => {
     const fetchCompaniesList = async () => {
       if (!authTokens) return
-      const res = await getCompaniesList(authTokens?.token, 10)
+      const res = await getCompaniesList(authTokens?.token, 0)
       if (res) setCompanies(res)
     }
     fetchCompaniesList()
@@ -33,6 +34,14 @@ export default function UserCompanies() {
       setSelectedCompanies([])
     } else {
       setSelectedCompanies(companies?.content.map((companies) => companies.id_company) || [])
+    }
+  }
+
+  const handleSelect = (id: number) => {
+    if (selectedCompanies.includes(id)) {
+      setSelectedCompanies(selectedCompanies.filter((idSelect) => idSelect != id) || [])
+    } else {
+      setSelectedCompanies([...selectedCompanies, id])
     }
   }
 
@@ -78,6 +87,42 @@ export default function UserCompanies() {
             handleSelectAll={handleSelectAll}
             items={["ID Company", "Activity"]}
           />
+          <tbody className="bg-gray-50">
+            {companies?.content && companies.content.map((company) => (
+              <tr
+                key={company.id_company}
+                className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedCompanies.includes(company.id_company) ? "bg-blue-50" : ""
+                  }`}
+              >
+                <td className="p-3">
+                  <Checkbox
+                    checked={selectedCompanies.includes(company.id_company)}
+                    onChange={() => handleSelect(company.id_company)}
+                  />
+                </td>
+                <td className="p-4 font-medium">{company.id_company}</td>
+                <td className="p-4 text-gray-600">{company.activity}</td>
+
+                <td className="p-4">
+
+                </td>
+              </tr>
+            ))}
+            {companies?.content === undefined && (
+              <tr>
+                <td colSpan={8} className="p-8 text-center text-gray-500">
+                  No soldiers found matching your search criteria.
+                </td>
+              </tr>
+            )}
+            {companies?.content?.length === 0 && (
+              <tr>
+                <td colSpan={8} className="p-8 text-center text-gray-500">
+                  No companies found matching your search criteria.
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>

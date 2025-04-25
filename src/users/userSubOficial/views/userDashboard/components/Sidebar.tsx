@@ -46,11 +46,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <AppstoreAddOutlined />
       </Link>, label: 'Services'
     },
-    {
-      key: '4', icon: <Link to={"/settings"}>
-        <SettingOutlined />
-      </Link>, label: 'Settings'
-    },
+
     {
       key: '5',
       icon: (
@@ -86,6 +82,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         </Link>
       ),
       label: 'Bodies'
+    },
+    {
+      key: '4', icon: <Link to={"/settings"}>
+        <SettingOutlined />
+      </Link>, label: 'Settings'
     },
     {
       key: '9', icon: <LogoutOutlined onClick={logout} />

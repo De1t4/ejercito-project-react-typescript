@@ -29,7 +29,8 @@ export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structu
       <>
         <div className=" flex flex-col items-center justify-center gap-2">
           <p>¿Are you sure you want to delete this soldier?</p>
-          <button className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_user)}>
+          <button
+            className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_user)}>
             I'm sure
           </button>
         </div>
