@@ -9,7 +9,7 @@ import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
 import { deleteSoldierById } from '@/users/userSubOficial/services/SoldierService';
 import HeaderTable from '@/shared/components/HeaderTable';
 import PaginationTable from '@/shared/components/PaginationTable';
-import Thead from '@/shared/components/Thead';
+import Theader from '@/shared/components/Theader';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
@@ -98,7 +98,7 @@ export const TableSoldier = () => {
         </div>
         <div className="overflow-x-auto bg-white">
           <table className="w-full">
-            <Thead
+            <Theader
               handleSelectAll={handleSelectAll}
               selected={selectedSoldiers}
               items={["ID", "Username", "Fullname", "Company", "Barrack", "Army Body"]}

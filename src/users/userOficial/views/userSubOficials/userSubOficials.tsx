@@ -5,15 +5,16 @@ import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { SubOficial } from "../../models/SubOficial.models"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
-import Thead from "@/shared/components/Thead"
 import { SearchOutlined } from "@ant-design/icons"
 import { initialStateStructure, Structure } from "@/users/userSubOficial/models/Soldier.models"
 import { getStructureMilitary } from "@/users/userSubOficial/services/AdminService"
 import Tbody from "./components/Tbody"
+import Theader from "@/shared/components/Theader"
 
 export default function UserSubOficials() {
   const [selectedSubOficial, setSelectedSubOficial] = useState<number[]>([])
-  const [strucuture, setStructure] = useState<Structure>(initialStateStructure)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_strucuture, setStructure] = useState<Structure>(initialStateStructure)
   const [page, setPage] = useState(0)
   const [subOficial, setsubOficial] = useState<Pagination<SubOficial>>()
   const { authTokens } = useGlobalContext()
@@ -85,7 +86,7 @@ export default function UserSubOficials() {
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <Thead
+          <Theader
             selected={selectedSubOficial}
             content={subOficial?.content.length}
             handleSelectAll={handleSelectAll}

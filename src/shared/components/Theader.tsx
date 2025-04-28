@@ -7,7 +7,7 @@ interface TheadProps {
   items: string[]
 }
 
-export default function Thead({ selected, content, handleSelectAll, items }: TheadProps) {
+export default function Theader({ selected, content, handleSelectAll, items }: TheadProps) {
   return (
     <thead>
       <tr className="bg-gray-50 text-left border shadow-md">

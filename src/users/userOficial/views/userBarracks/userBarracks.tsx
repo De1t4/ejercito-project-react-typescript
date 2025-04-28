@@ -5,10 +5,10 @@ import { useEffect, useState } from "react"
 import { getBarracksList } from "../../services/BarrackService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import { SearchOutlined } from "@ant-design/icons"
-import Thead from "@/shared/components/Thead"
 import PaginationTable from "@/shared/components/PaginationTable"
 import Tbody from "./components/Tbody"
 import ModalFormBarrack from "./components/ModalFormBarrack"
+import Theader from "@/shared/components/Theader"
 
 export default function UserBarracks() {
   const [selectedBarracks, setSelectedBarracks] = useState<number[]>([])
@@ -80,7 +80,7 @@ export default function UserBarracks() {
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <Thead
+          <Theader
             selected={selectedBarracks}
             content={barracks?.content.length}
             handleSelectAll={handleSelectAll}

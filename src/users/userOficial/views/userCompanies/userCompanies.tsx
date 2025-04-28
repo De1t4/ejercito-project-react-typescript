@@ -5,10 +5,10 @@ import { getCompaniesList } from "../../services/CompanyService"
 import { useGlobalContext } from "@/context/globalContext"
 import HeaderTable from "@/shared/components/HeaderTable"
 import { SearchOutlined } from "@ant-design/icons"
-import Thead from "@/shared/components/Thead"
 import Tbody from "./components/Tbody"
 import PaginationTable from "@/shared/components/PaginationTable"
 import ModalFormCompany from "./components/ModalFormCompany"
+import Theader from "@/shared/components/Theader"
 
 
 export default function UserCompanies() {
@@ -80,7 +80,7 @@ export default function UserCompanies() {
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <Thead
+          <Theader
             selected={selectedCompanies}
             content={companies?.content.length}
             handleSelectAll={handleSelectAll}

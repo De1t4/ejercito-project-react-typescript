@@ -4,11 +4,11 @@ import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useEffect, useState } from "react"
 import { getArmyBodiesList } from "../../services/BodyService"
 import HeaderTable from "@/shared/components/HeaderTable"
-import Thead from "@/shared/components/Thead"
 import PaginationTable from "@/shared/components/PaginationTable"
 import { SearchOutlined } from "@ant-design/icons"
 import ModalFormBody from "./components/ModalFormBody"
 import Tbody from "./components/Tbody"
+import Theader from "@/shared/components/Theader"
 
 export default function UserArmyBodies() {
   const [selectedBodies, setSelectedBodies] = useState<number[]>([])
@@ -87,7 +87,7 @@ export default function UserArmyBodies() {
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <Thead
+          <Theader
             selected={selectedBodies}
             content={bodies?.content.length}
             handleSelectAll={handleSelectAll}

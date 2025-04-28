@@ -11,7 +11,7 @@ import { getSoldiers } from "@/users/userSubOficial/services/SoldierService"
 import { getServices } from "@/users/userSoldier/services/AssignmetsService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
-import Thead from "@/shared/components/THead"
+import Theader from "@/shared/components/Theader"
 
 export default function TableServices() {
   const [assignedServices, setAssignedServices] = useState<Pagination<AssignedServices>>()
@@ -106,7 +106,7 @@ export default function TableServices() {
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <Thead
+          <Theader
             handleSelectAll={handleSelectAll}
             selected={selectedServices}
             items={["ID", "Service", "At Service", "End Service", "Soldier"]}
