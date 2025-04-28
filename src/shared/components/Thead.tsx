@@ -1,13 +1,13 @@
 import { Checkbox } from "antd";
 
-interface THeadProps {
+interface TheadProps {
   selected: number[]
   content: number | undefined
   handleSelectAll: () => void
   items: string[]
 }
 
-export default function Thead({ selected, content, handleSelectAll, items }: THeadProps) {
+export default function Thead({ selected, content, handleSelectAll, items }: TheadProps) {
   return (
     <thead>
       <tr className="bg-gray-50 text-left border shadow-md">

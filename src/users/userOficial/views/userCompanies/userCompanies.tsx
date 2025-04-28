@@ -4,13 +4,16 @@ import { useEffect, useState } from "react"
 import { getCompaniesList } from "../../services/CompanyService"
 import { useGlobalContext } from "@/context/globalContext"
 import HeaderTable from "@/shared/components/HeaderTable"
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons"
-import Thead from "@/shared/components/THead"
-import { Checkbox } from "antd"
+import { SearchOutlined } from "@ant-design/icons"
+import Thead from "@/shared/components/Thead"
+import Tbody from "./components/Tbody"
+import PaginationTable from "@/shared/components/PaginationTable"
+import ModalFormCompany from "./components/ModalFormCompany"
 
 
 export default function UserCompanies() {
   const [selectedCompanies, setSelectedCompanies] = useState<number[]>([])
+  const [page, setPage] = useState(0)
   const [companies, setCompanies] = useState<Pagination<Company>>()
   const { authTokens } = useGlobalContext()
 
@@ -27,7 +30,6 @@ export default function UserCompanies() {
   const handleDeleteCompanies = async () => {
     console.log(selectedCompanies)
   }
-
 
   const handleSelectAll = () => {
     if (selectedCompanies.length === companies?.content.length) {
@@ -57,10 +59,7 @@ export default function UserCompanies() {
       </div>
       <div className="p-4 bg-gray-50 border-b border-gray-100">
         <div className="flex flex-col sm:flex-row gap-3 justify-between">
-          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            <PlusOutlined size={16} />
-            <span>Add Company</span>
-          </button>
+          <ModalFormCompany />
           <div className="flex gap-3">
             <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-md:flex flex gap-1">
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -87,44 +86,22 @@ export default function UserCompanies() {
             handleSelectAll={handleSelectAll}
             items={["ID Company", "Activity"]}
           />
-          <tbody className="bg-gray-50">
-            {companies?.content && companies.content.map((company) => (
-              <tr
-                key={company.id_company}
-                className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedCompanies.includes(company.id_company) ? "bg-blue-50" : ""
-                  }`}
-              >
-                <td className="p-3">
-                  <Checkbox
-                    checked={selectedCompanies.includes(company.id_company)}
-                    onChange={() => handleSelect(company.id_company)}
-                  />
-                </td>
-                <td className="p-4 font-medium">{company.id_company}</td>
-                <td className="p-4 text-gray-600">{company.activity}</td>
-
-                <td className="p-4">
-
-                </td>
-              </tr>
-            ))}
-            {companies?.content === undefined && (
-              <tr>
-                <td colSpan={8} className="p-8 text-center text-gray-500">
-                  No soldiers found matching your search criteria.
-                </td>
-              </tr>
-            )}
-            {companies?.content?.length === 0 && (
-              <tr>
-                <td colSpan={8} className="p-8 text-center text-gray-500">
-                  No companies found matching your search criteria.
-                </td>
-              </tr>
-            )}
-          </tbody>
+          <Tbody
+            handleDeleteCompany={handleDeleteCompanies}
+            companies={companies?.content}
+            selectedCompanies={selectedCompanies}
+            handleSelect={handleSelect}
+          />
         </table>
       </div>
+      <PaginationTable
+        page={page}
+        first={companies?.first}
+        title={"companies"}
+        setPage={setPage}
+        totalElements={companies?.totalElements}
+        last={companies?.last}
+      />
     </div>
   )
 }
