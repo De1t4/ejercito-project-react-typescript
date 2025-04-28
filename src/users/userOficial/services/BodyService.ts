@@ -1,0 +1,23 @@
+import { ArmyBody } from "@/models/ArmyBody.models"
+import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
+
+const API_URL = import.meta.env.VITE_BACK_END_URL
+
+export const getArmyBodiesList = async (token: string, page: number, size: number = 10) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/bodies?page=${page}&size=${size}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (!res.ok) {
+      throw new Error("Error fetching army bodies")
+    }
+    const data: Pagination<ArmyBody> = await res.json()
+    return data
+  } catch (err) {
+    console.error("Error fetching army bodies", err)
+  }
+}

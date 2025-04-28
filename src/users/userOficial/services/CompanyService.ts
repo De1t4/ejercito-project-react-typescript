@@ -1,9 +1,7 @@
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { Company } from "../../../models/Company.models"
 
-
 const API_URL = import.meta.env.VITE_BACK_END_URL
-
 
 export const getCompaniesList = async (token: string, page: number, size: number = 10) => {
   try {
