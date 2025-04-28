@@ -1,3 +1,6 @@
+import { ArmyBody } from "@/models/ArmyBody.models"
+import { Barrack } from "@/models/Barrack.models"
+import { Company } from "@/models/Company.models"
 import { z } from "zod"
 
 export interface Soldier {
@@ -55,18 +58,4 @@ export const initialStateStructure: Structure = {
   barracks: []
 }
 
-export interface Company {
-  id_company: number
-  activity: string
-}
 
-export interface ArmyBody {
-  id_body: number
-  denomination: string
-}
-
-export interface Barrack {
-  id_barrack: number
-  name: string
-  location: string
-}

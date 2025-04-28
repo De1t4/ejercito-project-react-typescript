@@ -11,7 +11,7 @@ import { DatePicker, Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalFormSoldier({ reloadTable, structure }: { reloadTable: () => Promise<void>, structure: Structure }) {
+export default function ModalFormSoldier({ reloadTable, structure, title = "soldier"}: { reloadTable: () => Promise<void>, structure: Structure, title?: string }) {
   const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -24,7 +24,7 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
     if (!authTokens) return
     try {
       setIsSubmitting(true)
-      const res = await createSoldier(authTokens?.token, data)
+      const res = await createSoldier(authTokens.token, data)
       if (res) {
         alert("creado")
         reset(initialStateFormSoldier)
@@ -39,12 +39,12 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+      <button onClick={() => setModalOpen(true)} className="z-10 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
         <PlusOutlined size={16} />
-        <span>Add Soldier</span>
+        <span>Add {title}</span>
       </button>
       <Modal
-        title="Create New Soldier"
+        title={`Create New ${title}`}
         centered
         open={modalOpen}
         onOk={() => setModalOpen(false)}
@@ -70,7 +70,7 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
                   Creating...
                 </>
               ) : (
-                "Create Soldier"
+                `Create ${title}`
               )}
             </button>
           </div>
@@ -123,7 +123,7 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
               />
               <div className="">
                 <label className="label-initial" htmlFor={"graduation"}>
-                  Enter graduation soldier
+                  Enter graduation {title}
                 </label>
                 <DatePicker format="YYYY-MM-DD" name="graduation" className="input-login" onChange={(_date, dateString) => setValue('graduation', typeof dateString === 'string' ? dateString : undefined)} />
               </div>
@@ -166,3 +166,4 @@ export default function ModalFormSoldier({ reloadTable, structure }: { reloadTab
     </>
   )
 }
+

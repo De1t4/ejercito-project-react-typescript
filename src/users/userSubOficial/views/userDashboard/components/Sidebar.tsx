@@ -46,11 +46,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <AppstoreAddOutlined />
       </Link>, label: 'Services'
     },
-    {
-      key: '4', icon: <Link to={"/settings"}>
-        <SettingOutlined />
-      </Link>, label: 'Settings'
-    },
+
     {
       key: '5',
       icon: (
@@ -88,6 +84,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       label: 'Bodies'
     },
     {
+      key: '4', icon: <Link to={"/settings"}>
+        <SettingOutlined />
+      </Link>, label: 'Settings'
+    },
+    {
       key: '9', icon: <LogoutOutlined onClick={logout} />
       , label: 'Log Out'
     },
@@ -106,7 +107,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div style={{ width: 256 }} className="bg-transparent absolute z-20 top-20">
+      <div  className="bg-transparent absolute z-20 top-20">
         {openMenu && (
           <>
             <Button className="mb-3 w-20" type="primary" onClick={toggleCollapsed} >
@@ -115,7 +116,6 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             <Menu
               className=" rounded-lg"
               defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
               mode="inline"
               theme="dark"
               inlineCollapsed={collapsed}

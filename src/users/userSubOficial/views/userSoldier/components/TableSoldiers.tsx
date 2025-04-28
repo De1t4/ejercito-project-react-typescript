@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { deleteSoldierById, getSoldierList } from '@/users/userSubOficial/services/SoldierService';
 import { useGlobalContext } from '@/context/globalContext';
 import { initialStateStructure, Soldier, Structure } from '@/users/userSubOficial/models/Soldier.models';
 import { SearchOutlined } from '@ant-design/icons';
 import Tbody from './Table/Tbody';
 import FormSoldier from './ModalFormSoldier';
-import Thead from './Table/Thead';
-import HeaderTable from '@/users/shared/HeaderTable';
-import { getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
+import { getSoldierList, getStructureMilitary } from '@/users/userSubOficial/services/AdminService';
 import { Pagination } from '@/users/userSubOficial/models/Pagination.models';
-import PaginationTable from '../../../../shared/PaginationTable';
+import { deleteSoldierById } from '@/users/userSubOficial/services/SoldierService';
+import HeaderTable from '@/shared/components/HeaderTable';
+import PaginationTable from '@/shared/components/PaginationTable';
+import Theader from '@/shared/components/Theader';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
@@ -96,12 +96,13 @@ export const TableSoldier = () => {
             </div>
           </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-white">
           <table className="w-full">
-            <Thead
+            <Theader
               handleSelectAll={handleSelectAll}
-              selectedSoldiers={selectedSoldiers}
-              soldiersData={soldiers?.content}
+              selected={selectedSoldiers}
+              items={["ID", "Username", "Fullname", "Company", "Barrack", "Army Body"]}
+              content={soldiers?.content.length}
             />
             <Tbody
               structure={structure}

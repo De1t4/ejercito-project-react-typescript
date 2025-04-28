@@ -9,7 +9,6 @@ interface PropsPagination {
 }
 
 export default function PaginationTable({ totalElements, first, last, page, setPage, title }: PropsPagination) {
-
   return (
     <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
       <div className="text-sm text-gray-500">

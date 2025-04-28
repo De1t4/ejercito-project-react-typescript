@@ -1,5 +1,6 @@
 import { useGlobalContext } from '@/context/globalContext';
 import { Role } from '@/models/authModels';
+import LayoutContent from '@/shared/layouts/LayoutContent';
 import MainLayout from '@/shared/layouts/MainLayout';
 import { Navigate, Outlet } from 'react-router-dom';
 
@@ -16,7 +17,6 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
 
   const userRole = getUserRole()?.toUpperCase();
 
-
   const hasAccess = allowedRoles.some((role) => role.toUpperCase() === getUserRole());
   if (!hasAccess) {
     switch (userRole) {
@@ -31,13 +31,12 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
     }
   }
 
-
   switch (userRole) {
     case "OFICIAL":
       return <MainLayout />
     case "SUB_OFICIAL":
       return <MainLayout />
     case "SOLDADO":
-      return <Outlet />
+      return <LayoutContent ><Outlet/></LayoutContent>
   }
 }

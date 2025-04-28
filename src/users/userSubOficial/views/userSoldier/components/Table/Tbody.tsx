@@ -29,7 +29,8 @@ export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structu
       <>
         <div className=" flex flex-col items-center justify-center gap-2">
           <p>¿Are you sure you want to delete this soldier?</p>
-          <button className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_user)}>
+          <button
+            className="hover:bg-red-500 transition-all duration-300 bg-red-600 p-2 rounded-lg text-white-color font-semibold" onClick={() => handleDeleteSoldier(id_user)}>
             I'm sure
           </button>
         </div>
@@ -53,7 +54,7 @@ export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structu
           </td>
           <td className="p-4 font-medium">{soldier.id_user}</td>
           <td className="p-4 text-gray-600">{soldier.username}</td>
-          <td className="p-4">{soldier.name}</td>
+          <td className="p-4">{soldier.name} {soldier.lastname}</td>
           <td className="p-4"> {soldier.company}</td>
           <td className="p-4 text-gray-600">{soldier.barrack}</td>
           <td className="p-4 text-gray-600">{soldier.army_body}</td>

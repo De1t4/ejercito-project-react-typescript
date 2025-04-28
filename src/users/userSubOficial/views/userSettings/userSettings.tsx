@@ -1,6 +1,6 @@
 import { useGlobalContext } from "@/context/globalContext"
 import { modifyPasswordUser } from "@/services/ProfileService"
-import InputPassword from "@/users/shared/InputPassword"
+import InputPassword from "@/shared/components/InputPassword"
 import { FormValidation, initialStatePassword, schemaValidation } from "@/users/userSoldier/models/Password.models"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
