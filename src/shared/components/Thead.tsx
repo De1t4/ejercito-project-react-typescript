@@ -18,7 +18,7 @@ export default function Thead({ selected, content, handleSelectAll, items }: The
         </th>
         {
           items.map((item) => (
-            <th className="p-4 font-medium text-gray-600 cursor-pointer">
+            <th key={item} className="p-4 font-medium text-gray-600 cursor-pointer">
 
               <div className="flex items-center gap-1">
                 {item}

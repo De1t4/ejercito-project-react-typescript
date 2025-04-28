@@ -20,12 +20,12 @@ export default function UserCompanies() {
   useEffect(() => {
     const fetchCompaniesList = async () => {
       if (!authTokens) return
-      const res = await getCompaniesList(authTokens?.token, 0)
+      const res = await getCompaniesList(authTokens?.token, page)
       if (res) setCompanies(res)
     }
     fetchCompaniesList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [page])
 
   const handleDeleteCompanies = async () => {
     console.log(selectedCompanies)
