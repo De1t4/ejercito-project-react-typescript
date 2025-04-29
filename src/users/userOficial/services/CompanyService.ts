@@ -22,7 +22,7 @@ export const getCompaniesList = async (token: string, page: number, size: number
   }
 }
 
-export const createCompany = async (token: string, payload:Company) => {
+export const createCompany = async (token: string, payload: Omit<Company, 'id_company'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/companies`, {
       method: "POST",

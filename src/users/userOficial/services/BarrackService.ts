@@ -22,7 +22,7 @@ export const getBarracksList = async (token: string, page: number, size: number 
   }
 }
 
-export const createBarrack = async (token: string, payload:Barrack) => {
+export const createBarrack = async (token: string, payload:Omit<Barrack, 'id_barrack'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/barracks`, {
       method: "POST",
@@ -35,7 +35,8 @@ export const createBarrack = async (token: string, payload:Barrack) => {
     if (!res.ok) {
       throw new Error("Error create Barrack")
     }
-    return "SUCCESS"
+    const data:Barrack = await res.json()
+    return data
   } catch (err) {
     console.error("Error create Barrack", err)
   }

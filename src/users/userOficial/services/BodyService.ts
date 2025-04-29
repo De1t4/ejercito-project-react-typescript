@@ -41,7 +41,7 @@ export const createBody = async (token: string, payload:ArmyBody) => {
   }
 }
 
-export const updateBody = async (token: string, payload:ArmyBody) => {
+export const updateBody = async (token: string, payload:Omit<ArmyBody, 'id_body'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/bodies`, {
       method: "PUT",
