@@ -21,3 +21,60 @@ export const getCompaniesList = async (token: string, page: number, size: number
     console.error("Error fetching companies", err)
   }
 }
+
+export const createCompany = async (token: string, payload:Company) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/companies`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body:JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error create company")
+    }
+    return "SUCCESS"
+  } catch (err) {
+    console.error("Error create company", err)
+  }
+}
+
+export const updateCompany = async (token: string, payload:Company) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/companies`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body:JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error edit company")
+    }
+    return "SUCCESS"
+  } catch (err) {
+    console.error("Error edit company", err)
+  }
+}
+
+export const deleteCompany = async (token: string, payload:number[]) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/companies/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body:JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error deleted company")
+    }
+    return "SUCCESS"
+  } catch (err) {
+    console.error("Error deleted company", err)
+  }
+}
