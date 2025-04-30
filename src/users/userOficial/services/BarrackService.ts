@@ -55,7 +55,8 @@ export const updateBarrack = async (token: string, payload:Barrack) => {
     if (!res.ok) {
       throw new Error("Error edit Barrack")
     }
-    return "SUCCESS"
+    const data:Barrack = await res.json()
+    return data
   } catch (err) {
     console.error("Error edit Barrack", err)
   }

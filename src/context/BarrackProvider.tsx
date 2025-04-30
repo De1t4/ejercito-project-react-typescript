@@ -9,7 +9,7 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [barracks, setBarracks] = useState<Barrack[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [pagination, setPagination] = useState<Omit<Pagination<Barrack>, 'content'> | null>(null)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
   const fetchBarracks = async () => {
@@ -26,10 +26,8 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const create = async (payload: Omit<Barrack, 'id_barrack'>) => {
     if (!authTokens) return
     setLoading(true)
-    const newBarrack = await createBarrack(authTokens.token, payload)
-    if (newBarrack) {
-      setBarracks(prev => [newBarrack, ...prev])
-    }
+    await createBarrack(authTokens.token, payload)
+
     setLoading(false)
   }
 
@@ -37,10 +35,12 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (!authTokens) return
 
     setLoading(true)
-    await updateBarrack(authTokens.token, payload)
-    setBarracks(prev =>
-      prev.map(b => (b.id_barrack === payload.id_barrack ? payload : b))
-    )
+    const loadBarrack = await updateBarrack(authTokens.token, payload)
+    if (loadBarrack) {
+      setBarracks(prev =>
+        prev.map(b => (b.id_barrack === payload.id_barrack ? loadBarrack : b))
+      )
+    }
     setLoading(false)
   }
 
@@ -52,6 +52,7 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setBarracks(prev => prev.filter(b => !ids.includes(b.id_barrack)))
     setLoading(false)
   }
+
 
   return (
     <BarrackContext.Provider

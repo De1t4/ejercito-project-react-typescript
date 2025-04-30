@@ -1,5 +1,7 @@
+import { useBarrackContext } from "@/context/BarrackContext";
 import { FormBarrack, initialStateFormBarrack, schemaFormBarrack } from "@/models/Barrack.models";
 import FormInput from "@/shared/components/FormInput";
+import FooterModal from "@/users/userSubOficial/views/userServices/components/FooterModal";
 import { PlusOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";
@@ -8,13 +10,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function ModalFormBarrack() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { control, handleSubmit, formState: { errors } } = useForm<FormBarrack>({
+  const { fetchBarracks, create, loading} = useBarrackContext()
+  const {  control, handleSubmit, formState: { errors }, reset } = useForm<FormBarrack>({
     defaultValues: initialStateFormBarrack,
     resolver: zodResolver(schemaFormBarrack)
   })
 
-  const handleSubmitBarrack: SubmitHandler<FormBarrack> = (data) => {
-    console.log(data)
+  const handleSubmitBarrack: SubmitHandler<FormBarrack> = async (data) => {
+    await create(data)
+    fetchBarracks()
+    reset()
   }
 
   return (
@@ -27,7 +32,14 @@ export default function ModalFormBarrack() {
         title="Create Barrack"
         centered
         open={modalOpen}
-        onOk={() => setModalOpen(false)}
+        footer={
+          <FooterModal
+            setModalOpen={setModalOpen}
+            isSubmitting={loading}
+            title="Create Barrack"
+            handleSubmit={handleSubmit(handleSubmitBarrack)}
+          />
+        }
         onCancel={() => setModalOpen(false)}>
         <form onSubmit={handleSubmit(handleSubmitBarrack)} className="space-y-6">
           {/* Data Account Section */}

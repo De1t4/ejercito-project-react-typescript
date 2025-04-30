@@ -1,3 +1,4 @@
+import { BarrackProvider } from '@/context/BarrackProvider';
 import { useGlobalContext } from '@/context/globalContext';
 import { Role } from '@/models/authModels';
 import LayoutContent from '@/shared/layouts/LayoutContent';
@@ -33,10 +34,12 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
 
   switch (userRole) {
     case "OFICIAL":
-      return <MainLayout />
+      return <BarrackProvider>
+        <MainLayout />
+      </BarrackProvider>
     case "SUB_OFICIAL":
       return <MainLayout />
     case "SOLDADO":
-      return <LayoutContent ><Outlet/></LayoutContent>
+      return <LayoutContent ><Outlet /></LayoutContent>
   }
 }
