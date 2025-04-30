@@ -54,7 +54,8 @@ export const updateCompany = async (token: string, payload:Company) => {
     if (!res.ok) {
       throw new Error("Error edit company")
     }
-    return "SUCCESS"
+    const data:Company = await res.json()
+    return data
   } catch (err) {
     console.error("Error edit company", err)
   }

@@ -22,7 +22,7 @@ export const getArmyBodiesList = async (token: string, page: number, size: numbe
   }
 }
 
-export const createBody = async (token: string, payload:ArmyBody) => {
+export const createBody = async (token: string, payload:Omit<ArmyBody, 'id_body'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/bodies`, {
       method: "POST",
@@ -54,7 +54,8 @@ export const updateBody = async (token: string, payload:Omit<ArmyBody, 'id_body'
     if (!res.ok) {
       throw new Error("Error edit Body")
     }
-    return "SUCCESS"
+    const data:ArmyBody = await res.json()
+    return data
   } catch (err) {
     console.error("Error edit Body", err)
   }
