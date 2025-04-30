@@ -52,7 +52,7 @@ export default function UserBarracks() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
           handleDelete={handleDeleteBarracks}
-          title="barracks"
+          title="Barracks"
           totalElements={pagination?.totalElements}
           selected={selectedBarracks}
         />

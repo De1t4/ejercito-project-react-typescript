@@ -28,7 +28,6 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
       reloadTable()
     } catch (err) {
       console.error("Error edit profile soldier" + err)
-
     } finally {
       setIsSubmitting(false)
     }
@@ -45,7 +44,6 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
         title="Edit Soldier"
         centered
         open={modalOpen}
-        onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
         footer={
           <>
