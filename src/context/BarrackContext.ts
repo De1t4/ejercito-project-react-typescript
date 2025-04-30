@@ -6,9 +6,9 @@ interface BarrackContextType {
   barracks: Barrack[]
   loading: boolean
   pagination: Omit<Pagination<Barrack>, 'content'> | null
-  setPage: React.Dispatch<React.SetStateAction<number>>
   page: number
-  fetchBarracks: (page?: number, size?: number) => void
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  fetchBarracks: () => void
   create: (payload: Omit<Barrack, 'id_barrack'>) => Promise<void>
   update: (payload: Barrack) => Promise<void>
   remove: (ids: number[]) => Promise<void>

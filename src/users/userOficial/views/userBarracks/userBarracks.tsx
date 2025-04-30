@@ -8,7 +8,8 @@ import Theader from "@/shared/components/Theader"
 import { useBarrackContext } from "@/context/BarrackContext"
 
 export default function UserBarracks() {
-  const { fetchBarracks, remove, barracks, page, pagination, setPage } = useBarrackContext()
+  const { fetchBarracks, remove, setPage } = useBarrackContext()
+  const { barracks, page, pagination } = useBarrackContext()
   const [selectedBarracks, setSelectedBarracks] = useState<number[]>([])
 
   useEffect(() => {

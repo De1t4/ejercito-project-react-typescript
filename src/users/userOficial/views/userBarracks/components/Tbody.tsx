@@ -35,7 +35,6 @@ export default function Tbody({ barracks, selectedBarracks, handleSelect }: Tbod
           <td className="p-4 font-medium">{barrack.id_barrack}</td>
           <td className="p-4 ">{barrack.name}</td>
           <td className="p-4 ">{barrack.location}</td>
-
           <td className="p-4">
             <div className="flex justify-end gap-2">
               <ModalEditBarrack barrack={barrack} />

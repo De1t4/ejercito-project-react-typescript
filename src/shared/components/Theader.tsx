@@ -19,12 +19,10 @@ export default function Theader({ selected, content, handleSelectAll, items }: T
         {
           items.map((item) => (
             <th key={item} className="p-4 font-medium text-gray-600 cursor-pointer">
-
               <div className="flex items-center gap-1">
                 {item}
               </div>
             </th>
-
           ))
         }
         <th className="p-4 font-medium text-gray-600 text-center">Actions</th>

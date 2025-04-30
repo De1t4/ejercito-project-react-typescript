@@ -27,13 +27,11 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (!authTokens) return
     setLoading(true)
     await createBarrack(authTokens.token, payload)
-
     setLoading(false)
   }
 
   const update = async (payload: Barrack) => {
     if (!authTokens) return
-
     setLoading(true)
     const loadBarrack = await updateBarrack(authTokens.token, payload)
     if (loadBarrack) {
@@ -44,15 +42,14 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLoading(false)
   }
 
+
   const remove = async (ids: number[]) => {
     if (!authTokens) return
-
     setLoading(true)
     await deleteBarrack(authTokens.token, ids)
     setBarracks(prev => prev.filter(b => !ids.includes(b.id_barrack)))
     setLoading(false)
   }
-
 
   return (
     <BarrackContext.Provider
