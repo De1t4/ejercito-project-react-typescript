@@ -17,7 +17,7 @@ export default function UserBarracks() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeletebarracks = async () => {
+  const handleDeleteBarracks = async () => {
     await remove(selectedBarracks)
     fetchBarracks()
     setSelectedBarracks([])
@@ -39,12 +39,19 @@ export default function UserBarracks() {
     }
   }
 
+  const handleDeleteBarrack = async (id: number) => {
+    if (selectedBarracks.includes(id)) {
+      setSelectedBarracks(selectedBarracks.filter((idSelect) => idSelect != id))
+    }
+    await remove([id])
+  }
+
 
   return (
     <div className="p-6 ">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
-          handleDelete={handleDeletebarracks}
+          handleDelete={handleDeleteBarracks}
           title="barracks"
           totalElements={pagination?.totalElements}
           selected={selectedBarracks}
@@ -83,6 +90,7 @@ export default function UserBarracks() {
             barracks={barracks}
             selectedBarracks={selectedBarracks}
             handleSelect={handleSelect}
+            handleDeleteBarrack={handleDeleteBarrack}
           />
         </table>
       </div>

@@ -1,20 +1,25 @@
+import { useCompanyContext } from "@/context/CompanyContext";
 import { Company, FormCompany, schemaFormCompany } from "@/models/Company.models";
 import FormInput from "@/shared/components/FormInput";
+import FooterModal from "@/users/userSubOficial/views/userServices/components/FooterModal";
 import { EditOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalEditCompany({company}:{company:Company}) {
+export default function ModalEditCompany({ company }: { company: Company }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const { fetchCompanies, update, loading } = useCompanyContext()
+
   const { control, handleSubmit, formState: { errors } } = useForm<FormCompany>({
     defaultValues: company,
     resolver: zodResolver(schemaFormCompany)
   })
 
-  const handleSubmitCompany: SubmitHandler<FormCompany> = (data) => {
-    console.log(data)
+  const handleSubmitCompany: SubmitHandler<FormCompany> = async (data) => {
+    await update({ ...data, id_company: data.id_company ?? 0 })
+    fetchCompanies()
   }
 
   return (
@@ -29,7 +34,16 @@ export default function ModalEditCompany({company}:{company:Company}) {
         centered
         open={modalOpen}
         onOk={() => setModalOpen(false)}
-        onCancel={() => setModalOpen(false)}>
+        onCancel={() => setModalOpen(false)}
+        footer={
+          <FooterModal
+            setModalOpen={setModalOpen}
+            isSubmitting={loading}
+            title="Edit Company"
+            handleSubmit={handleSubmit(handleSubmitCompany)}
+          />
+        }
+      >
         <form onSubmit={handleSubmit(handleSubmitCompany)} className="space-y-6">
           {/* Data Account Section */}
           <div className="space-y-4">

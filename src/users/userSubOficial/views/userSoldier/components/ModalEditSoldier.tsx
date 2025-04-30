@@ -16,7 +16,7 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { handleSubmit, control, formState: { errors } } = useForm<FormSoldier>({
-    defaultValues: { ...soldier, password: "TestPass123.", id_soldier: soldier.id_soldier},
+    defaultValues: { ...soldier, password: "TestPass123.", id_soldier: soldier.id_soldier, id_barrack: soldier.id_barrack === null ? 0 : soldier.id_barrack, id_body: soldier.id_body === null ? 0 : soldier.id_body, id_company: soldier.id_company === null ? 0 : soldier.id_company },
     resolver: zodResolver(schemaFormSoldier)
   })
 

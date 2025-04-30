@@ -2,21 +2,15 @@ import { Barrack } from "@/models/Barrack.models";
 import PopoverDelete from "@/shared/components/PopoverDelete";
 import { Checkbox } from "antd";
 import ModalEditBarrack from "./ModalEditBarrack";
-import { useBarrackContext } from "@/context/BarrackContext";
 
 interface TbodyProps {
   barracks: Barrack[] | undefined
   selectedBarracks: number[]
   handleSelect: (id: number) => void
+  handleDeleteBarrack:(id:number) => void
 }
 
-export default function Tbody({ barracks, selectedBarracks, handleSelect }: TbodyProps) {
-  const { fetchBarracks, remove } = useBarrackContext()
-
-  const handleDeleteBarrack = async (id:number) => {
-    await remove([id])
-    fetchBarracks()
-  }
+export default function Tbody({ barracks, selectedBarracks, handleSelect, handleDeleteBarrack }: TbodyProps) {
 
   return (
     <tbody className="bg-white">
