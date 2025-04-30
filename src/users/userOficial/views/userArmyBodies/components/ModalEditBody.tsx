@@ -1,5 +1,7 @@
+import { useArmyBodyContext } from "@/context/ArmyBodyContext";
 import { ArmyBody, FormArmyBody, schemaFormArmyBody } from "@/models/ArmyBody.models";
 import FormInput from "@/shared/components/FormInput";
+import FooterModal from "@/users/userSubOficial/views/userServices/components/FooterModal";
 import { EditOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
@@ -9,13 +11,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function ModalEditBody({ body }: { body: ArmyBody }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const { update, fetchBodies, loading } = useArmyBodyContext()
   const { control, handleSubmit, formState: { errors } } = useForm<FormArmyBody>({
     defaultValues: body,
     resolver: zodResolver(schemaFormArmyBody)
   })
 
-  const handleSubmitbody: SubmitHandler<FormArmyBody> = (data) => {
-    console.log(data)
+  const handleSubmitbody: SubmitHandler<FormArmyBody> = async (data) => {
+    await update({ ...data, id_body: data.id_body ?? 0 })
+    fetchBodies()
   }
 
   return (
@@ -29,8 +33,16 @@ export default function ModalEditBody({ body }: { body: ArmyBody }) {
         title="Edit body"
         centered
         open={modalOpen}
-        onOk={() => setModalOpen(false)}
-        onCancel={() => setModalOpen(false)}>
+        onCancel={() => setModalOpen(false)}
+        footer={
+          <FooterModal
+            setModalOpen={setModalOpen}
+            isSubmitting={loading}
+            title="Edit Body"
+            handleSubmit={handleSubmit(handleSubmitbody)}
+          />
+        }
+      >
         <form onSubmit={handleSubmit(handleSubmitbody)} className="space-y-6">
           {/* Data Account Section */}
           <div className="space-y-4">

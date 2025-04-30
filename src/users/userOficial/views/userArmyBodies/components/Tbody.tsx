@@ -2,16 +2,20 @@ import { ArmyBody } from "@/models/ArmyBody.models";
 import PopoverDelete from "@/shared/components/PopoverDelete";
 import { Checkbox } from "antd";
 import ModalEditBody from "./ModalEditBody";
+import { useArmyBodyContext } from "@/context/ArmyBodyContext";
 
 interface TbodyProps {
   bodies: ArmyBody[] | undefined
   selectedbodies: number[]
-  handleDeleteBody: (id: number) => void
   handleSelect: (id: number) => void
 }
 
-export default function Tbody({ bodies, selectedbodies, handleSelect, handleDeleteBody }: TbodyProps) {
-
+export default function Tbody({ bodies, selectedbodies, handleSelect }: TbodyProps) {
+  const { remove, fetchBodies } = useArmyBodyContext()
+  const handleDeleteBody = async (id: number) => {
+    await remove([id])
+    fetchBodies()
+  }
 
   return (
     <tbody className="bg-white">
@@ -31,7 +35,7 @@ export default function Tbody({ bodies, selectedbodies, handleSelect, handleDele
           <td className="p-4 ">{body.denomination}</td>
           <td className="p-4">
             <div className="flex justify-end gap-2">
-              <ModalEditBody body={body}/>
+              <ModalEditBody body={body} />
               <PopoverDelete title="body" handleDelete={() => handleDeleteBody(body.id_body)}></PopoverDelete>
             </div>
           </td>

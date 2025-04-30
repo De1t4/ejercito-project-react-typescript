@@ -1,47 +1,33 @@
-import { useGlobalContext } from "@/context/globalContext"
-import { ArmyBody } from "@/models/ArmyBody.models"
-import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useEffect, useState } from "react"
-import { getArmyBodiesList } from "../../services/BodyService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
 import { SearchOutlined } from "@ant-design/icons"
 import ModalFormBody from "./components/ModalFormBody"
 import Tbody from "./components/Tbody"
 import Theader from "@/shared/components/Theader"
+import { useArmyBodyContext } from "@/context/ArmyBodyContext"
 
 export default function UserArmyBodies() {
   const [selectedBodies, setSelectedBodies] = useState<number[]>([])
-  const [page, setPage] = useState<number>(0)
-  const [bodies, setBodies] = useState<Pagination<ArmyBody>>()
-  const { authTokens } = useGlobalContext()
-
-
-  const fetchBodiesList = async () => {
-    if (!authTokens) return
-    const res = await getArmyBodiesList(authTokens?.token, page)
-    if (res?.empty && page > 0) {
-      setPage(0)
-      return 
-    }
-    if (res) setBodies(res)
-  }
+  const { fetchBodies, remove, setPage } = useArmyBodyContext()
+  const { bodies, page, pagination } = useArmyBodyContext()
 
   useEffect(() => {
-
-    fetchBodiesList()
+    fetchBodies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleDeletebodies = async () => {
-    console.log(selectedBodies)
+    await remove(selectedBodies)
+    fetchBodies()
+    setSelectedBodies([])
   }
 
   const handleSelectAll = () => {
-    if (selectedBodies.length === bodies?.content.length) {
+    if (selectedBodies.length === bodies.length) {
       setSelectedBodies([])
     } else {
-      setSelectedBodies(bodies?.content.map((bodies) => bodies.id_body) || [])
+      setSelectedBodies(bodies.map((bodies) => bodies.id_body) || [])
     }
   }
 
@@ -60,7 +46,7 @@ export default function UserArmyBodies() {
         <HeaderTable
           handleDelete={handleDeletebodies}
           title="bodies"
-          totalElements={bodies?.totalElements}
+          totalElements={pagination?.totalElements}
           selected={selectedBodies}
         />
       </div>
@@ -89,13 +75,12 @@ export default function UserArmyBodies() {
         <table className="w-full">
           <Theader
             selected={selectedBodies}
-            content={bodies?.content.length}
+            content={bodies.length}
             handleSelectAll={handleSelectAll}
             items={["ID Army Body", "Denomination"]}
           />
           <Tbody
-            handleDeleteBody={handleDeletebodies}
-            bodies={bodies?.content}
+            bodies={bodies}
             selectedbodies={selectedBodies}
             handleSelect={handleSelect}
           />
@@ -103,11 +88,11 @@ export default function UserArmyBodies() {
       </div>
       <PaginationTable
         page={page}
-        first={bodies?.first}
+        first={pagination?.first}
         title={"bodies"}
         setPage={setPage}
-        totalElements={bodies?.totalElements}
-        last={bodies?.last}
+        totalElements={pagination?.totalElements}
+        last={pagination?.last}
       />
     </div>
   )

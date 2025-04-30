@@ -1,40 +1,33 @@
-import { useGlobalContext } from "@/context/globalContext"
-import { Barrack } from "@/models/Barrack.models"
-import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useEffect, useState } from "react"
-import { getBarracksList } from "../../services/BarrackService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import { SearchOutlined } from "@ant-design/icons"
 import PaginationTable from "@/shared/components/PaginationTable"
 import Tbody from "./components/Tbody"
 import ModalFormBarrack from "./components/ModalFormBarrack"
 import Theader from "@/shared/components/Theader"
+import { useBarrackContext } from "@/context/BarrackContext"
 
 export default function UserBarracks() {
+  const { fetchBarracks, remove, setPage } = useBarrackContext()
+  const { barracks, page, pagination } = useBarrackContext()
   const [selectedBarracks, setSelectedBarracks] = useState<number[]>([])
-  const [page, setPage] = useState(0)
-  const [barracks, setBarracks] = useState<Pagination<Barrack>>()
-  const { authTokens } = useGlobalContext()
 
   useEffect(() => {
-    const fetchbarracksList = async () => {
-      if (!authTokens) return
-      const res = await getBarracksList(authTokens?.token, page)
-      if (res) setBarracks(res)
-    }
-    fetchbarracksList()
+    fetchBarracks()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeletebarracks = async () => {
-    console.log(selectedBarracks)
+  const handleDeleteBarracks = async () => {
+    await remove(selectedBarracks)
+    fetchBarracks()
+    setSelectedBarracks([])
   }
 
   const handleSelectAll = () => {
-    if (selectedBarracks.length === barracks?.content.length) {
+    if (selectedBarracks.length === barracks?.length) {
       setSelectedBarracks([])
     } else {
-      setSelectedBarracks(barracks?.content.map((barracks) => barracks.id_barrack) || [])
+      setSelectedBarracks(barracks?.map((barracks) => barracks.id_barrack) || [])
     }
   }
 
@@ -46,14 +39,21 @@ export default function UserBarracks() {
     }
   }
 
+  const handleDeleteBarrack = async (id: number) => {
+    if (selectedBarracks.includes(id)) {
+      setSelectedBarracks(selectedBarracks.filter((idSelect) => idSelect != id))
+    }
+    await remove([id])
+  }
+
 
   return (
     <div className="p-6 ">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
-          handleDelete={handleDeletebarracks}
+          handleDelete={handleDeleteBarracks}
           title="barracks"
-          totalElements={barracks?.totalElements}
+          totalElements={pagination?.totalElements}
           selected={selectedBarracks}
         />
       </div>
@@ -82,25 +82,25 @@ export default function UserBarracks() {
         <table className="w-full">
           <Theader
             selected={selectedBarracks}
-            content={barracks?.content.length}
+            content={barracks?.length}
             handleSelectAll={handleSelectAll}
             items={["ID Barrack", "Name", "Location"]}
           />
           <Tbody
-            handleDeleteBarrack={handleDeletebarracks}
-            barracks={barracks?.content}
+            barracks={barracks}
             selectedBarracks={selectedBarracks}
             handleSelect={handleSelect}
+            handleDeleteBarrack={handleDeleteBarrack}
           />
         </table>
       </div>
       <PaginationTable
         page={page}
-        first={barracks?.first}
+        first={pagination?.first}
         title={"barracks"}
         setPage={setPage}
-        totalElements={barracks?.totalElements}
-        last={barracks?.last}
+        totalElements={pagination?.totalElements}
+        last={pagination?.last}
       />
     </div>
   )

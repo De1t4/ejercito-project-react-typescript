@@ -1,41 +1,33 @@
-import { Company } from "@/models/Company.models"
-import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useEffect, useState } from "react"
-import { getCompaniesList } from "../../services/CompanyService"
-import { useGlobalContext } from "@/context/globalContext"
 import HeaderTable from "@/shared/components/HeaderTable"
 import { SearchOutlined } from "@ant-design/icons"
 import Tbody from "./components/Tbody"
 import PaginationTable from "@/shared/components/PaginationTable"
 import ModalFormCompany from "./components/ModalFormCompany"
 import Theader from "@/shared/components/Theader"
+import { useCompanyContext } from "@/context/CompanyContext"
 
 
 export default function UserCompanies() {
   const [selectedCompanies, setSelectedCompanies] = useState<number[]>([])
-  const [page, setPage] = useState(0)
-  const [companies, setCompanies] = useState<Pagination<Company>>()
-  const { authTokens } = useGlobalContext()
+  const { fetchCompanies, remove, setPage } = useCompanyContext()
+  const { companies, page, pagination } = useCompanyContext()
 
   useEffect(() => {
-    const fetchCompaniesList = async () => {
-      if (!authTokens) return
-      const res = await getCompaniesList(authTokens?.token, page)
-      if (res) setCompanies(res)
-    }
-    fetchCompaniesList()
+    fetchCompanies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleDeleteCompanies = async () => {
-    console.log(selectedCompanies)
+    remove(selectedCompanies)
+    fetchCompanies()
   }
 
   const handleSelectAll = () => {
-    if (selectedCompanies.length === companies?.content.length) {
+    if (selectedCompanies.length === companies.length) {
       setSelectedCompanies([])
     } else {
-      setSelectedCompanies(companies?.content.map((companies) => companies.id_company) || [])
+      setSelectedCompanies(companies.map((companies) => companies.id_company) || [])
     }
   }
 
@@ -53,7 +45,7 @@ export default function UserCompanies() {
         <HeaderTable
           handleDelete={handleDeleteCompanies}
           title="Companies"
-          totalElements={companies?.totalElements}
+          totalElements={pagination?.totalElements}
           selected={selectedCompanies}
         />
       </div>
@@ -82,13 +74,12 @@ export default function UserCompanies() {
         <table className="w-full">
           <Theader
             selected={selectedCompanies}
-            content={companies?.content.length}
+            content={companies.length}
             handleSelectAll={handleSelectAll}
             items={["ID Company", "Activity"]}
           />
           <Tbody
-            handleDeleteCompany={handleDeleteCompanies}
-            companies={companies?.content}
+            companies={companies}
             selectedCompanies={selectedCompanies}
             handleSelect={handleSelect}
           />
@@ -96,11 +87,11 @@ export default function UserCompanies() {
       </div>
       <PaginationTable
         page={page}
-        first={companies?.first}
+        first={pagination?.first}
         title={"companies"}
         setPage={setPage}
-        totalElements={companies?.totalElements}
-        last={companies?.last}
+        totalElements={pagination?.totalElements}
+        last={pagination?.last}
       />
     </div>
   )

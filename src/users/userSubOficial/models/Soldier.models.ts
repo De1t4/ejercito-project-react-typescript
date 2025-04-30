@@ -14,7 +14,7 @@ export interface Soldier {
   id_company: number
   company: string
   id_body: number
-  army_body: string
+  army_body: string 
 }
 
 export const schemaFormSoldier = z.object({

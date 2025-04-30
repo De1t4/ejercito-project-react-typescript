@@ -6,12 +6,11 @@ import ModalEditBarrack from "./ModalEditBarrack";
 interface TbodyProps {
   barracks: Barrack[] | undefined
   selectedBarracks: number[]
-  handleDeleteBarrack: (id: number) => void
   handleSelect: (id: number) => void
+  handleDeleteBarrack:(id:number) => void
 }
 
 export default function Tbody({ barracks, selectedBarracks, handleSelect, handleDeleteBarrack }: TbodyProps) {
-
 
   return (
     <tbody className="bg-white">
@@ -30,10 +29,9 @@ export default function Tbody({ barracks, selectedBarracks, handleSelect, handle
           <td className="p-4 font-medium">{barrack.id_barrack}</td>
           <td className="p-4 ">{barrack.name}</td>
           <td className="p-4 ">{barrack.location}</td>
-
           <td className="p-4">
             <div className="flex justify-end gap-2">
-              <ModalEditBarrack barrack={barrack}/>
+              <ModalEditBarrack barrack={barrack} />
               <PopoverDelete title="barrack" handleDelete={() => handleDeleteBarrack(barrack.id_barrack)}></PopoverDelete>
             </div>
           </td>
