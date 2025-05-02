@@ -1,48 +1,45 @@
-import { useGlobalContext } from "@/context/globalContext"
 import { useEffect, useState } from "react"
-import { getSubOfficialsList } from "../../services/SubOficialService"
-import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
-import { SubOficial } from "../../models/SubOficial.models"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
 import { SearchOutlined } from "@ant-design/icons"
-import { initialStateStructure, Structure } from "@/users/userSubOficial/models/Soldier.models"
-import { getStructureMilitary } from "@/users/userSubOficial/services/AdminService"
 import Tbody from "./components/Tbody"
 import Theader from "@/shared/components/Theader"
+import { useSubOficialContext } from "@/context/SubOficialContext"
+import ModalFormSubOficial from "./components/ModalFormSubOficial"
+import { initialStateStructure, Structure } from "@/users/userSubOficial/models/Soldier.models"
+import { getStructureMilitary } from "@/users/userSubOficial/services/AdminService"
+import { useGlobalContext } from "@/context/globalContext"
 
 export default function UserSubOficials() {
-  const [selectedSubOficial, setSelectedSubOficial] = useState<number[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_strucuture, setStructure] = useState<Structure>(initialStateStructure)
-  const [page, setPage] = useState(0)
-  const [subOficial, setsubOficial] = useState<Pagination<SubOficial>>()
   const { authTokens } = useGlobalContext()
+  const [selectedSubOficial, setSelectedSubOficial] = useState<number[]>([])
+  const { page, fetchSubOficials, setPage, remove, subOficial, pagination } = useSubOficialContext()
+  const [structure, setStructure] = useState<Structure>(initialStateStructure)
 
-  const fetchSubOficialList = async () => {
-    if (!authTokens) return
-    const res = await getSubOfficialsList(authTokens?.token, page)
-    const resStructure = await getStructureMilitary(authTokens.token)
-
-    if (res) setsubOficial(res)
-    if (resStructure) setStructure(resStructure)
-  }
 
   useEffect(() => {
-
-    fetchSubOficialList()
+    const fetchStructureData = async () => {
+      if (!authTokens) return
+      const res = await getStructureMilitary(authTokens?.token)
+      if (res) setStructure(res)
+    }
+    fetchSubOficials()
+    fetchStructureData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeletesubOficial = async () => {
-    console.log(selectedSubOficial)
+  const handleDeleteSubOficial = async (id: number) => {
+    await remove([id])
+    if (selectedSubOficial.includes(id)) {
+      setSelectedSubOficial(selectedSubOficial.filter((i) => i != id))
+    }
   }
 
   const handleSelectAll = () => {
-    if (selectedSubOficial.length === subOficial?.content.length) {
+    if (selectedSubOficial.length === subOficial?.length) {
       setSelectedSubOficial([])
     } else {
-      setSelectedSubOficial(subOficial?.content.map((subOficial) => subOficial.id_user) || [])
+      setSelectedSubOficial(subOficial?.map((subOficial) => subOficial.id_user) || [])
     }
   }
 
@@ -54,26 +51,33 @@ export default function UserSubOficials() {
     }
   }
 
+  const handleDeleteSubOficials = async () => {
+    await remove(selectedSubOficial)
+    fetchSubOficials()
+    setSelectedSubOficial([])
+  }
+
   return (
     <div className="p-6 ">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
-          handleDelete={handleDeletesubOficial}
+          handleDelete={handleDeleteSubOficials}
           title="Sub Oficial"
-          totalElements={subOficial?.totalElements}
+          totalElements={pagination?.totalElements}
           selected={selectedSubOficial}
         />
       </div>
       <div className="p-4 bg-gray-50 border-b border-gray-100">
-        <div className="flex flex-col sm:flex-row gap-3 justify-between">
-          <div className="flex gap-3">
-            <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-md:flex flex gap-1">
+        <div className="flex  max-lg:flex-col  gap-3 justify-between">
+          <ModalFormSubOficial structure={structure} />
+          <div className="flex gap-3 ">
+            <form onSubmit={(e) => e.preventDefault()} className="relative w-full  max-lg:flex flex gap-1">
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
-                aria-label="Search subOficial"
-                placeholder="Search subOficial..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
+                aria-label="Search Sub Oficial"
+                placeholder="Search Sub Oficial..."
+                className="pl-10 pr-4  py-2 border  border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full"
               // value={searchQuery}
               // onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -88,25 +92,25 @@ export default function UserSubOficials() {
         <table className="w-full">
           <Theader
             selected={selectedSubOficial}
-            content={subOficial?.content.length}
+            content={subOficial.length}
             handleSelectAll={handleSelectAll}
             items={["ID User", "Username", "Soldier"]}
           />
           <Tbody
             selectedsubOficials={selectedSubOficial}
-            handleDeleteSubOficial={handleDeletesubOficial}
-            subOficials={subOficial?.content}
-            handleSelect={handleSelect}   
+            handleDeleteSubOficial={handleDeleteSubOficial}
+            subOficials={subOficial}
+            handleSelect={handleSelect}
           />
         </table>
       </div>
       <PaginationTable
         page={page}
-        first={subOficial?.first}
+        first={pagination?.first}
         title={"Sub Oficial"}
         setPage={setPage}
-        totalElements={subOficial?.totalElements}
-        last={subOficial?.last}
+        totalElements={pagination?.totalElements}
+        last={pagination?.last}
       />
     </div>
   )
