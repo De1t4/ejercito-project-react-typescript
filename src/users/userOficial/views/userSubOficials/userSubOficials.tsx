@@ -28,6 +28,14 @@ export default function UserSubOficials() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
+  
+  const handleDeleteSubOficials = async () => {
+    await remove(selectedSubOficial)
+    fetchSubOficials()
+    setSelectedSubOficial([])
+  }
+
+
   const handleDeleteSubOficial = async (id: number) => {
     await remove([id])
     if (selectedSubOficial.includes(id)) {
@@ -49,12 +57,6 @@ export default function UserSubOficials() {
     } else {
       setSelectedSubOficial([...selectedSubOficial, id])
     }
-  }
-
-  const handleDeleteSubOficials = async () => {
-    await remove(selectedSubOficial)
-    fetchSubOficials()
-    setSelectedSubOficial([])
   }
 
   return (

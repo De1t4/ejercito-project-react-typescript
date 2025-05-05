@@ -2,20 +2,15 @@ import { Company } from "@/models/Company.models";
 import PopoverDelete from "@/shared/components/PopoverDelete";
 import { Checkbox } from "antd";
 import ModalEditCompany from "./ModalEditCompany";
-import { useCompanyContext } from "@/context/CompanyContext";
 
 interface TbodyProps {
   companies: Company[] | undefined
   selectedCompanies: number[]
   handleSelect: (id: number) => void
+  handleDeleteCompany: (id:number) => void
 }
 
-export default function Tbody({ companies, selectedCompanies, handleSelect }: TbodyProps) {
-  const { fetchCompanies, remove } = useCompanyContext()
-  const handleDeleteCompany = async (id:number) =>{
-    await remove([id])
-    fetchCompanies()
-  }
+export default function Tbody({ companies, selectedCompanies, handleSelect, handleDeleteCompany }: TbodyProps) {
 
   return (
     <tbody className="bg-white">

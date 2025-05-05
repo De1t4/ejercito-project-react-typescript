@@ -9,12 +9,12 @@ import { LogoutOutlined } from "@ant-design/icons";
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const { logout } = useGlobalContext()
   const [collapsed, setCollapsed] = useState(true);
-  const [openSidebar, setOpenSidebar] = useState(false)
-
+  const [openSidebar, setOpenSidebar] = useState(true)
 
   useEffect(() => {
     const handleResize = () => {
       setOpenSidebar(window.innerWidth >= 768);
+      setCollapsed(window.innerWidth >= 768)
     };
 
     handleResize(); // inicial

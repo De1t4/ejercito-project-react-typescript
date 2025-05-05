@@ -22,7 +22,6 @@ export const TableSoldier = () => {
   const fetchSoldierList = async () => {
     if (!authTokens) return
     const resSoldier = await getSoldierList(authTokens.token, searchQuery, page)
-    // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
     if (resSoldier?.empty && page > 0) {
       setPage(0)
       return // Cortamos, y el useEffect con [page] se vuelve a disparar
@@ -57,8 +56,18 @@ export const TableSoldier = () => {
   const handleDeleteSoldiers = async () => {
     if (!authTokens) return
     await deleteSoldierById(authTokens.token, selectedSoldiers)
-    alert("El soldado fue eliminado")
+    alert("The soldier was eliminated")
     setSelectedSoldiers([])
+    fetchSoldierList()
+  }
+
+  const handleDeleteSoldier = async (id: number) => {
+    if (!authTokens) return
+    await deleteSoldierById(authTokens.token, [id])
+    if (selectedSoldiers.includes(id)) {
+      setSelectedSoldiers(selectedSoldiers.filter((soldierID) => soldierID !== id))
+    }
+    alert("The soldier was eliminated")
     fetchSoldierList()
   }
 
@@ -105,6 +114,7 @@ export const TableSoldier = () => {
               content={soldiers?.content.length}
             />
             <Tbody
+              handleDeleteSoldier={handleDeleteSoldier}
               structure={structure}
               reloadTable={fetchSoldierList}
               selectedSoldiers={selectedSoldiers}

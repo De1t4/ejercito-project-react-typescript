@@ -2,8 +2,6 @@ import { AssignedServices, Service } from "@/users/userSubOficial/models/Service
 import { DeleteOutlined } from "@ant-design/icons"
 import { Checkbox, Popover, Tooltip } from "antd"
 import ModalEditService from "../ModalEditService"
-import { useGlobalContext } from "@/context/globalContext"
-import { deleteAssignedService } from "@/users/userSubOficial/services/AssignedService"
 
 interface TbodyProps {
   assignedServices: AssignedServices[] | undefined
@@ -11,16 +9,11 @@ interface TbodyProps {
   services: Service[]
   handleSelect: (id: number) => void
   reloadTable: () => void
+  deleteAssignedServiceId: (id:number) => void
 }
 
-export default function Tbody({ assignedServices, services, selectedServices, handleSelect, reloadTable }: TbodyProps) {
-  const { authTokens } = useGlobalContext()
+export default function Tbody({ assignedServices, services, selectedServices, handleSelect, reloadTable, deleteAssignedServiceId }: TbodyProps) {
 
-  const deleteAssignedServiceId = async (id: number) => {
-    if (!authTokens) return
-    await deleteAssignedService(authTokens.token, [id])
-    reloadTable()
-  }
 
   const contentPopover = (id_service: number) => {
     return (

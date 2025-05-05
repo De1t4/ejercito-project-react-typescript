@@ -40,10 +40,10 @@ export default function UserBarracks() {
   }
 
   const handleDeleteBarrack = async (id: number) => {
+    await remove([id])
     if (selectedBarracks.includes(id)) {
       setSelectedBarracks(selectedBarracks.filter((idSelect) => idSelect != id))
     }
-    await remove([id])
   }
 
 
