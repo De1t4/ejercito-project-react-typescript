@@ -4,8 +4,6 @@ import { Popover, Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
 import { Link } from "react-router-dom";
 import ModalEditSoldier from "../ModalEditSoldier";
-import { useGlobalContext } from "@/context/globalContext";
-import { deleteSoldierById } from "@/users/userSubOficial/services/SoldierService";
 
 interface TbodyProps {
   soldiers: Soldier[] | undefined
@@ -13,17 +11,10 @@ interface TbodyProps {
   selectedSoldiers: number[]
   reloadTable: () => void
   handleSelect: (id: number) => void
+  handleDeleteSoldier: (id:number) => void
 }
 
-export default function Tbody({ soldiers, reloadTable, selectedSoldiers, structure, handleSelect }: TbodyProps) {
-  const { authTokens } = useGlobalContext()
-  const handleDeleteSoldier = async (id: number) => {
-    if (!authTokens) return
-    await deleteSoldierById(authTokens.token, [id])
-    alert("El soldado fue eliminado")
-    reloadTable()
-  }
-
+export default function Tbody({ soldiers, reloadTable, handleDeleteSoldier, selectedSoldiers, structure, handleSelect }: TbodyProps) {
   const contentPopover = (id_user: number) => {
     return (
       <>

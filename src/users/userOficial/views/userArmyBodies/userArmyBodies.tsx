@@ -19,8 +19,8 @@ export default function UserArmyBodies() {
 
   const handleDeletebodies = async () => {
     await remove(selectedBodies)
-    fetchBodies()
     setSelectedBodies([])
+    fetchBodies()
   }
 
   const handleSelectAll = () => {
@@ -36,6 +36,13 @@ export default function UserArmyBodies() {
       setSelectedBodies(selectedBodies.filter((idSelect) => idSelect != id) || [])
     } else {
       setSelectedBodies([...selectedBodies, id])
+    }
+  }
+
+  const handleDeleteBody = async (id: number) => {
+    await remove([id])
+    if (selectedBodies.includes(id)) {
+      setSelectedBodies(selectedBodies.filter((idSelect) => idSelect != id))
     }
   }
 
@@ -80,6 +87,7 @@ export default function UserArmyBodies() {
             items={["ID Army Body", "Denomination"]}
           />
           <Tbody
+            handleDeleteBody={handleDeleteBody}
             bodies={bodies}
             selectedbodies={selectedBodies}
             handleSelect={handleSelect}

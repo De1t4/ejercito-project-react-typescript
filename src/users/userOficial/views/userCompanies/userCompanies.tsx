@@ -19,7 +19,8 @@ export default function UserCompanies() {
   }, [page])
 
   const handleDeleteCompanies = async () => {
-    remove(selectedCompanies)
+    await remove(selectedCompanies)
+    setSelectedCompanies([])
     fetchCompanies()
   }
 
@@ -37,6 +38,14 @@ export default function UserCompanies() {
     } else {
       setSelectedCompanies([...selectedCompanies, id])
     }
+  }
+
+  const handleDeleteCompany = async (id: number) => {
+    await remove([id])
+    if (selectedCompanies.includes(id)) {
+      setSelectedCompanies(selectedCompanies.filter((idSelect) => idSelect != id))
+    }
+
   }
 
   return (
@@ -79,6 +88,7 @@ export default function UserCompanies() {
             items={["ID Company", "Activity"]}
           />
           <Tbody
+            handleDeleteCompany={handleDeleteCompany}
             companies={companies}
             selectedCompanies={selectedCompanies}
             handleSelect={handleSelect}

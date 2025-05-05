@@ -11,10 +11,11 @@ interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>
   disabled?: boolean
+  maxLength?: number
 }
 
 
-const FormInput = ({ disabled = false, label, type, id, placeholder, name, control, error }: InputProps) => {
+const FormInput = ({maxLength = 100, disabled = false, label, type, id, placeholder, name, control, error }: InputProps) => {
   return (
     <div className="w-full h-auto ">
       <label className="label-initial" htmlFor={name}>
@@ -25,7 +26,7 @@ const FormInput = ({ disabled = false, label, type, id, placeholder, name, contr
           <input
             type={type}
             {...field}
-            maxLength={100}
+            maxLength={maxLength}
             disabled={disabled}
             id={id}
             placeholder={placeholder}

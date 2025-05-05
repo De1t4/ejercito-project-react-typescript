@@ -69,6 +69,16 @@ export default function TableServices() {
     }
   }
 
+
+  const deleteAssignedServiceId = async (id: number) => {
+    if (!authTokens) return
+    await deleteAssignedService(authTokens.token, [id])
+    if (selectedServices.includes(id)) {
+      setSelectedServices(selectedServices.filter((serviceId) => serviceId !== id))
+    }
+    fetchAssignedServicesList()
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Header */}
@@ -113,6 +123,7 @@ export default function TableServices() {
             content={assignedServices?.content.length}
           />
           <Tbody
+            deleteAssignedServiceId={deleteAssignedServiceId}
             reloadTable={fetchAssignedServicesList}
             services={services}
             assignedServices={assignedServices?.content}
