@@ -25,7 +25,7 @@ export const schemaFormSoldier = z.object({
     .regex(/[a-z]/, "The password must include at least one lowercase letter")
     .regex(/\d/, "The password must include at least one number"),
   name: z.string().min(1, "Name is required"),
-  lastname: z.string().min(1, "Lastaname is required"),
+  lastname: z.string().min(1, "Lastname is required"),
   graduation: z.string().optional(),
   id_company: z.number().min(1, "Company is required").or(z.string().min(1, "Company is required")),
   id_barrack: z.number().min(1, "Barrack is required").or(z.string().min(1, "Barrack is required")),

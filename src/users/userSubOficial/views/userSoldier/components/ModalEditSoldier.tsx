@@ -24,11 +24,14 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
     try {
       if (!authTokens) return
       setIsSubmitting(true)
-      await updateProfileUser(authTokens.token, data)
+      const res = await updateProfileUser(authTokens.token, data)
+      if(res === "BAD_REQUEST"){
+        alert("The username entered already exists")
+        return
+      }
       reloadTable()
     } catch (err) {
       console.error("Error edit profile soldier" + err)
-
     } finally {
       setIsSubmitting(false)
     }
@@ -45,7 +48,6 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
         title="Edit Soldier"
         centered
         open={modalOpen}
-        onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
         footer={
           <>
@@ -75,12 +77,11 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
             </div>
           </>
         }
-
       >
         <form onSubmit={handleSubmit(onSubmitEdit)} className="flex flex-col gap-2">
           <div className="space-y-6">
             <h3 className="text-md font-semibold text-gray-700 pb-1 border-b border-gray-100">Account Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="">
               <FormInput
                 type="text"
                 label="Username"

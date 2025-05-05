@@ -1,15 +1,18 @@
 import PopoverDelete from "@/shared/components/PopoverDelete";
 import { Checkbox } from "antd";
 import { SubOficial } from "@/users/userOficial/models/SubOficial.models";
+import ModalEditSubOficial from "./ModalEditSubOficial";
+import { Structure } from "@/users/userSubOficial/models/Soldier.models";
 
 interface TbodyProps {
   subOficials: SubOficial[] | undefined
   selectedsubOficials: number[]
   handleDeleteSubOficial: (id: number) => void
   handleSelect: (id: number) => void
+  structure:Structure
 }
 
-export default function Tbody({ subOficials, selectedsubOficials, handleSelect, handleDeleteSubOficial }: TbodyProps) {
+export default function Tbody({structure, subOficials, selectedsubOficials, handleSelect, handleDeleteSubOficial }: TbodyProps) {
 
 
   return (
@@ -30,14 +33,14 @@ export default function Tbody({ subOficials, selectedsubOficials, handleSelect, 
           <td className="p-4 ">{SubOficial.username}</td>
           <td className="p-4">
             {
-              SubOficial.soldier != null ?(<>
+              SubOficial.soldier != null ? (<>
                 {SubOficial.soldier.name} {SubOficial.soldier.lastname}
-              </>) :"N/A"
+              </>) : "N/A"
             }
           </td>
-
           <td className="p-4">
             <div className="flex justify-end gap-2">
+              <ModalEditSubOficial subOficial={SubOficial} structure={structure}/>
               <PopoverDelete title="Sub Oficial" handleDelete={() => handleDeleteSubOficial(SubOficial.id_user)}></PopoverDelete>
             </div>
           </td>

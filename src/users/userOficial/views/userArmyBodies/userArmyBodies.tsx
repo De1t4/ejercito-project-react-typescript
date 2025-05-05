@@ -41,11 +41,11 @@ export default function UserArmyBodies() {
 
 
   return (
-    <div className="p-6 ">
+    <div className=" ">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
           handleDelete={handleDeletebodies}
-          title="bodies"
+          title="Bodies"
           totalElements={pagination?.totalElements}
           selected={selectedBodies}
         />

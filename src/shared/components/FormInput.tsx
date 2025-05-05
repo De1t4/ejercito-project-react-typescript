@@ -10,10 +10,11 @@ interface InputProps {
   error: string | undefined
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>
+  disabled?: boolean
 }
 
 
-const FormInput = ({ label, type, id, placeholder, name, control, error }: InputProps) => {
+const FormInput = ({ disabled = false, label, type, id, placeholder, name, control, error }: InputProps) => {
   return (
     <div className="w-full h-auto ">
       <label className="label-initial" htmlFor={name}>
@@ -25,9 +26,10 @@ const FormInput = ({ label, type, id, placeholder, name, control, error }: Input
             type={type}
             {...field}
             maxLength={100}
+            disabled={disabled}
             id={id}
             placeholder={placeholder}
-            className={`focus:outline-none ${error? "input-login-error" : "input-login "}`}  
+            className={`focus:outline-none  ${error ? "input-login-error" : "input-login "}`}
           />
         )}
       />

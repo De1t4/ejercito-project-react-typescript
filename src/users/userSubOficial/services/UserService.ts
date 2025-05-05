@@ -1,3 +1,4 @@
+import { ResponseError } from "@/models/authModels"
 import { ProfileProps } from "@/users/userSoldier/models/Profile"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
@@ -12,11 +13,18 @@ export const getUserProfile = async (token: string, id: number) => {
       },
     })
     if (!res.ok) {
-      throw new Error("Error finishing users")
+      const data:ResponseError = await res.json()
+      if(data.httpStatus === "NOT_FOUND"){
+        return data.httpStatus;
+      }
+      if(data.httpStatus === "BAD_REQUEST"){
+        return data.httpStatus
+      }
+      throw new Error("Error fetching data users")
     }
     const data: ProfileProps = await res.json()
     return data
   } catch (err) {
-    console.error("Error finishing users", err)
+    console.error("Error fetching data users", err)
   }
 }
