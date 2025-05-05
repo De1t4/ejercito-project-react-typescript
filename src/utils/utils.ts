@@ -23,6 +23,16 @@ export const getDaysDifferenceFromToday = (dateString: string): string => {
   return diffInDays + " days"
 }
 
+export const getDays = (date: string) => {
+  const today = new Date()
+  const inputDate = new Date(date)
+
+  const timeDifference = today.getTime() - inputDate.getTime();
+  const diffInDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+
+  return diffInDays
+}
+
 export const urlParams = (search: string, page: number, size: number) => {
   const params = new URLSearchParams()
 
@@ -63,7 +73,7 @@ export const mapServicesToOptions = (services: Service[]): OptionsProps[] =>
 interface MultipleOptionsProps {
   value: string
   desc: string
-  label:string
+  label: string
 }
 
 export const mapSoldiersToOptions = (soldiers: Soldier[]): MultipleOptionsProps[] =>

@@ -42,7 +42,10 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const update = async (payload: FormEditSubOfficial) => {
     if (!authTokens) return
     setLoading(true)
-    await updateSubOficial(authTokens.token, payload)
+    const res = await updateSubOficial(authTokens.token, payload)
+    if(res == "BAD_REQUEST"){
+      alert("The username entered already exists")
+    }
     setLoading(false)
   }
 

@@ -79,6 +79,10 @@ export const updateSubOficial = async (token: string, payload: FormEditSubOffici
       body: JSON.stringify(payload)
     })
     if (!res.ok) {
+      const data:ResponseError = await res.json()
+      if(data.httpStatus === "BAD_REQUEST"){
+        return data.httpStatus;
+      }
       throw new Error("Error edit sub-official")
     }
     alert("Sub oficial edit success")

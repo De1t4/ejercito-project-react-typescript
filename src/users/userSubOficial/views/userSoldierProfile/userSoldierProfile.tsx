@@ -2,27 +2,35 @@ import { useGlobalContext } from "@/context/globalContext"
 import { initialStateProfile, ProfileProps } from "@/users/userSoldier/models/Profile"
 import Structure from "@/users/userSoldier/views/userProfile/components/ProfileStructure"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { getUserProfile } from "../../services/UserService"
 import Profile from "@/users/userSoldier/views/userProfile/components/ProfileCard"
 import TabServices from "@/users/userSoldier/components/Tab/TabServices"
 
-type typeScreen = 'primary' | 'secondary'
 
 export default function UserSoldierProfile() {
   const [profile, setProfile] = useState<ProfileProps>(initialStateProfile)
   const { id } = useParams()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setScreen] = useState<typeScreen>('primary')
   const { authTokens } = useGlobalContext()
-
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchDataUserById = async () => {
       if (!authTokens) return
       if (!id) return
       const res = await getUserProfile(authTokens.token, Number(id));
+      if (res == "NOT_FOUND") {
+        alert("The user was not found")
+        navigate("/soldiers")
+        return
+      }
+      if (res == "BAD_REQUEST") {
+        alert("The parameter in sent is incorrect")
+        navigate("/soldiers")
+        return
+      }
       if (res) setProfile(res)
+
     }
 
     fetchDataUserById()
@@ -40,7 +48,7 @@ export default function UserSoldierProfile() {
           armyBody={profile?.soldier?.body}
         />
         <TabServices
-          handleScreenView={(view) => setScreen(view)}
+          handleScreenView={(view) => view}
           profileSoldier={profile}
         />
       </div>

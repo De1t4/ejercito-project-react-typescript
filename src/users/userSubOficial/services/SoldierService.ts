@@ -1,7 +1,6 @@
 import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
 
-
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
 export const getSoldiers = async (token: string) => {
@@ -75,13 +74,19 @@ export const updateProfileUser = async (token: string, soldierData: FormSoldier)
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(soldierData)
+      body: JSON.stringify(soldierData)
     })
     if (!res.ok) {
-      throw new Error("Error finishing edit profile soldier")
+      const data: ResponseError = await res.json()
+      if (data.httpStatus === "BAD_REQUEST") {
+        return data.httpStatus;
+      }
+      throw new Error("Error edit profile soldier")
     }
     alert("Profile soldier success edit")
+
+    return
   } catch (err) {
-    console.error("Error finishing edit profile soldier", err)
+    console.error("Error edit profile soldier", err)
   }
 }
