@@ -97,6 +97,7 @@ export default function UserSubOficials() {
             items={["ID User", "Username", "Soldier"]}
           />
           <Tbody
+            structure={structure}
             selectedsubOficials={selectedSubOficial}
             handleDeleteSubOficial={handleDeleteSubOficial}
             subOficials={subOficial}

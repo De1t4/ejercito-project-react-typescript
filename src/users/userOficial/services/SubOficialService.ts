@@ -1,5 +1,5 @@
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
-import { FormSubOficial, SubOficial } from "../models/SubOficial.models"
+import { FormEditSubOfficial, FormSubOficial, SubOficial } from "../models/SubOficial.models"
 import { ResponseError } from "@/models/authModels"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
@@ -64,5 +64,25 @@ export const deleteSubOficial = async (token: string, payload: number[]) => {
 
   } catch (err) {
     console.error("Error delete sub-official", err)
+  }
+}
+
+
+export const updateSubOficial = async (token: string, payload: FormEditSubOfficial) => {
+  try {
+    const res = await fetch(`${API_URL}/v1/sub-official`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      throw new Error("Error edit sub-official")
+    }
+    alert("Sub oficial edit success")
+  } catch (err) {
+    console.error("Error edit sub-official", err)
   }
 }

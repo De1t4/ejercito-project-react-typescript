@@ -49,7 +49,12 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                                 <span>{label}</span>
                               </Link>
                             ))}
+                            <div onClick={logout} key={"logout"} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer `}>
+                              <span ><LogoutOutlined /></span>
+                              <span>Log Out</span>
+                            </div>
                           </nav>
+
                         </div>
                       </aside>
                     </>

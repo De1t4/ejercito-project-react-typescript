@@ -52,13 +52,27 @@ export const schemaFormSubOficial = z.object({
 export type FormSubOficial = z.infer<typeof schemaFormSubOficial>;
 
 
-export const initalStateFormSubOficial:FormSubOficial ={
-  username:"",
-  lastname:"",
-  name:"",
-  password:"",
-  isDesignateSoldier:false,
-  id_barrack:0,
-  id_body:0,
-  id_company:0
+export const initalStateFormSubOficial: FormSubOficial = {
+  username: "",
+  lastname: "",
+  name: "",
+  password: "",
+  isDesignateSoldier: false,
+  id_barrack: 0,
+  id_body: 0,
+  id_company: 0
+}
+
+export interface FormEditSubOfficial {
+  id_user: number
+  username: string
+  soldier: SoldierSubOfficial | null
+}
+interface SoldierSubOfficial {
+  name?: string
+  lastname?: string
+  graduation?: string
+  id_barrack?: string | number
+  id_body?: string | number
+  id_company?: string | number
 }

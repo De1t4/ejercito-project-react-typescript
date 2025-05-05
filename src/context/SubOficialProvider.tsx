@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { SubOficialContext } from "./SubOficialContext"
-import { FormSubOficial, SubOficial } from "@/users/userOficial/models/SubOficial.models"
+import { FormEditSubOfficial, FormSubOficial, SubOficial } from "@/users/userOficial/models/SubOficial.models"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useGlobalContext } from "./globalContext"
-import { createSubOficial, deleteSubOficial, getSubOfficialsList } from "@/users/userOficial/services/SubOficialService"
+import { createSubOficial, deleteSubOficial, getSubOfficialsList, updateSubOficial } from "@/users/userOficial/services/SubOficialService"
 
 
 export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -39,6 +39,13 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setLoading(false)
   }
 
+  const update = async (payload: FormEditSubOfficial) => {
+    if (!authTokens) return
+    setLoading(true)
+    await updateSubOficial(authTokens.token, payload)
+    setLoading(false)
+  }
+
 
   return (
     <SubOficialContext.Provider
@@ -50,7 +57,8 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         pagination,
         fetchSubOficials,
         create,
-        remove
+        remove,
+        update
       }}
     >
       {children}

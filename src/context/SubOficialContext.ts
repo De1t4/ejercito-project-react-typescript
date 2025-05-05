@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
-import { FormSubOficial, SubOficial } from "@/users/userOficial/models/SubOficial.models"
+import { FormEditSubOfficial, FormSubOficial, SubOficial } from "@/users/userOficial/models/SubOficial.models"
 
 interface SubOficialContextType {
   subOficial: SubOficial[]
@@ -11,6 +11,7 @@ interface SubOficialContextType {
   fetchSubOficials: () => void
   create: (payload: Omit<FormSubOficial, 'id_user'>) => Promise<void>
   remove: (payload: number[]) => Promise<void>
+  update: (payload: FormEditSubOfficial) => Promise<void>
 }
 
 export const SubOficialContext = createContext<SubOficialContextType | undefined>(undefined)

@@ -20,7 +20,6 @@ export default function ModalFormSubOficial({ structure }: { structure: Structur
     resolver: zodResolver(schemaFormSubOficial)
   })
 
-  const watchIsDesigned = watch('isDesignateSoldier')
   const handleSubmitSubOficial: SubmitHandler<FormSubOficial> = async (data) => {
     const basePayload = {
       username: data.username,
@@ -48,6 +47,8 @@ export default function ModalFormSubOficial({ structure }: { structure: Structur
     fetchSubOficials()
     reset()
   }
+
+  const watchIsDesigned = watch('isDesignateSoldier')
 
   return (
     <>
