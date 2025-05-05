@@ -16,7 +16,6 @@ export default function Profile({ profileSoldier }: { profileSoldier: ProfilePro
         <div className="flex flex-col gap-1 mt-4 max-md:text-sm">
           <h5 className=" font-medium text-lg">About Me</h5>
           <p><span className="font-medium">Username</span>: {profileSoldier?.username ? profileSoldier.username : "N/A"}</p>
-          {/* <p className=" text-clip whitespace-nowrap"><span className="font-medium">Password</span>: {profileSoldier?.password ? profileSoldier?.password.slice(1, 30) : "N/A"}</p> */}
           <p><span className="font-medium">Graduation</span>: {profileSoldier?.soldier?.graduation ? profileSoldier.soldier.graduation : "N/A"}</p>
           <p><span className="font-medium">Id Soldier</span>: N° {profileSoldier?.id_user}</p>
         </div>

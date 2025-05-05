@@ -30,9 +30,7 @@ export default function UserSoldierProfile() {
         return
       }
       if (res) setProfile(res)
-
     }
-
     fetchDataUserById()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
@@ -40,7 +38,7 @@ export default function UserSoldierProfile() {
 
   return (
     <>
-      <div className="transition-all ease-in-out duration-300 grid max-lg:grid-cols-2 max-lg:grid-rows-4 grid-cols-3 grid-rows-2 max-md:w-full w-[78rem] max-xl:w-full max-xl:gap-5 m-auto gap-10 max-md:grid-cols-1 max-md:grid-rows-2 max-md:gap-y-10 max-md:gap-x-0">
+      <div className="transition-all ease-in-out duration-300 grid max-lg:grid-cols-2 max-lg:grid-rows-4 grid-cols-3 grid-rows-2 max-md:w-full  max-xl:w-full max-xl:gap-5 m-auto gap-10 max-md:grid-cols-1 max-md:grid-rows-2 max-md:gap-y-10 max-md:gap-x-0">
         <Profile profileSoldier={profile} />
         <Structure
           company={profile?.soldier?.company}
