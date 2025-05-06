@@ -68,7 +68,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                       {
                         collapsed ?
                           (<>{itemsSubOficial.map(({ label, icon, href }) => (
-                            <Link to={href} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
+                            <Link to={href} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
                               <span className={`${collapsed && 'text-xl'}`}>{icon}</span>
                               {!collapsed && <span>{label}</span>}
                             </Link>
@@ -82,8 +82,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             <>
                               {
                                 itemsOficial.map(({ label, icon, href }) => (
-                                  <Link to={href} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
-                                    <span className={`${collapsed && 'text-xl'}`}>{icon}</span>
+                                  <Link to={href} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
+                                    <span className={`${collapsed && 'text-xl'} text-base`}>{icon}</span>
                                     {!collapsed && <span>{label}</span>}
                                   </Link>
                                 ))

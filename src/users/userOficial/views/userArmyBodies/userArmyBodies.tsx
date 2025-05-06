@@ -66,6 +66,7 @@ export default function UserArmyBodies() {
               <input
                 type="text"
                 aria-label="Search bodies"
+                id="input-search"
                 placeholder="Search bodies..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
               // value={searchQuery}

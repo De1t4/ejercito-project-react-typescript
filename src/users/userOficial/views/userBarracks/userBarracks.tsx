@@ -65,6 +65,7 @@ export default function UserBarracks() {
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
+                id="input-search"
                 aria-label="Search barracks"
                 placeholder="Search barracks..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"

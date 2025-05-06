@@ -7,7 +7,7 @@ interface TbodyProps {
   companies: Company[] | undefined
   selectedCompanies: number[]
   handleSelect: (id: number) => void
-  handleDeleteCompany: (id:number) => void
+  handleDeleteCompany: (id: number) => void
 }
 
 export default function Tbody({ companies, selectedCompanies, handleSelect, handleDeleteCompany }: TbodyProps) {
@@ -22,6 +22,7 @@ export default function Tbody({ companies, selectedCompanies, handleSelect, hand
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${company.id_company}`}
               checked={selectedCompanies.includes(company.id_company)}
               onChange={() => handleSelect(company.id_company)}
             />
@@ -30,7 +31,7 @@ export default function Tbody({ companies, selectedCompanies, handleSelect, hand
           <td className="p-4 ">{company.activity}</td>
           <td className="p-4">
             <div className="flex justify-end gap-2">
-              <ModalEditCompany company={company}/>
+              <ModalEditCompany company={company} />
               <PopoverDelete title="company" handleDelete={() => handleDeleteCompany(company.id_company)}></PopoverDelete>
             </div>
           </td>

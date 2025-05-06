@@ -12,6 +12,7 @@ interface InputProps {
   control: Control<any>
   disabled?: boolean
   maxLength?: number
+  
 }
 
 
@@ -27,6 +28,7 @@ const FormInput = ({maxLength = 100, disabled = false, label, type, id, placehol
             type={type}
             {...field}
             maxLength={maxLength}
+            name={name}
             disabled={disabled}
             id={id}
             placeholder={placeholder}

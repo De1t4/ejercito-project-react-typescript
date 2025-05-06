@@ -9,7 +9,7 @@ interface TbodyProps {
   services: Service[]
   handleSelect: (id: number) => void
   reloadTable: () => void
-  deleteAssignedServiceId: (id:number) => void
+  deleteAssignedServiceId: (id: number) => void
 }
 
 export default function Tbody({ assignedServices, services, selectedServices, handleSelect, reloadTable, deleteAssignedServiceId }: TbodyProps) {
@@ -50,6 +50,7 @@ export default function Tbody({ assignedServices, services, selectedServices, ha
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${service.id_services_soldiers}`}
               checked={selectedServices.includes(service.id_services_soldiers)}
               onChange={() => handleSelect(service.id_services_soldiers)}
             />

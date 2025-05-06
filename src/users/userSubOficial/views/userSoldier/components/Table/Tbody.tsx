@@ -39,6 +39,7 @@ export default function Tbody({ soldiers, reloadTable, handleDeleteSoldier, sele
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${soldier.id_user}`}
               checked={selectedSoldiers.includes(soldier.id_user)}
               onChange={() => handleSelect(soldier.id_user)}
             />

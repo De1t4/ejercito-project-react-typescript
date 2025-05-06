@@ -7,7 +7,7 @@ interface TbodyProps {
   barracks: Barrack[] | undefined
   selectedBarracks: number[]
   handleSelect: (id: number) => void
-  handleDeleteBarrack:(id:number) => void
+  handleDeleteBarrack: (id: number) => void
 }
 
 export default function Tbody({ barracks, selectedBarracks, handleSelect, handleDeleteBarrack }: TbodyProps) {
@@ -22,6 +22,7 @@ export default function Tbody({ barracks, selectedBarracks, handleSelect, handle
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${barrack.id_barrack}`}
               checked={selectedBarracks.includes(barrack.id_barrack)}
               onChange={() => handleSelect(barrack.id_barrack)}
             />
