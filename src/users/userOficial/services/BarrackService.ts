@@ -1,11 +1,12 @@
 import { Barrack } from "@/models/Barrack.models"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
+import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getBarracksList = async (token: string, page: number, size: number = 10) => {
+export const getBarracksList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/barracks?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/barracks?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +23,7 @@ export const getBarracksList = async (token: string, page: number, size: number 
   }
 }
 
-export const createBarrack = async (token: string, payload:Omit<Barrack, 'id_barrack'>) => {
+export const createBarrack = async (token: string, payload: Omit<Barrack, 'id_barrack'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/barracks`, {
       method: "POST",
@@ -30,19 +31,19 @@ export const createBarrack = async (token: string, payload:Omit<Barrack, 'id_bar
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error create Barrack")
     }
-    const data:Barrack = await res.json()
+    const data: Barrack = await res.json()
     return data
   } catch (err) {
     console.error("Error create Barrack", err)
   }
 }
 
-export const updateBarrack = async (token: string, payload:Barrack) => {
+export const updateBarrack = async (token: string, payload: Barrack) => {
   try {
     const res = await fetch(`${API_URL}/v1/barracks`, {
       method: "PUT",
@@ -50,19 +51,19 @@ export const updateBarrack = async (token: string, payload:Barrack) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error edit Barrack")
     }
-    const data:Barrack = await res.json()
+    const data: Barrack = await res.json()
     return data
   } catch (err) {
     console.error("Error edit Barrack", err)
   }
 }
 
-export const deleteBarrack = async (token: string, payload:number[]) => {
+export const deleteBarrack = async (token: string, payload: number[]) => {
   try {
     const res = await fetch(`${API_URL}/v1/barracks/delete`, {
       method: "DELETE",
@@ -70,7 +71,7 @@ export const deleteBarrack = async (token: string, payload:number[]) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error deleted Barrack")

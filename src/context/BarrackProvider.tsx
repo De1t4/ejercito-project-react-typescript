@@ -12,10 +12,10 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchBarracks = async () => {
+  const fetchBarracks = async (search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getBarracksList(authTokens.token, page)
+    const data = await getBarracksList(authTokens.token, search, page)
     if (data) {
       setBarracks(data.content)
       setPagination(data)

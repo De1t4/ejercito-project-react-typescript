@@ -9,7 +9,7 @@ interface TbodyProps {
   services: Service[]
   handleSelect: (id: number) => void
   reloadTable: () => void
-  deleteAssignedServiceId: (id:number) => void
+  deleteAssignedServiceId: (id: number) => void
 }
 
 export default function Tbody({ assignedServices, services, selectedServices, handleSelect, reloadTable, deleteAssignedServiceId }: TbodyProps) {
@@ -33,23 +33,13 @@ export default function Tbody({ assignedServices, services, selectedServices, ha
     <tbody>
       {assignedServices?.map((service) => (
         <tr
-          onClick={(e) => {
-            const target = e.target as HTMLElement
-            // Evita clics en cualquier contenido que no sea espacio vacío
-            if (target.tagName === "TD" && target.childNodes.length === 1 && target.childNodes[0].nodeType === Node.TEXT_NODE) {
-              handleSelect(service.id_services_soldiers)
-            }
-            // O permitir solo si el clic fue directamente en el <tr> (espacio sin contenido)
-            if (target === e.currentTarget) {
-              handleSelect(service.id_services_soldiers)
-            }
-          }}
           key={service.id_services_soldiers}
           className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedServices.includes(service.id_services_soldiers) ? "bg-blue-50" : ""
             }`}
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${service.id_services_soldiers}`}
               checked={selectedServices.includes(service.id_services_soldiers)}
               onChange={() => handleSelect(service.id_services_soldiers)}
             />

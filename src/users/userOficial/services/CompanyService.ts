@@ -1,11 +1,12 @@
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { Company } from "../../../models/Company.models"
+import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getCompaniesList = async (token: string, page: number, size: number = 10) => {
+export const getCompaniesList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/companies?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/companies?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ export const createCompany = async (token: string, payload: Omit<Company, 'id_co
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error create company")
@@ -41,7 +42,7 @@ export const createCompany = async (token: string, payload: Omit<Company, 'id_co
   }
 }
 
-export const updateCompany = async (token: string, payload:Company) => {
+export const updateCompany = async (token: string, payload: Company) => {
   try {
     const res = await fetch(`${API_URL}/v1/companies`, {
       method: "PUT",
@@ -49,19 +50,19 @@ export const updateCompany = async (token: string, payload:Company) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error edit company")
     }
-    const data:Company = await res.json()
+    const data: Company = await res.json()
     return data
   } catch (err) {
     console.error("Error edit company", err)
   }
 }
 
-export const deleteCompany = async (token: string, payload:number[]) => {
+export const deleteCompany = async (token: string, payload: number[]) => {
   try {
     const res = await fetch(`${API_URL}/v1/companies/delete`, {
       method: "DELETE",
@@ -69,7 +70,7 @@ export const deleteCompany = async (token: string, payload:number[]) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error deleted company")

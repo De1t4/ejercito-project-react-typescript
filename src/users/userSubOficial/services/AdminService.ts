@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_BACK_END_URL
 
 export const getSoldierList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?${urlParams(search, page, size)}`, {
+    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

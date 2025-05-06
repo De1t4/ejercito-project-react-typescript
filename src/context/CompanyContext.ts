@@ -8,7 +8,7 @@ interface CompanyContextType {
   pagination: Omit<Pagination<Company>, 'content'> | null
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
-  fetchCompanies: () => void
+  fetchCompanies: (search?: string) => void
   create: (payload: Omit<Company, 'id_company'>) => Promise<void>
   update: (payload: Company) => Promise<void>
   remove: (ids: number[]) => Promise<void>

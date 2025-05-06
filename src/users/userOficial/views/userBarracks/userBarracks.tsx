@@ -11,6 +11,7 @@ export default function UserBarracks() {
   const { fetchBarracks, remove, setPage } = useBarrackContext()
   const { barracks, page, pagination } = useBarrackContext()
   const [selectedBarracks, setSelectedBarracks] = useState<number[]>([])
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     fetchBarracks()
@@ -65,13 +66,14 @@ export default function UserBarracks() {
               <SearchOutlined className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
+                id="input-search"
                 aria-label="Search barracks"
                 placeholder="Search barracks..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
-              // value={searchQuery}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchBarracks(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

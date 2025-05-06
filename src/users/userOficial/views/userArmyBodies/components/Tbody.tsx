@@ -23,6 +23,7 @@ export default function Tbody({ bodies, selectedbodies, handleSelect, handleDele
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${body.id_body}`}
               checked={selectedbodies.includes(body.id_body)}
               onChange={() => handleSelect(body.id_body)}
             />

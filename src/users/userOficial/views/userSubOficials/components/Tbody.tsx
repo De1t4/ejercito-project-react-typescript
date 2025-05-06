@@ -9,10 +9,10 @@ interface TbodyProps {
   selectedsubOficials: number[]
   handleDeleteSubOficial: (id: number) => void
   handleSelect: (id: number) => void
-  structure:Structure
+  structure: Structure
 }
 
-export default function Tbody({structure, subOficials, selectedsubOficials, handleSelect, handleDeleteSubOficial }: TbodyProps) {
+export default function Tbody({ structure, subOficials, selectedsubOficials, handleSelect, handleDeleteSubOficial }: TbodyProps) {
 
 
   return (
@@ -25,6 +25,7 @@ export default function Tbody({structure, subOficials, selectedsubOficials, hand
         >
           <td className="p-3">
             <Checkbox
+              id={`checkbox-${SubOficial.id_user}`}
               checked={selectedsubOficials.includes(SubOficial.id_user)}
               onChange={() => handleSelect(SubOficial.id_user)}
             />
@@ -40,7 +41,7 @@ export default function Tbody({structure, subOficials, selectedsubOficials, hand
           </td>
           <td className="p-4">
             <div className="flex justify-end gap-2">
-              <ModalEditSubOficial subOficial={SubOficial} structure={structure}/>
+              <ModalEditSubOficial subOficial={SubOficial} structure={structure} />
               <PopoverDelete title="Sub Oficial" handleDelete={() => handleDeleteSubOficial(SubOficial.id_user)}></PopoverDelete>
             </div>
           </td>

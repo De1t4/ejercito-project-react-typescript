@@ -125,7 +125,7 @@ export default function ModalFormSoldier({ reloadTable, structure, title = "sold
                 <label className="label-initial" htmlFor={"graduation"}>
                   Enter graduation {title}
                 </label>
-                <DatePicker format="YYYY-MM-DD" name="graduation" className="input-login" onChange={(_date, dateString) => setValue('graduation', typeof dateString === 'string' ? dateString : undefined)} />
+                <DatePicker format="YYYY-MM-DD" id="graduation" name="graduation" className="input-login" onChange={(_date, dateString) => setValue('graduation', typeof dateString === 'string' ? dateString : undefined)} />
               </div>
             </div>
           </div>

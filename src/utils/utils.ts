@@ -82,3 +82,8 @@ export const mapSoldiersToOptions = (soldiers: Soldier[]): MultipleOptionsProps[
     desc: b.name.concat(" " + b.lastname),
     label: b.name.concat(" " + b.lastname)
   }));
+
+
+export function replacePlusForSpace(texto: string) {
+  return texto.replace(/\+/g, ' ');
+}

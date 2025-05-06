@@ -11,6 +11,7 @@ export default function UserArmyBodies() {
   const [selectedBodies, setSelectedBodies] = useState<number[]>([])
   const { fetchBodies, remove, setPage } = useArmyBodyContext()
   const { bodies, page, pagination } = useArmyBodyContext()
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     fetchBodies()
@@ -66,12 +67,13 @@ export default function UserArmyBodies() {
               <input
                 type="text"
                 aria-label="Search bodies"
+                id="input-search"
                 placeholder="Search bodies..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
-              // value={searchQuery}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchBodies(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

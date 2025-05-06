@@ -14,6 +14,7 @@ export default function Theader({ selected, content, handleSelectAll, items }: T
         <th className="p-3 w-12">
           <Checkbox
             checked={selected.length === content && content > 0}
+            id="checkbox-header"
             onChange={handleSelectAll} />
         </th>
         {

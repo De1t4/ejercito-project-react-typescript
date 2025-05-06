@@ -1,12 +1,13 @@
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { FormEditSubOfficial, FormSubOficial, SubOficial } from "../models/SubOficial.models"
 import { ResponseError } from "@/models/authModels"
+import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSubOfficialsList = async (token: string, page: number, size: number = 10) => {
+export const getSubOfficialsList = async (token: string, search: string , page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/sub-official?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/sub-official?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -34,10 +35,10 @@ export const createSubOficial = async (token: string, payload: FormSubOficial) =
       body: JSON.stringify(payload)
     })
     if (!res.ok) {
-      const errorResponse:ResponseError = await res.json()
+      const errorResponse: ResponseError = await res.json()
       if (errorResponse.httpStatus === "BAD_REQUEST") {
         alert("The user entered already exists")
-        throw("The user entered already exists")
+        throw ("The user entered already exists")
       }
     }
     const data: SubOficial = await res.json()
@@ -79,8 +80,8 @@ export const updateSubOficial = async (token: string, payload: FormEditSubOffici
       body: JSON.stringify(payload)
     })
     if (!res.ok) {
-      const data:ResponseError = await res.json()
-      if(data.httpStatus === "BAD_REQUEST"){
+      const data: ResponseError = await res.json()
+      if (data.httpStatus === "BAD_REQUEST") {
         return data.httpStatus;
       }
       throw new Error("Error edit sub-official")
