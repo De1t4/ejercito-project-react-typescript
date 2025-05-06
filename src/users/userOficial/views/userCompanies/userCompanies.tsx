@@ -12,6 +12,7 @@ export default function UserCompanies() {
   const [selectedCompanies, setSelectedCompanies] = useState<number[]>([])
   const { fetchCompanies, remove, setPage } = useCompanyContext()
   const { companies, page, pagination } = useCompanyContext()
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     fetchCompanies()
@@ -70,10 +71,10 @@ export default function UserCompanies() {
                 aria-label="Search companies"
                 placeholder="Search companies..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
-              // value={searchQuery}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchCompanies(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

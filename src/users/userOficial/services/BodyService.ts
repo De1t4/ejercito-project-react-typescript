@@ -1,11 +1,12 @@
 import { ArmyBody } from "@/models/ArmyBody.models"
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
+import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getArmyBodiesList = async (token: string, page: number, size: number = 10) => {
+export const getArmyBodiesList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/bodies?page=${page}&size=${size}`, {
+    const res = await fetch(`${API_URL}/v1/bodies?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +23,7 @@ export const getArmyBodiesList = async (token: string, page: number, size: numbe
   }
 }
 
-export const createBody = async (token: string, payload:Omit<ArmyBody, 'id_body'>) => {
+export const createBody = async (token: string, payload: Omit<ArmyBody, 'id_body'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/bodies`, {
       method: "POST",
@@ -30,7 +31,7 @@ export const createBody = async (token: string, payload:Omit<ArmyBody, 'id_body'
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error create Body")
@@ -41,7 +42,7 @@ export const createBody = async (token: string, payload:Omit<ArmyBody, 'id_body'
   }
 }
 
-export const updateBody = async (token: string, payload:Omit<ArmyBody, 'id_body'>) => {
+export const updateBody = async (token: string, payload: Omit<ArmyBody, 'id_body'>) => {
   try {
     const res = await fetch(`${API_URL}/v1/bodies`, {
       method: "PUT",
@@ -49,19 +50,19 @@ export const updateBody = async (token: string, payload:Omit<ArmyBody, 'id_body'
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error edit Body")
     }
-    const data:ArmyBody = await res.json()
+    const data: ArmyBody = await res.json()
     return data
   } catch (err) {
     console.error("Error edit Body", err)
   }
 }
 
-export const deleteBody = async (token: string, payload:number[]) => {
+export const deleteBody = async (token: string, payload: number[]) => {
   try {
     const res = await fetch(`${API_URL}/v1/bodies/delete`, {
       method: "DELETE",
@@ -69,7 +70,7 @@ export const deleteBody = async (token: string, payload:number[]) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(payload)
+      body: JSON.stringify(payload)
     })
     if (!res.ok) {
       throw new Error("Error deleted Body")

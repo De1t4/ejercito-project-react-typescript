@@ -15,6 +15,7 @@ export default function UserSubOficials() {
   const [selectedSubOficial, setSelectedSubOficial] = useState<number[]>([])
   const { page, fetchSubOficials, setPage, remove, subOficial, pagination } = useSubOficialContext()
   const [structure, setStructure] = useState<Structure>(initialStateStructure)
+  const [searchQuery, setSearchQuery] = useState("")
 
 
   useEffect(() => {
@@ -23,15 +24,16 @@ export default function UserSubOficials() {
       const res = await getStructureMilitary(authTokens?.token)
       if (res) setStructure(res)
     }
-    fetchSubOficials()
     fetchStructureData()
+    fetchSubOficials(searchQuery)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  
+
   const handleDeleteSubOficials = async () => {
     await remove(selectedSubOficial)
-    fetchSubOficials()
+    fetchSubOficials("")
     setSelectedSubOficial([])
   }
 
@@ -79,10 +81,12 @@ export default function UserSubOficials() {
                 type="text"
                 aria-label="Search Sub Oficial"
                 placeholder="Search Sub Oficial..."
+                name="search-input"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
                 className="pl-10 pr-4  py-2 border  border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full"
-                name="input-search"
               />
-              <button className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchSubOficials(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

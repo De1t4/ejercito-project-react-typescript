@@ -8,7 +8,7 @@ interface SubOficialContextType {
   pagination: Omit<Pagination<SubOficial>, 'content'> | null
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
-  fetchSubOficials: () => void
+  fetchSubOficials: (search?:string) => void
   create: (payload: Omit<FormSubOficial, 'id_user'>) => Promise<void>
   remove: (payload: number[]) => Promise<void>
   update: (payload: FormEditSubOfficial) => Promise<void>

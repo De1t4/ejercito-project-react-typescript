@@ -13,10 +13,10 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchSubOficials = async () => {
+  const fetchSubOficials = async (search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getSubOfficialsList(authTokens.token, page)
+    const data = await getSubOfficialsList(authTokens.token, search, page)
     if (data) {
       setSubOficials(data.content)
       setPagination(data)
@@ -43,7 +43,7 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (!authTokens) return
     setLoading(true)
     const res = await updateSubOficial(authTokens.token, payload)
-    if(res == "BAD_REQUEST"){
+    if (res == "BAD_REQUEST") {
       alert("The username entered already exists")
     }
     setLoading(false)

@@ -12,10 +12,10 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchCompanies = async () => {
+  const fetchCompanies = async (search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getCompaniesList(authTokens.token, page)
+    const data = await getCompaniesList(authTokens.token, search, page)
     if (data) {
       setCompanies(data.content)
       setPagination(data)
