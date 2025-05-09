@@ -24,7 +24,7 @@ export default function TabServices({ profileSoldier, handleScreenView }: TabSer
 
   return (
     <section className="grid relative col-span-2 pt-16 max-md:px-6 max-lg:col-span-3 h-80 max-md:h-full bg-beige-clear-color px-10 py-5 rounded-lg shadow-lg border border-gray-color">
-      <TabButtons onTabChange={setStatusTab} />
+      <TabButtons statusTab={statusTab} onTabChange={setStatusTab} />
       <TabContent handleFinishService={finishService} unfinished={profileSoldier?.services?.unfinished.slice(0, 2)} completed={profileSoldier?.services?.completed.slice(0, 2)} statusTab={statusTab} />
       {
         profile.role === SOLDIER && (

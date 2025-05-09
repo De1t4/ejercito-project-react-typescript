@@ -34,7 +34,7 @@ const SecondaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'p
           </div>
         </div>
         <section className=" relative pt-14 ">
-          <TabButtons onTabChange={setStatusTab} />
+          <TabButtons statusTab={statusTab} onTabChange={setStatusTab} />
           <TabContent
             handleFinishService={finishService}
             unfinished={profile.services?.unfinished}
