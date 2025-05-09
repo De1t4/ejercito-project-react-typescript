@@ -6,6 +6,7 @@ import { optionsRole } from "@/shared/constants/Roles";
 import { FormRegister, intiialStateRegister, schemanRegister } from "@/shared/models/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
@@ -19,7 +20,7 @@ const RegisterForm = () => {
     const res = await registerService(data)
     if (!res) navigate("/login")
     if (res === 'BAD_REQUEST') {
-      alert("EL USUARIO YA EXISTE")
+      toast.error("The user entered already exists")
     }
   }
 
