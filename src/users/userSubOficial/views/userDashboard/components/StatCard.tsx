@@ -1,6 +1,8 @@
-export function StatCard({ title, value }: { title: string; value: number }) {
+import { Link } from "react-router-dom";
+
+export function StatCard({ title, value, href }: { title: string; value: number, href: string }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+    <Link to={href} className="bg-white hover:bg-white/40 cursor-pointer transition-all duration-300 rounded-xl shadow-sm overflow-hidden border border-gray-100">
       <div className={`h-2 bg-gray-700`}></div>
       <div className="p-5">
         <div className="flex justify-between items-start">
@@ -10,6 +12,6 @@ export function StatCard({ title, value }: { title: string; value: number }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

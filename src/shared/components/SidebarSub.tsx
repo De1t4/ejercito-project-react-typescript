@@ -13,6 +13,7 @@ export default function SidebarSub({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     const handleResize = () => {
       setOpenSidebar(window.innerWidth >= 768);
+      setCollapsed(window.innerWidth >= 768)
     };
 
     handleResize(); // inicial
@@ -47,6 +48,10 @@ export default function SidebarSub({ children }: { children: React.ReactNode }) 
                                 <span>{label}</span>
                               </Link>
                             ))}
+                            <div onClick={logout} key={"logout"} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer w-full `}>
+                              <span className={` text-xl}`} ><LogoutOutlined /></span>
+                              <span>Log Out</span>
+                            </div>
                           </nav>
                         </div>
                       </aside>

@@ -11,6 +11,7 @@ export interface RecentService {
   name: string
   description: string
   days: string
+  id_user: number
 }
 
 export const initialStateDashboard: DashboardData = {
