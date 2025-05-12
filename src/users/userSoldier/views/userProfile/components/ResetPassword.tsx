@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function ResetPassword() {
   const [modal1Open, setModal1Open] = useState<boolean>(false);
@@ -19,9 +20,10 @@ export default function ResetPassword() {
     if (!authTokens) return
     const res = await modifyPasswordUser(data, authTokens.token)
     if (res === 'BAD_REQUEST') {
-      alert('La contraseña es incorrecta')
+      toast.error('The password is incorrect')
       return
     }
+    toast.success("Password changed successfully.")
     reset(initialStatePassword)
   }
 

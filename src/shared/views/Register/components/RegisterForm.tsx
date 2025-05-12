@@ -20,7 +20,7 @@ const RegisterForm = () => {
     const res = await registerService(data)
     if (!res) navigate("/login")
     if (res === 'BAD_REQUEST') {
-      toast.error("The user entered already exists")
+      toast("The username already exists.", {icon:"🚧"})
     }
   }
 

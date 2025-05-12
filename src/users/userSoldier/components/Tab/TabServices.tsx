@@ -6,6 +6,7 @@ import { TabButtons } from "./TabButtons";
 import TabContent from "./TabContent";
 import { SOLDIER } from "@/shared/constants/Roles";
 import { ProfileProps } from "../../models/Profile";
+import toast from "react-hot-toast";
 
 interface TabServicesProps {
   profileSoldier: ProfileProps
@@ -19,6 +20,7 @@ export default function TabServices({ profileSoldier, handleScreenView }: TabSer
   const finishService = async (id: number) => {
     if (authTokens?.token === undefined) return
     await handleFinishService([id], authTokens?.token)
+    toast.success("Service was terminated successfully.")
     reloadProfile()
   }
 
