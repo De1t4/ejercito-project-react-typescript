@@ -6,6 +6,7 @@ import PaginationTable from "@/shared/components/PaginationTable"
 import ModalFormCompany from "./components/ModalFormCompany"
 import Theader from "@/shared/components/Theader"
 import { useCompanyContext } from "@/context/CompanyContext"
+import toast from "react-hot-toast"
 
 
 export default function UserCompanies() {
@@ -22,6 +23,7 @@ export default function UserCompanies() {
   const handleDeleteCompanies = async () => {
     await remove(selectedCompanies)
     setSelectedCompanies([])
+    toast.success("Companies were deleted.")
     fetchCompanies()
   }
 
@@ -46,7 +48,7 @@ export default function UserCompanies() {
     if (selectedCompanies.includes(id)) {
       setSelectedCompanies(selectedCompanies.filter((idSelect) => idSelect != id))
     }
-
+    toast.success(`Company with ID ${id} was deleted.`)
   }
 
   return (

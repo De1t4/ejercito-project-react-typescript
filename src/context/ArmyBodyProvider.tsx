@@ -4,6 +4,7 @@ import { useGlobalContext } from "./globalContext"
 import { ArmyBodyContext } from "./ArmyBodyContext"
 import { ArmyBody } from "@/models/ArmyBody.models"
 import { createBody, deleteBody, getArmyBodiesList, updateBody } from "@/users/userOficial/services/BodyService"
+import toast from "react-hot-toast"
 
 export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [bodies, setBodies] = useState<ArmyBody[]>([])
@@ -17,6 +18,15 @@ export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLoading(true)
     const data = await getArmyBodiesList(authTokens.token, search, page)
     if (data) {
+      if (data.empty) {
+        const newData = await getArmyBodiesList(authTokens.token, search, 0)
+        if (newData) {
+          setBodies(newData.content)
+          setPagination(newData)
+          setLoading(false)
+          return
+        }
+      }
       setBodies(data.content)
       setPagination(data)
     }
@@ -27,6 +37,7 @@ export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!authTokens) return
     setLoading(true)
     await createBody(authTokens.token, payload)
+    toast.success("Army body created successfully.")
     setLoading(false)
   }
 
@@ -39,6 +50,7 @@ export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         prev.map(b => (b.id_body === payload.id_body ? loadArmyBody : b))
       )
     }
+    toast.success("Army body updated successfully.")
     setLoading(false)
   }
 

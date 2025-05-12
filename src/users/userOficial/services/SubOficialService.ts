@@ -5,7 +5,7 @@ import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSubOfficialsList = async (token: string, search: string , page: number, size: number = 10) => {
+export const getSubOfficialsList = async (token: string, search: string, page: number, size: number = 10) => {
   try {
     const res = await fetch(`${API_URL}/v1/sub-official?${urlParams(search.trim(), page, size).toString()}`, {
       method: "GET",
@@ -37,12 +37,11 @@ export const createSubOficial = async (token: string, payload: FormSubOficial) =
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json()
       if (errorResponse.httpStatus === "BAD_REQUEST") {
-        alert("The user entered already exists")
-        throw ("The user entered already exists")
+        return errorResponse.httpStatus;
       }
+      throw new Error("Error update sub official")
     }
     const data: SubOficial = await res.json()
-    alert("Success create sub oficial")
     return data
   } catch (err) {
     console.error("Error create sub-official", err)
