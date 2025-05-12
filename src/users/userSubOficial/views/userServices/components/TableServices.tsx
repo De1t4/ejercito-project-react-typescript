@@ -12,6 +12,7 @@ import { getServices } from "@/users/userSoldier/services/AssignmetsService"
 import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
 import Theader from "@/shared/components/Theader"
+import toast from "react-hot-toast"
 
 export default function TableServices() {
   const [assignedServices, setAssignedServices] = useState<Pagination<AssignedServices>>()
@@ -28,11 +29,9 @@ export default function TableServices() {
     // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
     if (res?.empty && page > 0) {
       setPage(0)
-      return // Cortamos, y el useEffect con [page] se vuelve a disparar
+      return
     }
-    // Si no está vacío, seteamos normalmente
     if (res) setAssignedServices(res)
-    // Estas pueden ir en paralelo
     const [resSoldiers, resServices] = await Promise.all([
       getSoldiers(authTokens.token),
       getServices(authTokens.token)
@@ -49,6 +48,7 @@ export default function TableServices() {
   const handleDeleteServices = async () => {
     if (!authTokens) return
     await deleteAssignedService(authTokens.token, selectedServices)
+    toast.success("Selected services were deleted.")
     fetchAssignedServicesList()
     setSelectedServices([])
   }
@@ -76,6 +76,7 @@ export default function TableServices() {
     if (selectedServices.includes(id)) {
       setSelectedServices(selectedServices.filter((serviceId) => serviceId !== id))
     }
+    toast.success(`Service with ID ${id} was deleted.`)
     fetchAssignedServicesList()
   }
 

@@ -26,7 +26,6 @@ export default function ModalFormSoldier({ reloadTable, structure, title = "Sold
       setIsSubmitting(true)
       const res = await createSoldier(authTokens.token, data)
       if (res) {
-        alert("creado")
         reset(initialStateFormSoldier)
         reloadTable()
       }

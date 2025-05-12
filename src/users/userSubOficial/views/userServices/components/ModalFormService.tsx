@@ -11,6 +11,7 @@ import { Modal, Select, Space } from "antd";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import FooterModal from "./FooterModal";
+import toast from "react-hot-toast";
 
 export default function ModalFormService({ services, soldiers, reloadTable }: { services: Service[], soldiers: Soldier[], reloadTable: () => void }) {
   const { authTokens } = useGlobalContext()
@@ -32,7 +33,7 @@ export default function ModalFormService({ services, soldiers, reloadTable }: { 
       } else {
         await assignedServiceSoldier(authTokens.token, data)
       }
-      alert("Assigned services success")
+      toast.success("Service created successfully.")
       reloadTable()
       reset()
     } catch (err) {

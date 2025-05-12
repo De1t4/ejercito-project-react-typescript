@@ -1,5 +1,6 @@
 import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
+import toast from "react-hot-toast"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
@@ -37,11 +38,12 @@ export const createSoldier = async (token: string, soldierData: FormSoldier) => 
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
       if (errorResponse.httpStatus === "BAD_REQUEST") {
-        alert("The user " + soldierData.username + "has already been registered")
+        toast.error("The user " + soldierData.username + " has already been registered", { icon: "🚧" })
         throw ("The user " + soldierData.username + "has already been registered")
       }
       throw new Error("Error create soldier")
     }
+    toast.success("Soldier created successfully.")
     return "success"
   } catch (err) {
     console.error("Error create soldier", err)
@@ -79,11 +81,12 @@ export const updateProfileUser = async (token: string, soldierData: FormSoldier)
     if (!res.ok) {
       const data: ResponseError = await res.json()
       if (data.httpStatus === "BAD_REQUEST") {
+        toast.error("The user " + soldierData.username + " has already been registered", { icon: "🚧" })
         return data.httpStatus;
       }
       throw new Error("Error edit profile soldier")
     }
-    alert("Profile soldier success edit")
+    toast.success("Soldier updated successfully.")
 
     return
   } catch (err) {

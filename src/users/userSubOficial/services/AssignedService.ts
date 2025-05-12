@@ -1,6 +1,7 @@
 import { urlParams } from "@/utils/utils"
 import { Pagination } from "../models/Pagination.models"
 import { AssignedServices, FormService } from "../models/Services.models"
+import toast from "react-hot-toast"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
@@ -81,12 +82,11 @@ export const updateAssignedServiceSoldier = async (token: string, id_services_so
       body: JSON.stringify(payload)
     })
     if (!res.ok) {
-      alert("Error update service")
+      toast.error("An error occurred. Please try again.")
       throw new Error("Error update assigned services")
     }
-    alert("Service edit success")
+    toast.success("Service updated successfully.")
     return "SUCCESS"
-
   } catch (err) {
     console.error("Error update assigned services", err)
   }
@@ -105,7 +105,6 @@ export const deleteAssignedService = async (token: string, payload: number[]) =>
     if (!res.ok) {
       throw new Error("Error delete assigned services")
     }
-    alert("Delete services asigned")
     return "SUCCESS"
   } catch (err) {
     console.error("Error delete assigned services", err)

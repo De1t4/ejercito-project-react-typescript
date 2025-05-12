@@ -25,10 +25,7 @@ export default function ModalEditSoldier({ soldier, structure, reloadTable }: { 
       if (!authTokens) return
       setIsSubmitting(true)
       const res = await updateProfileUser(authTokens.token, data)
-      if(res === "BAD_REQUEST"){
-        alert("The username entered already exists")
-        return
-      }
+      if (res === "BAD_REQUEST") return
       reloadTable()
     } catch (err) {
       console.error("Error edit profile soldier" + err)
