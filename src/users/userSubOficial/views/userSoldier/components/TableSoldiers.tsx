@@ -10,6 +10,7 @@ import { deleteSoldierById } from '@/users/userSubOficial/services/SoldierServic
 import HeaderTable from '@/shared/components/HeaderTable';
 import PaginationTable from '@/shared/components/PaginationTable';
 import Theader from '@/shared/components/Theader';
+import toast from 'react-hot-toast';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
@@ -24,7 +25,7 @@ export const TableSoldier = () => {
     const resSoldier = await getSoldierList(authTokens.token, searchQuery, page)
     if (resSoldier?.empty && page > 0) {
       setPage(0)
-      return // Cortamos, y el useEffect con [page] se vuelve a disparar
+      return 
     }
     if (resSoldier) setSoldiers(resSoldier)
     const resStructure = await getStructureMilitary(authTokens.token)
@@ -56,7 +57,7 @@ export const TableSoldier = () => {
   const handleDeleteSoldiers = async () => {
     if (!authTokens) return
     await deleteSoldierById(authTokens.token, selectedSoldiers)
-    alert("The soldier was eliminated")
+    toast.success("Selected soldiers were deleted.")
     setSelectedSoldiers([])
     fetchSoldierList()
   }
@@ -64,10 +65,10 @@ export const TableSoldier = () => {
   const handleDeleteSoldier = async (id: number) => {
     if (!authTokens) return
     await deleteSoldierById(authTokens.token, [id])
+    toast.success(`Soldier with ID ${id} was deleted.`)
     if (selectedSoldiers.includes(id)) {
       setSelectedSoldiers(selectedSoldiers.filter((soldierID) => soldierID !== id))
     }
-    alert("The soldier was eliminated")
     fetchSoldierList()
   }
 

@@ -6,6 +6,7 @@ import ModalFormBody from "./components/ModalFormBody"
 import Tbody from "./components/Tbody"
 import Theader from "@/shared/components/Theader"
 import { useArmyBodyContext } from "@/context/ArmyBodyContext"
+import toast from "react-hot-toast"
 
 export default function UserArmyBodies() {
   const [selectedBodies, setSelectedBodies] = useState<number[]>([])
@@ -18,11 +19,6 @@ export default function UserArmyBodies() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const handleDeletebodies = async () => {
-    await remove(selectedBodies)
-    setSelectedBodies([])
-    fetchBodies()
-  }
 
   const handleSelectAll = () => {
     if (selectedBodies.length === bodies.length) {
@@ -40,11 +36,20 @@ export default function UserArmyBodies() {
     }
   }
 
+  const handleDeleteBodies = async () => {
+    await remove(selectedBodies)
+    toast.success("Army bodies were deleted.")
+    setSelectedBodies([])
+    fetchBodies()
+  }
+
+
   const handleDeleteBody = async (id: number) => {
     await remove([id])
     if (selectedBodies.includes(id)) {
       setSelectedBodies(selectedBodies.filter((idSelect) => idSelect != id))
     }
+    toast.success(`Army body with ID ${id} was deleted.`)
   }
 
 
@@ -52,7 +57,7 @@ export default function UserArmyBodies() {
     <div className=" ">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <HeaderTable
-          handleDelete={handleDeletebodies}
+          handleDelete={handleDeleteBodies}
           title="Bodies"
           totalElements={pagination?.totalElements}
           selected={selectedBodies}

@@ -6,6 +6,7 @@ import Tbody from "./components/Tbody"
 import ModalFormBarrack from "./components/ModalFormBarrack"
 import Theader from "@/shared/components/Theader"
 import { useBarrackContext } from "@/context/BarrackContext"
+import toast from "react-hot-toast"
 
 export default function UserBarracks() {
   const { fetchBarracks, remove, setPage } = useBarrackContext()
@@ -22,6 +23,7 @@ export default function UserBarracks() {
     await remove(selectedBarracks)
     fetchBarracks()
     setSelectedBarracks([])
+    toast.success("Barracks were deleted.")
   }
 
   const handleSelectAll = () => {
@@ -45,6 +47,7 @@ export default function UserBarracks() {
     if (selectedBarracks.includes(id)) {
       setSelectedBarracks(selectedBarracks.filter((idSelect) => idSelect != id))
     }
+    toast.success(`Barrack with ID ${id} was deleted.`)
   }
 
 

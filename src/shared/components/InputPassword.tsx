@@ -31,7 +31,7 @@ const InputPassword = ({ label, type = 'password', id, placeholder, control, err
               maxLength={100}
               id={id}
               placeholder={placeholder}
-              className={`focus:outline-none ${error && "input-login-error"} ${styleInput}`}
+              className={`focus:outline-none  ${error && "input-login-error"} ${styleInput}`}
             />
             {
               showPassword ?

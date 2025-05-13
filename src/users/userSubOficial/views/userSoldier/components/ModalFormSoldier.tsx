@@ -11,7 +11,7 @@ import { DatePicker, Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalFormSoldier({ reloadTable, structure, title = "soldier"}: { reloadTable: () => Promise<void>, structure: Structure, title?: string }) {
+export default function ModalFormSoldier({ reloadTable, structure, title = "Soldier"}: { reloadTable: () => Promise<void>, structure: Structure, title?: string }) {
   const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -26,7 +26,6 @@ export default function ModalFormSoldier({ reloadTable, structure, title = "sold
       setIsSubmitting(true)
       const res = await createSoldier(authTokens.token, data)
       if (res) {
-        alert("creado")
         reset(initialStateFormSoldier)
         reloadTable()
       }

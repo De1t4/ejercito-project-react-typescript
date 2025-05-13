@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { GlobalContext } from "./globalContext";
 import { fetchSoldierData } from "@/services/ProfileService";
 import { initialStateProfile, ProfileProps } from "@/users/userSoldier/models/Profile";
+import toast from "react-hot-toast";
 
 const AUTH_INFO_USER = "USER_INFO_MILITARY_SYSTEM";
 
@@ -24,6 +25,7 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     if (typeof response === "string") {
       return response;
     }
+    toast.success('You have logged in successfully, welcome.');
     setAuthTokens(response);
     window.localStorage.setItem(AUTH_INFO_USER, JSON.stringify(response));
     return "success";
@@ -66,8 +68,8 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
 
   const reloadProfile = useCallback(async () => {
     const data = await getProfileUser()
-    if(data?.valueOf() === 'UNAUTHORIZED') {
-      alert("Your token expired")
+    if (data?.valueOf() === 'UNAUTHORIZED') {
+      toast.error("Your token expired")
       logout()
     }
     if (typeof data === 'object') {

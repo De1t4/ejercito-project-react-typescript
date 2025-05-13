@@ -41,7 +41,7 @@ export const modifyPasswordUser = async (data: FormValidation, token: string) =>
       if (data.httpStatus) return data.httpStatus
       throw new Error("Error update password")
     }
-    alert("se reinicio tu password")
+    return "Sucess"
   } catch (err) {
     console.error("Error update password user", err)
   }

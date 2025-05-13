@@ -27,22 +27,23 @@ export const getSoldierList = async (token: string, search: string, page: number
 
 
 export const handleDataGeneral = async (token: string) => {
-  try {
-    const res = await fetch(`${API_URL}/v1/admin/general-data`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+  // const res = await fetch(`${API_URL}/v1/admin/general-data`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // })
+  // if (!res.ok) {
+  //   throw new Error("Error finishing service")
+  // }
+  // const data: DashboardData = await res.json()
+  // return data
+  return fetch(`${API_URL}/v1/admin/general-data`, { headers: { Authorization: `Bearer ${token}`, } })
+    .then((res) => res.json() as Promise<DashboardData>)
+    .then((res) => {
+      return res
     })
-    if (!res.ok) {
-      throw new Error("Error finishing service")
-    }
-    const data: DashboardData = await res.json()
-    return data
-  } catch (err) {
-    console.error("Error finishing service", err)
-  }
 }
 
 export const getStructureMilitary = async (token: string) => {

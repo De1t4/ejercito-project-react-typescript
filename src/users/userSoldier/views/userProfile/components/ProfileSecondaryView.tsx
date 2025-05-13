@@ -5,6 +5,7 @@ import { Tab } from '@/users/userSoldier/models/Tab.models';
 import { handleFinishService } from '@/users/userSoldier/services/AssignmetsService';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const SecondaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'primary' | 'secondary') => void }) => {
   const { authTokens, reloadProfile, profile } = useGlobalContext()
@@ -13,9 +14,8 @@ const SecondaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'p
   const finishService = async (id: number) => {
     if (authTokens?.token === undefined) return
     await handleFinishService([id], authTokens?.token)
+    toast.success("Service was terminated successfully.")
     reloadProfile()
-
- 
   }
   return (
     <motion.div
@@ -34,7 +34,7 @@ const SecondaryView = ({ handleScreenView }: { handleScreenView: (typeScreen: 'p
           </div>
         </div>
         <section className=" relative pt-14 ">
-          <TabButtons onTabChange={setStatusTab} />
+          <TabButtons statusTab={statusTab} onTabChange={setStatusTab} />
           <TabContent
             handleFinishService={finishService}
             unfinished={profile.services?.unfinished}

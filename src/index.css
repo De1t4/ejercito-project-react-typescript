@@ -16,13 +16,20 @@
 
 
 .tab-right {
-  @apply rounded-tr-md absolute transition-all duration-300 hover:bg-primary-color/60 top-0 right-0 h-12 w-1/2 bg-primary-color/50 text-white-color flex justify-center items-center;
+  @apply rounded-tr-md absolute right-0 h-12 w-1/2 top-0;
 }
 
 .tab-left {
-  @apply rounded-tl-md absolute transition-all duration-300 hover:bg-primary-color/80 top-0 left-0 h-12 w-1/2 bg-primary-color/90 text-white-color flex justify-center items-center;
+  @apply rounded-tl-md absolute top-0 left-0 h-12 w-1/2;
 }
 
+.tab-active {
+  @apply transition-all duration-300 hover:bg-primary-color/80 bg-primary-color/90 text-white-color flex justify-center items-center
+}
+
+.tab-inactive {
+  @apply transition-all duration-300 hover:bg-primary-color/60 bg-primary-color/50 text-white-color flex justify-center items-center
+}
 
 .btn-login {
   @apply bg-primary-color h-11 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-primary-color/80 transition duration-300 ease-in-out;

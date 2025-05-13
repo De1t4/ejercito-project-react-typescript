@@ -2,12 +2,16 @@ import { useGlobalContext } from "@/context/globalContext"
 import { modifyPasswordUser } from "@/services/ProfileService"
 import InputPassword from "@/shared/components/InputPassword"
 import { FormValidation, initialStatePassword, schemaValidation } from "@/users/userSoldier/models/Password.models"
+import { ReloadOutlined } from "@ant-design/icons"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { Link } from "react-router-dom"
 
 export default function UserSettings() {
   const { profile, authTokens } = useGlobalContext()
+  const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const { control, handleSubmit, formState: { errors }, reset } = useForm<FormValidation>({
     defaultValues: initialStatePassword,
     resolver: zodResolver(schemaValidation),
@@ -15,12 +19,20 @@ export default function UserSettings() {
 
   const onSubmit: SubmitHandler<FormValidation> = async (data) => {
     if (!authTokens) return
-    const res = await modifyPasswordUser(data, authTokens.token)
-    if (res === 'BAD_REQUEST') {
-      alert('La contraseña es incorrecta')
-      return
+    try {
+      setIsSubmit(true)
+      const res = await modifyPasswordUser(data, authTokens.token)
+      if (res === 'BAD_REQUEST') {
+        toast.error('The password is incorrect')
+        return
+      }
+      toast.success("Password changed successfully.")
+      reset(initialStatePassword)
+    } catch (err) {
+      console.error("error:", err)
+    } finally {
+      setIsSubmit(false)
     }
-    reset(initialStatePassword)
   }
 
   return (
@@ -100,7 +112,16 @@ export default function UserSettings() {
           </div>
           <div className="flex justify-end max-sm:flex-col max-sm:gap-4">
             <Link to={"/dashboard"} className="px-4 py-2 text-center bg-gray-200 text-gray-700 rounded-md mr-2">Cancel</Link>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-md">Save Changes</button>
+            <button disabled={isSubmit} className="px-4 disabled:bg-blue-400 disabled:cursor-not-allowed py-2 bg-blue-600 text-white rounded-md">
+              {isSubmit ? (
+                <>
+                  <ReloadOutlined size={16} className="animate-spin mr-2" />
+                  Save Changes...
+                </>
+              ) : (
+                `Save Changes`
+              )}
+            </button>
           </div>
         </form>
       </div>

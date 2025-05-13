@@ -12,7 +12,7 @@ interface TabContentProps {
 export default function TabContent({ statusTab, completed, unfinished, handleFinishService }: TabContentProps) {
   const { profile } = useGlobalContext()
   return (
-    <div key={"tab"} className=" flex flex-col gap-4   ">
+    <div key={statusTab} className=" flex flex-col gap-4   ">
       {
         statusTab === 'completed' ? (
           <>
@@ -22,16 +22,14 @@ export default function TabContent({ statusTab, completed, unfinished, handleFin
               </div>
               :
               completed?.map((service) => (
-                <>
-                  <div key={service.id_services_soldier} className=" max-md:text-sm bg-beige-color py-2 px-5 rounded-md flex justify-center flex-col shadow-lg">
-                    <p>Servicio #{service.id_services_soldier}</p>
-                    <p>{service.description}</p>
-                    <div className="flex justify-between max-md:flex-col ">
-                      <p>Date init: {service.at_service}</p>
-                      <p>Date finish: {service.end_service}</p>
-                    </div>
+                <div key={service.id_services_soldier} className=" max-md:text-sm bg-beige-color py-2 px-5 rounded-md flex justify-center flex-col shadow-lg">
+                  <p>Servicio #{service.id_services_soldier}</p>
+                  <p>{service.description}</p>
+                  <div className="flex justify-between max-md:flex-col ">
+                    <p>Date init: {service.at_service}</p>
+                    <p>Date finish: {service.end_service}</p>
                   </div>
-                </>
+                </div>
               ))
             }
           </>
@@ -43,23 +41,21 @@ export default function TabContent({ statusTab, completed, unfinished, handleFin
                   <div className=" h-20 flex justify-center items-center">
                     <h5 className="h5-style  text-center">No services pending</h5>
                   </div> : unfinished?.map((service) => (
-                    <>
-                      <div key={service.id_services_soldier} className=" max-md:text-sm bg-beige-color py-2 px-5 rounded-md flex justify-center flex-col shadow-lg">
-                        <div className="flex justify-between items-center ">
+                    <div key={service.id_services_soldier} className=" max-md:text-sm bg-beige-color py-2 px-5 rounded-md flex justify-center flex-col shadow-lg">
+                      <div className="flex justify-between items-center ">
+                        <div className="">
+                          <p>Servicio #{service.id_services_soldier}</p>
+                          <p>{service.description}</p>
+                          <p>Date init: {service.at_service}</p>
+                        </div>
+                        {profile.role === SOLDIER && (
                           <div className="">
-                            <p>Servicio #{service.id_services_soldier}</p>
-                            <p>{service.description}</p>
-                            <p>Date init: {service.at_service}</p>
+                            <button type="button" onClick={() => handleFinishService(service.id_services_soldier)} className="btn-finish">Finish</button>
                           </div>
-                          {profile.role === SOLDIER && (
-                            <div className="">
-                              <button type="button" onClick={() => handleFinishService(service.id_services_soldier)} className="btn-finish">Finish</button>
-                            </div>
-                          )
-                          }
-                        </div >
-                      </div>
-                    </>
+                        )
+                        }
+                      </div >
+                    </div>
                   ))
               }
             </>

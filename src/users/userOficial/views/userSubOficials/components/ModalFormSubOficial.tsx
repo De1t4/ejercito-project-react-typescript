@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker, Modal } from "antd";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function ModalFormSubOficial({ structure }: { structure: Structure }) {
   const { create, fetchSubOficials, loading } = useSubOficialContext()
@@ -22,8 +23,8 @@ export default function ModalFormSubOficial({ structure }: { structure: Structur
 
   const handleSubmitSubOficial: SubmitHandler<FormSubOficial> = async (data) => {
     const basePayload = {
-      username: data.username,
-      password: data.password,
+      username: data.username.trim(),
+      password: data.password.trim(),
     }
 
     const payload = watchIsDesigned
@@ -43,7 +44,12 @@ export default function ModalFormSubOficial({ structure }: { structure: Structur
         soldier: null,
       }
 
-    await create(payload)
+    const res = await create(payload)
+    if (res == 'BAD_REQUEST') {
+      toast("The username already exists.", { icon: "🚧" })
+      return
+    }
+    toast.success("Sub official created successfully.")
     fetchSubOficials()
     reset()
   }

@@ -4,6 +4,7 @@ import { useGlobalContext } from "./globalContext"
 import { Company } from "@/models/Company.models"
 import { createCompany, deleteCompany, getCompaniesList, updateCompany } from "@/users/userOficial/services/CompanyService"
 import { CompanyContext } from "./CompanyContext"
+import toast from "react-hot-toast"
 
 export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [companies, setCompanies] = useState<Company[]>([])
@@ -17,6 +18,15 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLoading(true)
     const data = await getCompaniesList(authTokens.token, search, page)
     if (data) {
+      if (data.empty) {
+        const newData = await getCompaniesList(authTokens.token, search, 0)
+        if (newData) {
+          setCompanies(newData.content)
+          setPagination(newData)
+          setLoading(false)
+          return
+        }
+      }
       setCompanies(data.content)
       setPagination(data)
     }
@@ -27,6 +37,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (!authTokens) return
     setLoading(true)
     await createCompany(authTokens.token, payload)
+    toast.success("Company created successfully.")
     setLoading(false)
   }
 
@@ -39,6 +50,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
         prev.map(b => (b.id_company === payload.id_company ? loadCompany : b))
       )
     }
+    toast.success("Company updated successfully.")
     setLoading(false)
   }
 

@@ -9,6 +9,7 @@ import ModalFormSubOficial from "./components/ModalFormSubOficial"
 import { initialStateStructure, Structure } from "@/users/userSubOficial/models/Soldier.models"
 import { getStructureMilitary } from "@/users/userSubOficial/services/AdminService"
 import { useGlobalContext } from "@/context/globalContext"
+import toast from "react-hot-toast"
 
 export default function UserSubOficials() {
   const { authTokens } = useGlobalContext()
@@ -16,7 +17,6 @@ export default function UserSubOficials() {
   const { page, fetchSubOficials, setPage, remove, subOficial, pagination } = useSubOficialContext()
   const [structure, setStructure] = useState<Structure>(initialStateStructure)
   const [searchQuery, setSearchQuery] = useState("")
-
 
   useEffect(() => {
     const fetchStructureData = async () => {
@@ -30,19 +30,19 @@ export default function UserSubOficials() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-
   const handleDeleteSubOficials = async () => {
     await remove(selectedSubOficial)
-    fetchSubOficials("")
+    toast.success("Sub oficials were deleted.")
+    fetchSubOficials()
     setSelectedSubOficial([])
   }
-
 
   const handleDeleteSubOficial = async (id: number) => {
     await remove([id])
     if (selectedSubOficial.includes(id)) {
       setSelectedSubOficial(selectedSubOficial.filter((i) => i != id))
     }
+    toast.success(`Sub oficial with ID ${id} was deleted.`)
   }
 
   const handleSelectAll = () => {
