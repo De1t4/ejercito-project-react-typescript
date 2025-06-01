@@ -54,9 +54,11 @@ export const registerService = async (dataRegister: FormRegister) => {
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
       if (errorResponse.httpStatus === "NOT_FOUND") {
+        toast(errorResponse.message, {icon:"🚧"})
         return "NOT_FOUND";
       }
       if(errorResponse.httpStatus === "BAD_REQUEST"){
+        toast(errorResponse.message, {icon:"🚧"})
         return "BAD_REQUEST"
       }
       throw new Error("Error en la respuesta del servidor");

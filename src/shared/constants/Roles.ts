@@ -2,19 +2,19 @@ import { OptionsProps } from "../components/FormSelect";
 
 export const optionsRole: OptionsProps[] = [{
   title: "Soldier",
-  value: "SOLDADO"
+  value: "SOLDIER"
 },
 {
   title: "Sub Oficial",
-  value: "SUB_OFICIAL"
+  value: "SUB_OFFICIAL"
 }
   , {
   title: "Oficial",
-  value: "OFICIAL"
+  value: "OFFICIAL"
 }
 ]
 
 
-export const SOLDIER = "SOLDADO"
-export const SUB_OFICIAL = "SUB_OFICIAL"
-export const OFICIAL = "OFICIAL"
+export const SOLDIER = "SOLDIER"
+export const SUB_OFICIAL = "SUB_OFFICIAL"
+export const OFICIAL = "OFFICIAL"

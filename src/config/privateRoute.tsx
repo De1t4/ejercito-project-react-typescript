@@ -1,5 +1,6 @@
 import { useGlobalContext } from '@/context/globalContext';
 import { Role } from '@/models/authModels';
+import { OFICIAL, SOLDIER, SUB_OFICIAL } from '@/shared/constants/Roles';
 import LayoutContent from '@/shared/layouts/LayoutContent';
 import LayoutOficial from '@/shared/layouts/LayoutOficial';
 import LayoutSubOficial from '@/shared/layouts/LayoutSubOficial';
@@ -21,11 +22,11 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
   const hasAccess = allowedRoles.some((role) => role.toUpperCase() === getUserRole());
   if (!hasAccess) {
     switch (userRole) {
-      case "SOLDADO":
+      case SOLDIER:
         return <Navigate to="/profile" />;
-      case "SUB_OFICIAL":
+      case SUB_OFICIAL:
         return <Navigate to="/dashboard" />;
-      case "OFICIAL":
+      case OFICIAL:
         return <Navigate to="/dashboard" />;
       default:
         return <Navigate to="/" />;
@@ -33,11 +34,11 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
   }
 
   switch (userRole) {
-    case "OFICIAL":
+    case OFICIAL:
       return <LayoutOficial />
-    case "SUB_OFICIAL":
+    case SUB_OFICIAL:
       return <LayoutSubOficial />
-    case "SOLDADO":
+    case SOLDIER:
       return <LayoutContent ><Outlet /></LayoutContent>
   }
 }

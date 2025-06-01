@@ -1,4 +1,5 @@
 import z from 'zod'
+import { OFICIAL } from '../constants/Roles';
 
 export const schemanRegister = z.object({
   username: z.string().min(1, "Username is required"),
@@ -20,5 +21,5 @@ export const intiialStateRegister: FormRegister = {
   username: "",
   password: "",
   confirmPassword: "",
-  role: ""
+  role: OFICIAL
 }

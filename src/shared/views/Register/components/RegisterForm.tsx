@@ -1,12 +1,9 @@
 import { registerService } from "@/services/authService";
 import FormInput from "@/shared/components/FormInput";
 import FormInputPassword from "@/shared/components/FormInputPassword";
-import FormSelect from "@/shared/components/FormSelect";
-import { optionsRole } from "@/shared/constants/Roles";
 import { FormRegister, intiialStateRegister, schemanRegister } from "@/shared/models/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
@@ -19,9 +16,6 @@ const RegisterForm = () => {
   const onSubmitRegister: SubmitHandler<FormRegister> = async (data) => {
     const res = await registerService(data)
     if (!res) navigate("/login")
-    if (res === 'BAD_REQUEST') {
-      toast("The username already exists.", {icon:"🚧"})
-    }
   }
 
   return (
@@ -53,7 +47,7 @@ const RegisterForm = () => {
           error={errors.confirmPassword?.message}
           control={control}
         />
-        <FormSelect
+        {/* <FormSelect
           control={control}
           placeholder={"Select Options"}
           error={errors.role?.message}
@@ -61,7 +55,7 @@ const RegisterForm = () => {
           name="role"
           label="Select Role"
           options={optionsRole}
-        />
+        /> */}
         <div className="flex w-full">
           <button className="btn-login w-full" type="submit">Create Account</button>
         </div>

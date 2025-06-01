@@ -13,6 +13,7 @@ import SubOficials from "./pages/subOficials/SubOficials"
 import Companies from "./pages/companies/Companies"
 import Barracks from "./pages/barracks/Barracks"
 import ArmyBodies from "./pages/armyBodies/ArmyBodies"
+import { OFICIAL, SOLDIER, SUB_OFICIAL } from "./shared/constants/Roles"
 
 function App() {
   return (
@@ -24,11 +25,11 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
       </Route>
       {/* ROUTES SOLDIER */}
-      <Route element={<PrivateRoute allowedRoles={["SOLDADO"]} />}>
+      <Route element={<PrivateRoute allowedRoles={[SOLDIER]} />}>
         <Route path="/profile" element={<Profile />}></Route>
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
-      <Route element={<PrivateRoute allowedRoles={["SUB_OFICIAL", "OFICIAL"]} />}>
+      <Route element={<PrivateRoute allowedRoles={[SUB_OFICIAL, OFICIAL]} />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/soldiers" element={<Soldiers />}></Route>
         <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
@@ -36,7 +37,7 @@ function App() {
         <Route path="/settings" element={<Settings />}></Route>
       </Route>
       {/* ROUTES OFICIAL */}
-      <Route element={<PrivateRoute allowedRoles={["OFICIAL"]} />}>
+      <Route element={<PrivateRoute allowedRoles={[OFICIAL]} />}>
         <Route path="/sub-oficials" element={<SubOficials/>}></Route>
         <Route path="/companies" element={<Companies/>}></Route>
         <Route path="/barracks" element={<Barracks/>}></Route>

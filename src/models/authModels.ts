@@ -35,7 +35,7 @@ export interface TokenDecoded {
   exp: number;
 }
 
-export type Role = "SOLDADO" | "SUB_OFICIAL" | "OFICIAL";
+export type Role = "SOLDIER" | "SUB_OFFICIAL" | "OFFICIAL";
 
 
 type status = 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND' | 'BAD_REQUEST'
