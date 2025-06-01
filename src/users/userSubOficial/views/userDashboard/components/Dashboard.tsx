@@ -4,18 +4,28 @@ import { StatCard } from './StatCard';
 import CardActivity from './CardActivity';
 import CardChart from './CardChart';
 import { DashboardData, initialStateDashboard } from '@/users/userSubOficial/models/GeneralData.models';
+import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export function Dashboard({ token }: { token: string }) {
   const [data, setData] = useState<DashboardData>(initialStateDashboard);
+  const navigate = useNavigate()
 
+  const { idStructure } = useParams()
   useEffect(() => {
     const fetchData = async () => {
-      const res = await handleDataGeneral(token);
+      if(!idStructure) return
+      const res = await handleDataGeneral(token, idStructure);
+      if(res === "NOT_FOUND"){
+        toast.error("Structure not found")
+        
+        return navigate("/home")
+      }
       setData(res);
     };
 
     fetchData();
-  }, [token]);
+  }, [token, idStructure, navigate]);
 
   return (
     <>

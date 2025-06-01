@@ -25,9 +25,9 @@ export const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
       case SOLDIER:
         return <Navigate to="/profile" />;
       case SUB_OFICIAL:
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/home" />;
       case OFICIAL:
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/home" />;
       default:
         return <Navigate to="/" />;
     }

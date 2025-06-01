@@ -27,8 +27,6 @@ export const LoginForm = () => {
     }
   }
 
-
-
   return (
     <div className="h-full justify-center flex items-center flex-col w-full gap-7">
       <div className="  justify-start items-start text-left flex-col font-sans">

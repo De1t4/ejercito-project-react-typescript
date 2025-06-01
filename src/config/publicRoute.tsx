@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const PublicRoute = () => {
   const { isLoggedIn } = useGlobalContext();
-  return isLoggedIn ? <Navigate to="/dashboard"/> : <Outlet />;
+  return isLoggedIn ? <Navigate to="/home"/> : <Outlet />;
 }
 
 export default PublicRoute;

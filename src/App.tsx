@@ -1,19 +1,20 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import Profile from "@/pages/profile/profile"
-import Login from "./pages/login/Login"
-import { PrivateRoute } from "./config/privateRoute"
-import PublicRoute from "./config/publicRoute"
-import Register from "./pages/register/Register"
-import Dashboard from "./pages/dashboard/Dashboard"
-import Soldiers from "./pages/soldier/Soldiers"
-import SoldierProfile from "./pages/soldierProfile/SoldierProfile"
-import Services from "./pages/services/Services"
-import Settings from "./pages/settings/Settings"
-import SubOficials from "./pages/subOficials/SubOficials"
-import Companies from "./pages/companies/Companies"
-import Barracks from "./pages/barracks/Barracks"
-import ArmyBodies from "./pages/armyBodies/ArmyBodies"
-import { OFICIAL, SOLDIER, SUB_OFICIAL } from "./shared/constants/Roles"
+import Login from "@/pages/login/Login"
+import { PrivateRoute } from "@/config/privateRoute"
+import PublicRoute from "@/config/publicRoute"
+import Register from "@/pages/register/Register"
+import Dashboard from "@/pages/dashboard/Dashboard"
+import Soldiers from "@/pages/soldier/Soldiers"
+import SoldierProfile from "@/pages/soldierProfile/SoldierProfile"
+import Services from "@/pages/services/Services"
+import Settings from "@/pages/settings/Settings"
+import SubOficials from "@/pages/subOficials/SubOficials"
+import Companies from "@/pages/companies/Companies"
+import Barracks from "@/pages/barracks/Barracks"
+import ArmyBodies from "@/pages/armyBodies/ArmyBodies"
+import { OFICIAL, SOLDIER, SUB_OFICIAL } from "@/shared/constants/Roles"
+import Home from "@/pages/home/Home"
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={[SUB_OFICIAL, OFICIAL]} />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home/>}></Route>
+        <Route path="/:idStructure" element={<Dashboard />} />
         <Route path="/soldiers" element={<Soldiers />}></Route>
         <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
         <Route path="/services" element={<Services />}></Route>
