@@ -7,12 +7,12 @@ import { GlobalProvider } from './context/globalProvider.tsx'
 import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <GlobalProvider>
-        <Toaster />
-        <App />
-      </GlobalProvider>
-    </BrowserRouter>
-  </StrictMode>,
+  //<StrictMode>
+  <BrowserRouter>
+    <GlobalProvider>
+      <Toaster />
+      <App />
+    </GlobalProvider>
+  </BrowserRouter>
+  // </StrictMode>,
 )

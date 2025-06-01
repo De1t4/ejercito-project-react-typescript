@@ -33,15 +33,20 @@ export const getDays = (date: string) => {
   return diffInDays
 }
 
-export const urlParams = (search: string, page: number, size: number) => {
+export const urlParams = (search: string, page: number, size: number, idStructure?: string) => {
   const params = new URLSearchParams()
 
   if (search.trim() !== "") {
     params.append("search", search)
   }
 
+
   params.append("page", page.toString())
   params.append("size", size.toString())
+
+  if (idStructure) {
+    params.append("id_structure", idStructure.toString())
+  }
   return params
 }
 

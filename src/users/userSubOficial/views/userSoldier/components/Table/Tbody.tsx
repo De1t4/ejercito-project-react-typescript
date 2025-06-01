@@ -2,7 +2,7 @@ import { Soldier, Structure } from "@/users/userSubOficial/models/Soldier.models
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Popover, Tooltip } from "antd";
 import Checkbox from "antd/es/checkbox";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ModalEditSoldier from "../ModalEditSoldier";
 
 interface TbodyProps {
@@ -11,10 +11,11 @@ interface TbodyProps {
   selectedSoldiers: number[]
   reloadTable: () => void
   handleSelect: (id: number) => void
-  handleDeleteSoldier: (id:number) => void
+  handleDeleteSoldier: (id: number) => void
 }
 
 export default function Tbody({ soldiers, reloadTable, handleDeleteSoldier, selectedSoldiers, structure, handleSelect }: TbodyProps) {
+  const { idStructure } = useParams()
   const contentPopover = (id_user: number) => {
     return (
       <>
@@ -33,15 +34,15 @@ export default function Tbody({ soldiers, reloadTable, handleDeleteSoldier, sele
     <tbody>
       {soldiers && soldiers.map((soldier) => (
         <tr
-          key={soldier.id_user}
-          className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedSoldiers.includes(soldier.id_user) ? "bg-blue-50" : ""
+          key={soldier.id_soldier}
+          className={`border-t border-gray-100 hover:bg-blue-50 transition-colors ${selectedSoldiers.includes(soldier.id_soldier) ? "bg-blue-50" : ""
             }`}
         >
           <td className="p-3">
             <Checkbox
-              id={`checkbox-${soldier.id_user}`}
-              checked={selectedSoldiers.includes(soldier.id_user)}
-              onChange={() => handleSelect(soldier.id_user)}
+              id={`checkbox-${soldier.id_soldier}`}
+              checked={selectedSoldiers.includes(soldier.id_soldier)}
+              onChange={() => handleSelect(soldier.id_soldier)}
             />
           </td>
           <td className="p-4 font-medium">{soldier.id_user}</td>
@@ -53,14 +54,14 @@ export default function Tbody({ soldiers, reloadTable, handleDeleteSoldier, sele
           <td className="p-4">
             <div className="flex justify-end gap-2">
               <Tooltip title="View More">
-                <Link to={`/soldiers/${soldier.id_user}`}>
+                <Link to={`/structure/${idStructure}/soldiers/${soldier.id_user}`}>
                   <button className="p-1 text-blue-600 hover:bg-blue-100 rounded-full transition-colors">
                     <EyeOutlined size={20} />
                   </button>
                 </Link>
               </Tooltip>
               <ModalEditSoldier reloadTable={reloadTable} soldier={soldier} structure={structure} />
-              <Popover content={contentPopover(soldier.id_user)} title="Delete Soldier" trigger="click">
+              <Popover content={contentPopover(soldier.id_soldier)} title="Delete Soldier" trigger="click">
                 <Tooltip title="Delete Soldier">
                   <button className="p-1 text-red-600 hover:bg-red-100 rounded-full transition-colors">
                     <DeleteOutlined size={20} />

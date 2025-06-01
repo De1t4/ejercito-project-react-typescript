@@ -6,10 +6,9 @@ import { ResponseError } from "@/models/authModels"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-
-export const getSoldierList = async (token: string, search: string, page: number, size: number = 10) => {
+export const getSoldierList = async (token: string, search: string, page: number, idStructure?: string, size: number = 10,) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/general-data-soldiers?${urlParams(search.trim(), page, size).toString()}`, {
+    const res = await fetch(`${API_URL}/v1/soldiers?${urlParams(search.trim(), page, size, idStructure).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,16 +35,16 @@ export const handleDataGeneral = async (token: string, id_structure: string) => 
     },
   })
   if (!res.ok) {
-    const error:ResponseError = await res.json()
-    switch(error.httpStatus){
+    const error: ResponseError = await res.json()
+    switch (error.httpStatus) {
       case "NOT_FOUND":
-         return error.httpStatus;
-         default:
-          throw new Error("Error finishing service")
+        return error.httpStatus;
+      default:
+        throw new Error("Error finishing service")
     }
 
-    
-    
+
+
   }
   const data: DashboardData = await res.json()
   return data
@@ -56,9 +55,9 @@ export const handleDataGeneral = async (token: string, id_structure: string) => 
   //   })
 }
 
-export const getStructureMilitary = async (token: string) => {
+export const getStructureMilitary = async (token: string, idStructure: string) => {
   try {
-    const res = await fetch(`${API_URL}/v1/admin/general-data-structure`, {
+    const res = await fetch(`${API_URL}/v1/admin/general-data-structure?id_structure=${idStructure}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -6,11 +6,12 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getUserProfile } from "../../services/UserService"
 import Profile from "@/users/userSoldier/views/userProfile/components/ProfileCard"
 import TabServices from "@/users/userSoldier/components/Tab/TabServices"
+import toast from "react-hot-toast"
 
 
 export default function UserSoldierProfile() {
   const [profile, setProfile] = useState<ProfileProps>(initialStateProfile)
-  const { id } = useParams()
+  const { id, idStructure } = useParams()
   const { authTokens } = useGlobalContext()
   const navigate = useNavigate()
 
@@ -20,13 +21,13 @@ export default function UserSoldierProfile() {
       if (!id) return
       const res = await getUserProfile(authTokens.token, Number(id));
       if (res == "NOT_FOUND") {
-        alert("The user was not found")
-        navigate("/soldiers")
+        toast.error("Soldier not found")
+        navigate(`/structure/${idStructure}/soldiers`)
         return
       }
       if (res == "BAD_REQUEST") {
-        alert("The parameter in sent is incorrect")
-        navigate("/soldiers")
+        toast.error("Soldier not found")
+        navigate(`/structure/${idStructure}/soldiers`)
         return
       }
       if (res) setProfile(res)

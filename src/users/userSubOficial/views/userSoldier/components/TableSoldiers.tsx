@@ -11,6 +11,7 @@ import HeaderTable from '@/shared/components/HeaderTable';
 import PaginationTable from '@/shared/components/PaginationTable';
 import Theader from '@/shared/components/Theader';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 
 export const TableSoldier = () => {
   const [soldiers, setSoldiers] = useState<Pagination<Soldier> | null>(null)
@@ -19,16 +20,20 @@ export const TableSoldier = () => {
   const [selectedSoldiers, setSelectedSoldiers] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const { authTokens } = useGlobalContext()
+  const { idStructure } = useParams()
+
+  if (!authTokens) return
+  if (!idStructure) return
 
   const fetchSoldierList = async () => {
-    if (!authTokens) return
-    const resSoldier = await getSoldierList(authTokens.token, searchQuery, page)
+
+    const resSoldier = await getSoldierList(authTokens.token, searchQuery, page, idStructure)
     if (resSoldier?.empty && page > 0) {
       setPage(0)
-      return 
+      return
     }
     if (resSoldier) setSoldiers(resSoldier)
-    const resStructure = await getStructureMilitary(authTokens.token)
+    const resStructure = await getStructureMilitary(authTokens.token, idStructure)
     if (resStructure) setStructure(resStructure)
   }
 
@@ -42,7 +47,7 @@ export const TableSoldier = () => {
     if (selectedSoldiers.length === soldiers?.content.length) {
       setSelectedSoldiers([])
     } else {
-      setSelectedSoldiers(soldiers?.content.map((soldier) => soldier.id_user) || [])
+      setSelectedSoldiers(soldiers?.content.map((soldier) => soldier.id_soldier) || [])
     }
   }
 
@@ -56,7 +61,7 @@ export const TableSoldier = () => {
 
   const handleDeleteSoldiers = async () => {
     if (!authTokens) return
-    await deleteSoldierById(authTokens.token, selectedSoldiers)
+    await deleteSoldierById(authTokens.token, selectedSoldiers, idStructure)
     toast.success("Selected soldiers were deleted.")
     setSelectedSoldiers([])
     fetchSoldierList()
@@ -64,8 +69,7 @@ export const TableSoldier = () => {
 
   const handleDeleteSoldier = async (id: number) => {
     if (!authTokens) return
-    await deleteSoldierById(authTokens.token, [id])
-    toast.success(`Soldier with ID ${id} was deleted.`)
+    await deleteSoldierById(authTokens.token, [id], idStructure)
     if (selectedSoldiers.includes(id)) {
       setSelectedSoldiers(selectedSoldiers.filter((soldierID) => soldierID !== id))
     }

@@ -2,14 +2,14 @@ import { BarChartOutlined, SettingOutlined, UsergroupAddOutlined, AppstoreAddOut
 
 
 export const itemsSubOficial = [
-  { label: 'Dashboard', icon: <BarChartOutlined size={20} />, href: "/dashboard" },
+  { label: 'Dashboard', icon: <BarChartOutlined size={20} />, href: "" },
   { label: 'Soldiers', icon: <UsergroupAddOutlined size={20} />, href: "/soldiers" },
   { label: 'Services', icon: <AppstoreAddOutlined size={20} />, href: "/services" },
   { label: 'Settings', icon: <SettingOutlined size={20} />, href: "/settings" },
 ];
  
 export const itemsOficial = [
-  { label: 'Dashboard', icon: <BarChartOutlined />, href: "/dashboard" },
+  { label: 'Dashboard', icon: <BarChartOutlined />, href: "" },
   { label: 'Soldiers', icon: <UsergroupAddOutlined size={20} />, href: "/soldiers" },
   { label: 'Services', icon: <AppstoreAddOutlined size={20} />, href: "/services" },
   { label: 'Sub Oficials', icon: <ApartmentOutlined />, href: "/sub-oficials" },

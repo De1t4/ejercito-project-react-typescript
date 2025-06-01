@@ -15,6 +15,7 @@ import Barracks from "@/pages/barracks/Barracks"
 import ArmyBodies from "@/pages/armyBodies/ArmyBodies"
 import { OFICIAL, SOLDIER, SUB_OFICIAL } from "@/shared/constants/Roles"
 import Home from "@/pages/home/Home"
+import ConfigLayout from "./config/ConfigLayout"
 
 function App() {
   return (
@@ -27,23 +28,29 @@ function App() {
       </Route>
       {/* ROUTES SOLDIER */}
       <Route element={<PrivateRoute allowedRoles={[SOLDIER]} />}>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route element={<ConfigLayout />}>
+          <Route path="/profile" element={<Profile />}></Route>
+        </Route>
       </Route>
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={[SUB_OFICIAL, OFICIAL]} />}>
-        <Route path="/home" element={<Home/>}></Route>
-        <Route path="/:idStructure" element={<Dashboard />} />
-        <Route path="/soldiers" element={<Soldiers />}></Route>
-        <Route path="/soldiers/:id" element={<SoldierProfile />}></Route>
-        <Route path="/services" element={<Services />}></Route>
-        <Route path="/settings" element={<Settings />}></Route>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/structure/:idStructure" element={<ConfigLayout />}>
+          <Route path="" element={<Dashboard />} />
+          <Route path="soldiers" element={<Soldiers />}></Route>
+          <Route path="soldiers/:id" element={<SoldierProfile />}></Route>
+          <Route path="services" element={<Services />}></Route>
+          <Route path="settings" element={<Settings />}></Route>
+        </Route>
       </Route>
       {/* ROUTES OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={[OFICIAL]} />}>
-        <Route path="/sub-oficials" element={<SubOficials/>}></Route>
-        <Route path="/companies" element={<Companies/>}></Route>
-        <Route path="/barracks" element={<Barracks/>}></Route>
-        <Route path="/army-bodies" element={<ArmyBodies/>}></Route>
+        <Route path="/structure/:idStructure" element={<ConfigLayout />}>
+          <Route path="sub-oficials" element={<SubOficials />}></Route>
+          <Route path="companies" element={<Companies />}></Route>
+          <Route path="barracks" element={<Barracks />}></Route>
+          <Route path="army-bodies" element={<ArmyBodies />}></Route>
+        </Route>
       </Route>
     </Routes>
   )

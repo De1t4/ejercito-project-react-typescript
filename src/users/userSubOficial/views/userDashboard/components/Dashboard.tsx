@@ -14,11 +14,11 @@ export function Dashboard({ token }: { token: string }) {
   const { idStructure } = useParams()
   useEffect(() => {
     const fetchData = async () => {
-      if(!idStructure) return
+      if (!idStructure) return
       const res = await handleDataGeneral(token, idStructure);
-      if(res === "NOT_FOUND"){
+      if (res === "NOT_FOUND") {
         toast.error("Structure not found")
-        
+
         return navigate("/home")
       }
       setData(res);
@@ -30,10 +30,10 @@ export function Dashboard({ token }: { token: string }) {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard href='/soldiers' title="Total Soldiers" value={data.total_soldier} />
-        <StatCard href='/services' title="Total Services" value={data.total_services} />
-        <StatCard href='/services' title="Completed Services" value={data.services_completed} />
-        <StatCard href='/services' title="Pending Services" value={data.services_pending} />
+        <StatCard href={`/structure/${idStructure}/soldiers`} title="Total Soldiers" value={data.total_soldier} />
+        <StatCard href={`/structure/${idStructure}/services`} title="Total Services" value={data.total_services} />
+        <StatCard href={`/structure/${idStructure}/services`} title="Completed Services" value={data.services_completed} />
+        <StatCard href={`/structure/${idStructure}/services`} title="Pending Services" value={data.services_pending} />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CardActivity data={data} />

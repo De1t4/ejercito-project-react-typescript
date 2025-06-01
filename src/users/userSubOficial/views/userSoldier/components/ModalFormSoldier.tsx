@@ -10,23 +10,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker, Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
-export default function ModalFormSoldier({ reloadTable, structure, title = "Soldier"}: { reloadTable: () => Promise<void>, structure: Structure, title?: string }) {
+export default function ModalFormSoldier({ reloadTable, structure, title = "Soldier" }: { reloadTable: () => Promise<void>, structure: Structure, title?: string }) {
   const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { idStructure } = useParams()
 
   const { handleSubmit, control, formState: { errors }, reset, setValue } = useForm<FormSoldier>({
-    defaultValues: initialStateFormSoldier,
+    defaultValues: { ...initialStateFormSoldier, id_structure: idStructure },
     resolver: zodResolver(schemaFormSoldier)
   })
   const handleSubmitSoldier: SubmitHandler<FormSoldier> = async (data) => {
     if (!authTokens) return
+    if (!idStructure) return
     try {
       setIsSubmitting(true)
       const res = await createSoldier(authTokens.token, data)
       if (res) {
-        reset(initialStateFormSoldier)
+        reset({ ...initialStateFormSoldier, id_structure: idStructure })
         reloadTable()
       }
     } catch (err) {

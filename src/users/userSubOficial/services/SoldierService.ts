@@ -1,6 +1,7 @@
 import { ResponseError } from "@/models/authModels"
 import { FormSoldier, Soldier } from "../models/Soldier.models"
 import toast from "react-hot-toast"
+import { mapSoldier } from "@/utils/mapPayload"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
@@ -25,21 +26,20 @@ export const getSoldiers = async (token: string) => {
 
 export const createSoldier = async (token: string, soldierData: FormSoldier) => {
   try {
-    const payload = { ...soldierData, soldier: { name: soldierData.name, lastname: soldierData.lastname, graduation: soldierData.graduation, id_company: soldierData.id_company, id_barrack: soldierData.id_barrack, id_body: soldierData.id_body } }
     const res = await fetch(`${API_URL}/v1/soldiers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(mapSoldier(soldierData))
     })
 
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
       if (errorResponse.httpStatus === "BAD_REQUEST") {
-        toast.error("The user " + soldierData.username + " has already been registered", { icon: "🚧" })
-        throw ("The user " + soldierData.username + "has already been registered")
+        toast.error(errorResponse.message, { icon: "🚧" })
+        throw (errorResponse.message)
       }
       throw new Error("Error create soldier")
     }
@@ -50,19 +50,28 @@ export const createSoldier = async (token: string, soldierData: FormSoldier) => 
   }
 }
 
-export const deleteSoldierById = async (token: string, id: number[]) => {
+export const deleteSoldierById = async (token: string, id: number[], idStructure: string) => {
   try {
-    const res = await fetch(`${API_URL}/v1/users/delete`, {
+    const res = await fetch(`${API_URL}/v1/soldiers/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(id)
+      body: JSON.stringify({ id_structure: idStructure, id_soldier: id })
     })
     if (!res.ok) {
-      throw new Error("Error delete soldier")
+      const error: ResponseError = await res.json()
+      switch (error.httpStatus) {
+        case "NOT_FOUND":
+          toast.error(error.message)
+          throw new Error(error.message)
+        default:
+          throw new Error("Error delete soldier")
+      }
     }
+    toast.success(`Soldier with ID ${id} was deleted.`)
+
   } catch (err) {
     console.error("Error delete soldier", err)
   }

@@ -9,14 +9,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalEditSoldier({ soldier, structure, reloadTable }: { soldier: Soldier, structure: Structure, reloadTable: () => void }) {
   const { authTokens } = useGlobalContext()
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
-
+  const { idStructure } = useParams()
   const { handleSubmit, control, formState: { errors } } = useForm<FormSoldier>({
-    defaultValues: { ...soldier, password: "TestPass123.", id_soldier: soldier.id_soldier, id_barrack: soldier.id_barrack === null ? 0 : soldier.id_barrack, id_body: soldier.id_body === null ? 0 : soldier.id_body, id_company: soldier.id_company === null ? 0 : soldier.id_company },
+    defaultValues: { ...soldier, password: "TestPass123.", id_soldier: soldier.id_soldier, id_barrack: soldier.id_barrack === null ? 0 : soldier.id_barrack, id_body: soldier.id_body === null ? 0 : soldier.id_body, id_company: soldier.id_company === null ? 0 : soldier.id_company, id_structure: idStructure },
     resolver: zodResolver(schemaFormSoldier)
   })
 

@@ -2,12 +2,13 @@
 import { useGlobalContext } from "@/context/globalContext";
 import NavbarAdmin from "@/shared/components/NavbarAdmin";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { itemsOficial, itemsSubOficial } from "../constants/RoutesPages";
 import { LogoutOutlined } from "@ant-design/icons";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const { logout } = useGlobalContext()
+  const { idStructure } = useParams()
   const [collapsed, setCollapsed] = useState(true);
   const [openSidebar, setOpenSidebar] = useState(true)
 
@@ -44,7 +45,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                         <div className={` px-4 flex-1 py-4 space-y-6 text-sm overflow-y-auto`}>
                           <nav className={`space-y-4 w-full`}>
                             {itemsOficial.map(({ label, icon, href }) => (
-                              <Link to={href} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer `}>
+                              <Link to={`/structure/${idStructure}${href}`} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer `}>
                                 <span >{icon}</span>
                                 <span>{label}</span>
                               </Link>
@@ -68,7 +69,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                       {
                         collapsed ?
                           (<>{itemsSubOficial.map(({ label, icon, href }) => (
-                            <Link to={href} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
+                            <Link to={`/structure/${idStructure}${href}`} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
                               <span className={`${collapsed && 'text-xl'}`}>{icon}</span>
                               {!collapsed && <span>{label}</span>}
                             </Link>
@@ -82,7 +83,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             <>
                               {
                                 itemsOficial.map(({ label, icon, href }) => (
-                                  <Link to={href} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
+                                  <Link to={`/structure/${idStructure}${href}`} key={label} className={`flex  items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
                                     <span className={`${collapsed && 'text-xl'} text-base`}>{icon}</span>
                                     {!collapsed && <span>{label}</span>}
                                   </Link>
