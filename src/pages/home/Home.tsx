@@ -1,7 +1,8 @@
 import { VITE_BACK_END_URL } from "@/config/config-env"
 import { useGlobalContext } from "@/context/globalContext"
 import { Structure } from "@/models/Structure.models"
-import { AppstoreAddOutlined } from "@ant-design/icons"
+import { OFICIAL } from "@/shared/constants/Roles"
+import { AppstoreAddOutlined, BuildOutlined, EnvironmentOutlined, UsergroupAddOutlined } from "@ant-design/icons"
 import { Empty } from "antd"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
@@ -10,7 +11,7 @@ const API_BACK = VITE_BACK_END_URL
 
 export default function Home() {
   const [structures, setStructure] = useState<Structure[]>([])
-  const { authTokens } = useGlobalContext()
+  const { authTokens, profile } = useGlobalContext()
   const fetchStructure = async () => {
     if (!authTokens) return
     try {
@@ -51,24 +52,25 @@ export default function Home() {
 
         </div>
       </nav>
-      <main className="p-4">
-        <h1 className="style-title mb-4">Your Structures</h1>
-        <section>
-          {
-            structures.length === 0 && <p>No tienes estructuras crea una!!</p>
-          }
-          <ul className="grid grid-cols-[repeat(auto-fill,minmax(350px,2fr))] gap-4 ">
-            <li key={"create-new-structure"} className="bg-gray-800 h-full hover:bg-gray-800/90 rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer">
-              <div className="p-8 flex-col text-center flex justify-center items-center">
-                <Empty
-                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                  styles={{ image: { height: 60 } }}
-                  description
-                  className="max-md:hidden"
-                ></Empty>
-                <h3 className="text-white text-xl font-medium"><AppstoreAddOutlined className="max-md:block hidden" />Create a Structure Project</h3>
-              </div>
-            </li>
+      <main className="py-10 px-16">
+        <section className="max-w-5xl mx-auto border-b pb-8">
+          <h1 className="text-xl font-semibold text-gray-900 mb-6">Your Structures</h1>
+          <ul className="grid  grid-cols-1 md:grid-cols-3 gap-6">
+            {
+              profile.role === OFICIAL &&
+              <li key={"create-new-structure"} className="bg-gray-700 h-full hover:bg-gray-800/90 rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer">
+                <div className="p-8 flex-col text-center flex justify-center items-center">
+                  <Empty
+                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                    styles={{ image: { height: 60 } }}
+                    description
+                    className="max-md:hidden"
+                  ></Empty>
+                  <h3 className="text-white text-xl font-medium"><AppstoreAddOutlined className="max-md:block hidden" />Create a Structure Project</h3>
+                </div>
+              </li>
+            }
+
             {
               structures.map((data) => (
                 <Link key={data.id_structure} to={`/structure/${data.id_structure}`} className="bg-primary-color/90 hover:bg-primary-color/80 h-full  rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer">
@@ -80,6 +82,40 @@ export default function Home() {
               ))
             }
           </ul>
+        </section>
+        <section className="mt-6 max-w-5xl mx-auto">
+          <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className=" hover:shadow-xl transition-shadow cursor-pointer group border shadow-md rounded-md">
+              <div className="p-6 text-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
+                  <BuildOutlined className=" text-blue-600" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">Base Layout</h4>
+                <p className="text-sm text-gray-600">Design military base structures</p>
+              </div>
+            </div>
+
+            <div className=" hover:shadow-xl transition-shadow cursor-pointer group border shadow-md rounded-md">
+              <div className="p-6 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+                  <UsergroupAddOutlined className=" text-green-600" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">Personnel</h4>
+                <p className="text-sm text-gray-600">Manage military personnel</p>
+              </div>
+            </div>
+
+            <div className=" hover:shadow-xl transition-shadow cursor-pointer group border shadow-md rounded-md">
+              <div className="p-6 text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors">
+                  <EnvironmentOutlined className=" text-purple-600" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">Operations</h4>
+                <p className="text-sm text-gray-600">Plan tactical operations</p>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
     </>

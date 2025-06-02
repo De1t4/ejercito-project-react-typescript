@@ -7,18 +7,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalFormBody() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { fetchBodies, create, loading} = useArmyBodyContext()
-  const { control, handleSubmit, formState: { errors }, reset} = useForm<FormArmyBody>({
-    defaultValues: initialStateFormArmyBody,
+  const { fetchBodies, create, loading } = useArmyBodyContext()
+
+  const { idStructure } = useParams()
+  if (!idStructure) return
+
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormArmyBody>({
+    defaultValues: { ...initialStateFormArmyBody, id_structure: idStructure },
     resolver: zodResolver(schemaFormArmyBody)
   })
 
+
   const handleSubmitBody: SubmitHandler<FormArmyBody> = async (data) => {
-    await create(data)
-    fetchBodies()
+    if (!idStructure) return;
+    await create({ ...data, id_structure: idStructure })
+    fetchBodies(idStructure)
     reset()
   }
 

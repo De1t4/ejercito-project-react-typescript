@@ -4,9 +4,9 @@ import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getBarracksList = async (token: string, search: string, page: number, size: number = 10) => {
+export const getBarracksList = async (token: string, search: string, idStructure: string, page: number, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/barracks?${urlParams(search.trim(), page, size).toString()}`, {
+    const res = await fetch(`${API_URL}/v1/barracks?${urlParams(search.trim(), page, size, idStructure).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,8 +36,7 @@ export const createBarrack = async (token: string, payload: Omit<Barrack, 'id_ba
     if (!res.ok) {
       throw new Error("Error create Barrack")
     }
-    const data: Barrack = await res.json()
-    return data
+    return "SUCESS"
   } catch (err) {
     console.error("Error create Barrack", err)
   }
@@ -71,7 +70,7 @@ export const deleteBarrack = async (token: string, payload: number[]) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ id_barrack: payload })
     })
     if (!res.ok) {
       throw new Error("Error deleted Barrack")

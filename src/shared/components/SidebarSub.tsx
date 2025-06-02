@@ -8,7 +8,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 export default function SidebarSub({ children }: { children: React.ReactNode }) {
   const { logout } = useGlobalContext()
   const [collapsed, setCollapsed] = useState(true);
-  const [openSidebar, setOpenSidebar] = useState(false)
+  const [openSidebar, setOpenSidebar] = useState(true)
   const { idStructure } = useParams()
 
 
@@ -66,7 +66,7 @@ export default function SidebarSub({ children }: { children: React.ReactNode }) 
                   <div className={`${collapsed ? 'px-2' : 'px-4'} flex-1 py-4 space-y-6 text-sm overflow-y-auto`}>
                     <nav className={`space-y-4 ${collapsed && 'flex flex-col justify-center items-center'}`}>
                       {itemsSubOficial.map(({ label, icon, href }) => (
-                        <Link to={href} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
+                        <Link to={`/structure/${idStructure}${href}`} key={label} className={`flex items-center space-x-3 p-2 rounded hover:bg-black-coil/50 shadow-lg bg-black-coil/40 cursor-pointer ${collapsed ? 'w-14 h-14 flex-col justify-center items-center' : ''}`}>
                           <span className={`${collapsed && 'text-xl'}`}>{icon}</span>
                           {!collapsed && <span>{label}</span>}
                         </Link>

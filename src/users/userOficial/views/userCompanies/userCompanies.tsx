@@ -7,6 +7,7 @@ import ModalFormCompany from "./components/ModalFormCompany"
 import Theader from "@/shared/components/Theader"
 import { useCompanyContext } from "@/context/CompanyContext"
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 
 export default function UserCompanies() {
@@ -14,9 +15,11 @@ export default function UserCompanies() {
   const { fetchCompanies, remove, setPage } = useCompanyContext()
   const { companies, page, pagination } = useCompanyContext()
   const [searchQuery, setSearchQuery] = useState("")
+  const { idStructure } = useParams()
+  if (!idStructure) return
 
   useEffect(() => {
-    fetchCompanies()
+    fetchCompanies(idStructure)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
@@ -24,7 +27,7 @@ export default function UserCompanies() {
     await remove(selectedCompanies)
     setSelectedCompanies([])
     toast.success("Companies were deleted.")
-    fetchCompanies()
+    fetchCompanies(idStructure)
   }
 
   const handleSelectAll = () => {
@@ -76,7 +79,7 @@ export default function UserCompanies() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button onClick={() => fetchCompanies(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchCompanies(idStructure, searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

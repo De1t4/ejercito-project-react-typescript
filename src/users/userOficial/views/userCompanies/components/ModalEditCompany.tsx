@@ -7,10 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalEditCompany({ company }: { company: Company }) {
   const [modalOpen, setModalOpen] = useState(false);
   const { fetchCompanies, update, loading } = useCompanyContext()
+
+  const { idStructure } = useParams()
+  if (!idStructure) return
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormCompany>({
     defaultValues: company,
@@ -18,8 +22,8 @@ export default function ModalEditCompany({ company }: { company: Company }) {
   })
 
   const handleSubmitCompany: SubmitHandler<FormCompany> = async (data) => {
-    await update({ ...data, id_company: data.id_company ?? 0 })
-    fetchCompanies()
+    await update({ ...data, id_company: data.id_company ?? 0, id_structure: idStructure })
+    fetchCompanies(idStructure)
   }
 
   return (

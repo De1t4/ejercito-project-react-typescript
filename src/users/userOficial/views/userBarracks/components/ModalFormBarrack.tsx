@@ -7,19 +7,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalFormBarrack() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { fetchBarracks, create, loading} = useBarrackContext()
-  const {  control, handleSubmit, formState: { errors }, reset } = useForm<FormBarrack>({
-    defaultValues: initialStateFormBarrack,
+  const { fetchBarracks, create, loading } = useBarrackContext()
+  const { idStructure } = useParams()
+  if (!idStructure) return
+
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormBarrack>({
+    defaultValues: { ...initialStateFormBarrack, id_structure: idStructure },
     resolver: zodResolver(schemaFormBarrack)
   })
 
   const handleSubmitBarrack: SubmitHandler<FormBarrack> = async (data) => {
-    await create(data)
-    fetchBarracks()
-    reset()
+    await create({ ...data, id_structure: idStructure })
+    fetchBarracks(idStructure)
+    reset({ ...initialStateFormBarrack, id_structure: idStructure })
   }
 
   return (

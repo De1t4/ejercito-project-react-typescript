@@ -7,21 +7,23 @@ import ModalFormBarrack from "./components/ModalFormBarrack"
 import Theader from "@/shared/components/Theader"
 import { useBarrackContext } from "@/context/BarrackContext"
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 export default function UserBarracks() {
   const { fetchBarracks, remove, setPage } = useBarrackContext()
   const { barracks, page, pagination } = useBarrackContext()
   const [selectedBarracks, setSelectedBarracks] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
-
+  const { idStructure } = useParams()
+  if (!idStructure) return
   useEffect(() => {
-    fetchBarracks()
+    fetchBarracks(idStructure)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleDeleteBarracks = async () => {
     await remove(selectedBarracks)
-    fetchBarracks()
+    fetchBarracks(idStructure)
     setSelectedBarracks([])
     toast.success("Barracks were deleted.")
   }
@@ -76,7 +78,7 @@ export default function UserBarracks() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button onClick={() => fetchBarracks(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchBarracks(idStructure, searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

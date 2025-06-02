@@ -8,7 +8,7 @@ interface ArmyBodyContextType {
   pagination: Omit<Pagination<ArmyBody>, 'content'> | null
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
-  fetchBodies: (search?:string) => void
+  fetchBodies: (idStructure: string, search?: string) => void
   create: (payload: Omit<ArmyBody, 'id_body'>) => Promise<void>
   update: (payload: ArmyBody) => Promise<void>
   remove: (ids: number[]) => Promise<void>

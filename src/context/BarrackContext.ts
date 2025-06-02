@@ -8,7 +8,7 @@ interface BarrackContextType {
   pagination: Omit<Pagination<Barrack>, 'content'> | null
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
-  fetchBarracks: (search?:string) => void
+  fetchBarracks: (idStructure: string, search?: string) => void
   create: (payload: Omit<Barrack, 'id_barrack'>) => Promise<void>
   update: (payload: Barrack) => Promise<void>
   remove: (ids: number[]) => Promise<void>

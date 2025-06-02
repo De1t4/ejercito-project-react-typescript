@@ -13,13 +13,13 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchCompanies = async (search: string = "") => {
+  const fetchCompanies = async (idStructure: string, search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getCompaniesList(authTokens.token, search, page)
+    const data = await getCompaniesList(authTokens.token, search, idStructure, page)
     if (data) {
       if (data.empty) {
-        const newData = await getCompaniesList(authTokens.token, search, 0)
+        const newData = await getCompaniesList(authTokens.token, search, idStructure, 0)
         if (newData) {
           setCompanies(newData.content)
           setPagination(newData)
@@ -36,8 +36,8 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const create = async (payload: Omit<Company, 'id_company'>) => {
     if (!authTokens) return
     setLoading(true)
-    await createCompany(authTokens.token, payload)
-    toast.success("Company created successfully.")
+    const res = await createCompany(authTokens.token, payload)
+    if (res === "SUCCESS") toast.success("Company created successfully.")
     setLoading(false)
   }
 
@@ -46,11 +46,11 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLoading(true)
     const loadCompany = await updateCompany(authTokens.token, payload)
     if (loadCompany) {
+      toast.success("Company updated successfully.")
       setCompanies(prev =>
         prev.map(b => (b.id_company === payload.id_company ? loadCompany : b))
       )
     }
-    toast.success("Company updated successfully.")
     setLoading(false)
   }
 

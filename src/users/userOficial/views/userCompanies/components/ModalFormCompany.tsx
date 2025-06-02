@@ -7,20 +7,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalFormCompany() {
   const [modalOpen, setModalOpen] = useState(false);
   const { fetchCompanies, create, loading } = useCompanyContext()
 
+  const { idStructure } = useParams()
+  if (!idStructure) return
+
   const { control, handleSubmit, formState: { errors }, reset } = useForm<FormCompany>({
-    defaultValues: initialStateFormCompany,
+    defaultValues: { ...initialStateFormCompany, id_structure: idStructure },
     resolver: zodResolver(schemaFormCompany)
   })
 
+
   const handleSubmitCompany: SubmitHandler<FormCompany> = async (data) => {
-    await create(data)
-    fetchCompanies()
-    reset()
+    await create({ ...data, id_structure: idStructure })
+    fetchCompanies(idStructure)
+    reset({ ...initialStateFormCompany, id_structure: idStructure })
   }
 
   return (

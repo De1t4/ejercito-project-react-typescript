@@ -7,18 +7,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalEditBarrack({ barrack }: { barrack: Barrack }) {
   const { fetchBarracks, update, loading } = useBarrackContext()
   const [modalOpen, setModalOpen] = useState(false);
+
+
+  const { idStructure } = useParams()
+  if (!idStructure) return
+
   const { control, handleSubmit, formState: { errors } } = useForm<FormBarrack>({
     defaultValues: barrack,
     resolver: zodResolver(schemaFormBarrack)
   })
 
   const handleSubmitBarrack: SubmitHandler<FormBarrack> = async (data) => {
-    await update({ ...data, id_barrack: data.id_barrack ?? 0 })
-    fetchBarracks()
+    await update({ ...data, id_barrack: data.id_barrack ?? 0, id_structure: idStructure })
+    fetchBarracks(idStructure)
   }
 
   return (
@@ -42,7 +48,7 @@ export default function ModalEditBarrack({ barrack }: { barrack: Barrack }) {
             handleSubmit={handleSubmit(handleSubmitBarrack)}
           />
         }
-        >
+      >
         <form onSubmit={handleSubmit(handleSubmitBarrack)} className="space-y-6">
           {/* Data Account Section */}
           <div className="space-y-4">

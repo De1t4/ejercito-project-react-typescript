@@ -7,15 +7,18 @@ import Tbody from "./components/Tbody"
 import Theader from "@/shared/components/Theader"
 import { useArmyBodyContext } from "@/context/ArmyBodyContext"
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 export default function UserArmyBodies() {
   const [selectedBodies, setSelectedBodies] = useState<number[]>([])
   const { fetchBodies, remove, setPage } = useArmyBodyContext()
   const { bodies, page, pagination } = useArmyBodyContext()
   const [searchQuery, setSearchQuery] = useState("")
+  const { idStructure } = useParams()
+  if (!idStructure) return
 
   useEffect(() => {
-    fetchBodies()
+    fetchBodies(idStructure)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
@@ -40,7 +43,7 @@ export default function UserArmyBodies() {
     await remove(selectedBodies)
     toast.success("Army bodies were deleted.")
     setSelectedBodies([])
-    fetchBodies()
+    fetchBodies(idStructure)
   }
 
 
@@ -78,7 +81,7 @@ export default function UserArmyBodies() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button onClick={() => fetchBodies(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchBodies(idStructure, searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

@@ -13,13 +13,13 @@ export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchBodies = async (search: string = "") => {
+  const fetchBodies = async (idStructure: string, search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getArmyBodiesList(authTokens.token, search, page)
+    const data = await getArmyBodiesList(authTokens.token, search, idStructure, page)
     if (data) {
       if (data.empty) {
-        const newData = await getArmyBodiesList(authTokens.token, search, 0)
+        const newData = await getArmyBodiesList(authTokens.token, search, idStructure, 0)
         if (newData) {
           setBodies(newData.content)
           setPagination(newData)
@@ -46,11 +46,11 @@ export const ArmyBodyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLoading(true)
     const loadArmyBody = await updateBody(authTokens.token, payload)
     if (loadArmyBody) {
+      toast.success("Army body updated successfully.")
       setBodies(prev =>
         prev.map(b => (b.id_body === payload.id_body ? loadArmyBody : b))
       )
     }
-    toast.success("Army body updated successfully.")
     setLoading(false)
   }
 

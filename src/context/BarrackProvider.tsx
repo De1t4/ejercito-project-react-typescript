@@ -13,13 +13,13 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchBarracks = async (search: string = "") => {
+  const fetchBarracks = async (idStructure: string, search: string = "") => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getBarracksList(authTokens.token, search, page)
+    const data = await getBarracksList(authTokens.token, search, idStructure, page)
     if (data) {
       if (data.empty) {
-        const newData = await getBarracksList(authTokens.token, search, 0)
+        const newData = await getBarracksList(authTokens.token, search, idStructure, 0)
         if (newData) {
           setBarracks(newData.content)
           setPagination(newData)
@@ -36,8 +36,9 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const create = async (payload: Omit<Barrack, 'id_barrack'>) => {
     if (!authTokens) return
     setLoading(true)
-    await createBarrack(authTokens.token, payload)
-    toast.success("Barrack created successfully.")
+    const res = await createBarrack(authTokens.token, payload)
+    if (res === "SUCESS") toast.success("Company created successfully.")
+
     setLoading(false)
   }
 
@@ -46,11 +47,11 @@ export const BarrackProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLoading(true)
     const loadBarrack = await updateBarrack(authTokens.token, payload)
     if (loadBarrack) {
+      toast.success("Barrack updated successfully.")
       setBarracks(prev =>
         prev.map(b => (b.id_barrack === payload.id_barrack ? loadBarrack : b))
       )
     }
-    toast.success("Barrack updated successfully.")
     setLoading(false)
   }
 
