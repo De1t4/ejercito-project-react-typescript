@@ -16,6 +16,7 @@ import ArmyBodies from "@/pages/armyBodies/ArmyBodies"
 import { OFICIAL, SOLDIER, SUB_OFICIAL } from "@/shared/constants/Roles"
 import Home from "@/pages/home/Home"
 import ConfigLayout from "./config/ConfigLayout"
+import NotFound from "./pages/notFound/NotFound"
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       {/* ROUTES SUB OFICIAL AND OFICIAL */}
       <Route element={<PrivateRoute allowedRoles={[SUB_OFICIAL, OFICIAL]} />}>
         <Route path="/home" element={<Home />}></Route>
+        <Route path="*" element={<NotFound />} />
         <Route path="/structure/:idStructure" element={<ConfigLayout />}>
           <Route path="" element={<Dashboard />} />
           <Route path="soldiers" element={<Soldiers />}></Route>
@@ -50,6 +52,7 @@ function App() {
           <Route path="companies" element={<Companies />}></Route>
           <Route path="barracks" element={<Barracks />}></Route>
           <Route path="army-bodies" element={<ArmyBodies />}></Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
     </Routes>

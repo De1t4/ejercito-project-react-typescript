@@ -20,7 +20,7 @@ export const LoginForm = () => {
   const onSubmitForm: SubmitHandler<Login> = async (data) => {
     try {
       setIsLoading(true)
-      await login(data.username, data.password)
+      await login(data.username.trim(), data.password.trim())
     } catch (err) {
       console.error(err)
     } finally {
