@@ -7,11 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 export default function UserSettings() {
   const { profile, authTokens } = useGlobalContext()
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
+  const { idStructure } = useParams()
   const { control, handleSubmit, formState: { errors }, reset } = useForm<FormValidation>({
     defaultValues: initialStatePassword,
     resolver: zodResolver(schemaValidation),
@@ -111,7 +112,7 @@ export default function UserSettings() {
             </div> */}
           </div>
           <div className="flex justify-end max-sm:flex-col max-sm:gap-4">
-            <Link to={"/dashboard"} className="px-4 py-2 text-center bg-gray-200 text-gray-700 rounded-md mr-2">Cancel</Link>
+            <Link to={`/structure/${idStructure}`} className="px-4 py-2 text-center bg-gray-200 text-gray-700 rounded-md mr-2">Cancel</Link>
             <button disabled={isSubmit} className="px-4 disabled:bg-blue-400 disabled:cursor-not-allowed py-2 bg-blue-600 text-white rounded-md">
               {isSubmit ? (
                 <>

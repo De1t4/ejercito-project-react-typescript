@@ -24,7 +24,8 @@ export const schemaFormServices = z.object({
   id_soldier: z.array(z.string()).min(1, "One Soldier is required"),
   createNewService: z.boolean(),
   description: z.optional(z.string()),
-  id_services_soldiers: z.optional(z.number())
+  id_services_soldiers: z.optional(z.number()),
+  id_structure: z.string().optional()
 }).refine(
   (data) => {
     // Solo validar que description exista si createNewService es true
@@ -59,5 +60,6 @@ export const initialStateFormService: FormService = {
   id_soldier: [],
   createNewService: false,
   description: "",
-  id_services_soldiers: 0
+  id_services_soldiers: 0,
+  id_structure: ""
 }

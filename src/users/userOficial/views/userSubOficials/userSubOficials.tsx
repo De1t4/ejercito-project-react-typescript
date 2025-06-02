@@ -31,18 +31,17 @@ export default function UserSubOficials() {
     fetchStructureData()
     fetchSubOficials(idStructure, searchQuery)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleDeleteSubOficials = async () => {
-    await remove(selectedSubOficial)
+    await remove(selectedSubOficial, idStructure)
     toast.success("Sub oficials were deleted.")
     fetchSubOficials(idStructure)
     setSelectedSubOficial([])
   }
 
   const handleDeleteSubOficial = async (id: number) => {
-    await remove([id])
+    await remove([id], idStructure)
     if (selectedSubOficial.includes(id)) {
       setSelectedSubOficial(selectedSubOficial.filter((i) => i != id))
     }
@@ -90,7 +89,7 @@ export default function UserSubOficials() {
                 value={searchQuery}
                 className="pl-10 pr-4  py-2 border  border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full"
               />
-              <button onClick={() => fetchSubOficials(searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
+              <button onClick={() => fetchSubOficials(idStructure, searchQuery)} className='w-10 border bg-slate-100 h-full rounded-md hover:bg-slate-200 transition-all duration-300 '>
                 <SearchOutlined />
               </button>
             </form>

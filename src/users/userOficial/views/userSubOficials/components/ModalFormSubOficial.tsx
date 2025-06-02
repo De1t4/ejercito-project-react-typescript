@@ -12,19 +12,24 @@ import { DatePicker, Modal } from "antd";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function ModalFormSubOficial({ structure }: { structure: Structure }) {
   const { create, fetchSubOficials, loading } = useSubOficialContext()
   const [modalOpen, setModalOpen] = useState(false);
+  const { idStructure } = useParams()
   const { handleSubmit, setValue, reset, control, formState: { errors }, watch } = useForm<FormSubOficial>({
     defaultValues: initalStateFormSubOficial,
     resolver: zodResolver(schemaFormSubOficial)
   })
 
+  if (!idStructure) return
+
   const handleSubmitSubOficial: SubmitHandler<FormSubOficial> = async (data) => {
     const basePayload = {
       username: data.username.trim(),
       password: data.password.trim(),
+      id_structure: idStructure,
     }
 
     const payload = watchIsDesigned
@@ -50,7 +55,7 @@ export default function ModalFormSubOficial({ structure }: { structure: Structur
       return
     }
     toast.success("Sub official created successfully.")
-    fetchSubOficials()
+    fetchSubOficials(idStructure)
     reset()
   }
 

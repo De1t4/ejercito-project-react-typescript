@@ -10,10 +10,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker, Modal, Tooltip } from "antd";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 export default function ModalEditSubOficial({ subOficial, structure }: { subOficial: SubOficial, structure: Structure }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const { loading, update, fetchSubOficials} = useSubOficialContext()
+  const { idStructure } = useParams()
+  const { loading, update, fetchSubOficials } = useSubOficialContext()
   const { handleSubmit, setValue, control, reset, formState: { errors }, watch } = useForm<FormSubOficial>({
     defaultValues: {
       ...subOficial,
@@ -30,14 +32,16 @@ export default function ModalEditSubOficial({ subOficial, structure }: { subOfic
     resolver: zodResolver(schemaFormSubOficial)
   })
 
+  if (!idStructure) return
+
   const handleSubmitSubOficial: SubmitHandler<FormSubOficial> = async (data) => {
     if (!watchIsDesigned) {
-      await update({ id_user: subOficial.id_user, username: data.username, soldier: null })
+      await update({ id_user: subOficial.id_user, username: data.username, id_structure: idStructure, soldier: null })
       reset()
     } else {
-      await update({ id_user: subOficial.id_user, username: data.username, soldier: { name: data.name, lastname: data.lastname, id_barrack: data.id_barrack, id_body: data.id_body, id_company: data.id_company } })
+      await update({ id_user: subOficial.id_user, username: data.username, id_structure: idStructure, soldier: { name: data.name, lastname: data.lastname, id_barrack: data.id_barrack, id_body: data.id_body, id_company: data.id_company } })
     }
-    fetchSubOficials()
+    fetchSubOficials(idStructure)
   }
   const watchIsDesigned = watch('isDesignateSoldier')
 

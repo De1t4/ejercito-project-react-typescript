@@ -66,6 +66,7 @@ export const initalStateFormSubOficial: FormSubOficial = {
 export interface FormEditSubOfficial {
   id_user: number
   username: string
+  id_structure: string
   soldier: SoldierSubOfficial | null
 }
 interface SoldierSubOfficial {

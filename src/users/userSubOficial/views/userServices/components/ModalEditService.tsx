@@ -10,10 +10,12 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import FooterModal from "./FooterModal";
 import { updateAssignedServiceSoldier } from "@/users/userSubOficial/services/AssignedService";
+import { useParams } from "react-router-dom";
 
 export default function ModalEditService({ services, soldier, reloadTable }: { services: Service[], soldier: AssignedServices, reloadTable: () => void }) {
   const [modalOpen, setModalOpen] = useState(false);
   const { authTokens } = useGlobalContext()
+  const { idStructure } = useParams()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { control, formState: { errors }, handleSubmit, watch } = useForm<FormService>({
     defaultValues: {
@@ -21,6 +23,7 @@ export default function ModalEditService({ services, soldier, reloadTable }: { s
       id_soldier: [String(soldier.id_soldier)],
       id_service: soldier.id_service,
       id_services_soldiers: soldier.id_services_soldiers,
+      id_structure: idStructure
     },
     resolver: zodResolver(schemaFormServices)
   })
@@ -31,8 +34,8 @@ export default function ModalEditService({ services, soldier, reloadTable }: { s
     try {
       if (!authTokens) return
       setIsSubmitting(true)
-      const payload = data.createNewService ? { description: data.description } : { id_service: data.id_service }
-      await updateAssignedServiceSoldier(authTokens.token, Number(data.id_services_soldiers), payload)
+      const payload = data.createNewService ? { id_services_soldiers: data.id_services_soldiers, id_structure: idStructure, description: data.description } : { id_services_soldiers: data.id_services_soldiers, id_structure: idStructure, id_service: data.id_service }
+      await updateAssignedServiceSoldier(authTokens.token, payload)
       reloadTable()
     } catch (err) {
       console.error(err)

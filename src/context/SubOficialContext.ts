@@ -10,7 +10,7 @@ interface SubOficialContextType {
   setPage: React.Dispatch<React.SetStateAction<number>>
   fetchSubOficials: (idStructure: string, search?: string,) => void
   create: (payload: Omit<FormSubOficial, 'id_user'>) => Promise<SubOficial | 'BAD_REQUEST' | undefined>
-  remove: (payload: number[]) => Promise<void>
+  remove: (payload: number[], idStructure:string) => Promise<void>
   update: (payload: FormEditSubOfficial) => Promise<void>
 }
 

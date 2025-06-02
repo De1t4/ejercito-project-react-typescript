@@ -20,9 +20,9 @@ export const handleFinishService = async (id: number[], token: string) => {
   }
 }
 
-export const getServices = async (token: string) => {
+export const getServices = async (token: string, idStructure: string) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services`, {
+    const res = await fetch(`${API_URL}/v1/services/list?id_structure=${idStructure}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

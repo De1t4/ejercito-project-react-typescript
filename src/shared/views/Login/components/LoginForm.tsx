@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import FormInput from "@/shared/components/FormInput";
 import FormInputPassword from "@/shared/components/FormInputPassword";
+import { Spin } from "antd";
 
 export const LoginForm = () => {
   const { login } = useGlobalContext();
@@ -57,15 +58,12 @@ export const LoginForm = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className={`btn-login flex justify-center items-center ${isLoading && 'animate-pulse'}`}
+          className={`btn-login gap-2 flex justify-center items-center ${isLoading && 'animate-pulse'}`}
         >
           Sign in
           <div>
             {isLoading && (
-              <svg className="animate-spin h-5 w-5 ml-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm1 17.93V20a8.001 8.001 0 0 1-6.32-13.32l1.42 1.42A6.001 6.001 0 0 0 13 19.93z" fill="currentColor" />
-              </svg>
+              <Spin />
             )}
           </div>
         </button>

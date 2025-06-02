@@ -2,6 +2,7 @@ import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { FormEditSubOfficial, FormSubOficial, SubOficial } from "../models/SubOficial.models"
 import { ResponseError } from "@/models/authModels"
 import { urlParams } from "@/utils/utils"
+import toast from "react-hot-toast"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
@@ -25,6 +26,7 @@ export const getSubOfficialsList = async (token: string, search: string, idStruc
 }
 
 export const createSubOficial = async (token: string, payload: FormSubOficial) => {
+  console.log(payload)
   try {
     const res = await fetch(`${API_URL}/v1/sub-official`, {
       method: "POST",
@@ -48,7 +50,7 @@ export const createSubOficial = async (token: string, payload: FormSubOficial) =
   }
 }
 
-export const deleteSubOficial = async (token: string, payload: number[]) => {
+export const deleteSubOficial = async (token: string, payload: number[], idStructure: string) => {
   try {
     const res = await fetch(`${API_URL}/v1/sub-official/delete`, {
       method: "DELETE",
@@ -56,7 +58,7 @@ export const deleteSubOficial = async (token: string, payload: number[]) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ id_user: payload, id_structure: idStructure })
     })
     if (!res.ok) {
       throw new Error("Error delete sub-official")
@@ -81,11 +83,12 @@ export const updateSubOficial = async (token: string, payload: FormEditSubOffici
     if (!res.ok) {
       const data: ResponseError = await res.json()
       if (data.httpStatus === "BAD_REQUEST") {
+        toast("The username already exists.", { icon: "🚧" })
         return data.httpStatus;
       }
       throw new Error("Error edit sub-official")
     }
-    alert("Sub oficial edit success")
+    toast.success("Sub oficial edit success")
   } catch (err) {
     console.error("Error edit sub-official", err)
   }

@@ -13,6 +13,7 @@ import HeaderTable from "@/shared/components/HeaderTable"
 import PaginationTable from "@/shared/components/PaginationTable"
 import Theader from "@/shared/components/Theader"
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 export default function TableServices() {
   const [assignedServices, setAssignedServices] = useState<Pagination<AssignedServices>>()
@@ -22,10 +23,13 @@ export default function TableServices() {
   const [selectedServices, setSelectedServices] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const { authTokens } = useGlobalContext()
+  const { idStructure } = useParams()
+
+  if (!idStructure) return
+  if (!authTokens) return
 
   const fetchAssignedServicesList = async () => {
-    if (!authTokens) return
-    const res = await getListAssignedServices(authTokens.token, searchQuery, page)
+    const res = await getListAssignedServices(authTokens.token, searchQuery, page, idStructure)
     // Si no hay resultados y estamos en una página > 0, reiniciamos a la primera
     if (res?.empty && page > 0) {
       setPage(0)
@@ -33,8 +37,8 @@ export default function TableServices() {
     }
     if (res) setAssignedServices(res)
     const [resSoldiers, resServices] = await Promise.all([
-      getSoldiers(authTokens.token),
-      getServices(authTokens.token)
+      getSoldiers(authTokens.token, idStructure),
+      getServices(authTokens.token, idStructure)
     ])
     if (resSoldiers) setSoldiers(resSoldiers)
     if (resServices) setServices(resServices)

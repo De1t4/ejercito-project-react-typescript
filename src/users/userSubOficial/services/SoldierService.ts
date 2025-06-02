@@ -5,9 +5,9 @@ import { mapSoldier } from "@/utils/mapPayload"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSoldiers = async (token: string) => {
+export const getSoldiers = async (token: string, idStructure: string) => {
   try {
-    const res = await fetch(`${API_URL}/v1/soldiers`, {
+    const res = await fetch(`${API_URL}/v1/soldiers/list?id_structure=${idStructure}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

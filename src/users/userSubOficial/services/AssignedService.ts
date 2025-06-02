@@ -5,9 +5,9 @@ import toast from "react-hot-toast"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getListAssignedServices = async (token: string, search: string, page: number, size: number = 10) => {
+export const getListAssignedServices = async (token: string, search: string, page: number, idStructure: string, size: number = 10) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services/assignments?${urlParams(search.trim(), page, size)}`, {
+    const res = await fetch(`${API_URL}/v1/assignments?${urlParams(search.trim(), page, size, idStructure)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,13 +26,13 @@ export const getListAssignedServices = async (token: string, search: string, pag
 
 export const assignedNewServiceSoldier = async (token: string, payload: FormService) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services/created/assignments`, {
+    const res = await fetch(`${API_URL}/v1/assignments/created`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ id_soldier: payload.id_soldier, description: payload.description })
+      body: JSON.stringify({ id_soldiers: payload.id_soldier, description: payload.description, id_structure: payload.id_structure })
     })
     if (!res.ok) {
       throw new Error("Error create asigned new services")
@@ -46,13 +46,13 @@ export const assignedNewServiceSoldier = async (token: string, payload: FormServ
 
 export const assignedServiceSoldier = async (token: string, payload: FormService) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services/${payload.id_service}/assignments`, {
+    const res = await fetch(`${API_URL}/v1/assignments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ id_soldiers: payload.id_soldier })
+      body: JSON.stringify({ id_soldiers: payload.id_soldier, id_service: payload.id_service, id_structure: payload.id_structure })
     })
     if (!res.ok) {
       throw new Error("Error assigned services")
@@ -65,21 +65,22 @@ export const assignedServiceSoldier = async (token: string, payload: FormService
 }
 
 
-export const updateAssignedServiceSoldier = async (token: string, id_services_soldiers: number, payload: {
+export const updateAssignedServiceSoldier = async (token: string, data: {
   description: string | undefined;
   id_service?: undefined;
 } | {
   id_service: string | number;
   description?: undefined;
 }) => {
+
   try {
-    const res = await fetch(`${API_URL}/v1/services/${Number(id_services_soldiers)}/assignments`, {
+    const res = await fetch(`${API_URL}/v1/assignments`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(data)
     })
     if (!res.ok) {
       toast.error("An error occurred. Please try again.")
@@ -94,13 +95,13 @@ export const updateAssignedServiceSoldier = async (token: string, id_services_so
 
 export const deleteAssignedService = async (token: string, payload: number[]) => {
   try {
-    const res = await fetch(`${API_URL}/v1/services/deleted/assignments`, {
+    const res = await fetch(`${API_URL}/v1/assignments`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ id_assignments: payload })
     })
     if (!res.ok) {
       throw new Error("Error delete assigned services")

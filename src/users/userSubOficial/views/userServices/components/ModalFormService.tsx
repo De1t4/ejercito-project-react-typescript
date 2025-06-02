@@ -12,13 +12,15 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import FooterModal from "./FooterModal";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function ModalFormService({ services, soldiers, reloadTable }: { services: Service[], soldiers: Soldier[], reloadTable: () => void }) {
   const { authTokens } = useGlobalContext()
+  const { idStructure } = useParams()
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { control, formState: { errors }, setValue, handleSubmit, watch, reset } = useForm<FormService>({
-    defaultValues: initialStateFormService,
+    defaultValues: { ...initialStateFormService, id_structure: idStructure },
     resolver: zodResolver(schemaFormServices)
   })
 
@@ -35,7 +37,7 @@ export default function ModalFormService({ services, soldiers, reloadTable }: { 
       }
       toast.success("Service created successfully.")
       reloadTable()
-      reset()
+      reset({ ...initialStateFormService, id_structure: idStructure })
     } catch (err) {
       console.error(err)
     } finally {

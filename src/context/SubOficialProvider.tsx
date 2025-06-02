@@ -4,7 +4,6 @@ import { FormEditSubOfficial, FormSubOficial, SubOficial } from "@/users/userOfi
 import { Pagination } from "@/users/userSubOficial/models/Pagination.models"
 import { useGlobalContext } from "./globalContext"
 import { createSubOficial, deleteSubOficial, getSubOfficialsList, updateSubOficial } from "@/users/userOficial/services/SubOficialService"
-import toast from "react-hot-toast"
 
 export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [subOficial, setSubOficials] = useState<SubOficial[]>([])
@@ -41,10 +40,10 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return res;
   }
 
-  const remove = async (ids: number[]) => {
+  const remove = async (ids: number[], idStructure:string) => {
     if (!authTokens) return
     setLoading(true)
-    await deleteSubOficial(authTokens.token, ids)
+    await deleteSubOficial(authTokens.token, ids, idStructure)
     setSubOficials(prev => prev.filter(b => !ids.includes(b.id_user)))
     setLoading(false)
   }
@@ -52,10 +51,7 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const update = async (payload: FormEditSubOfficial) => {
     if (!authTokens) return
     setLoading(true)
-    const res = await updateSubOficial(authTokens.token, payload)
-    if (res == "BAD_REQUEST") {
-      toast("The username already exists.", { icon: "🚧" })
-    }
+    await updateSubOficial(authTokens.token, payload)
     setLoading(false)
   }
 

@@ -6,7 +6,7 @@ import { ResponseError } from "@/models/authModels"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSoldierList = async (token: string, search: string, page: number, idStructure?: string, size: number = 10,) => {
+export const getSoldierList = async (token: string, search: string, page: number, idStructure: string, size: number = 10,) => {
   try {
     const res = await fetch(`${API_URL}/v1/soldiers?${urlParams(search.trim(), page, size, idStructure).toString()}`, {
       method: "GET",

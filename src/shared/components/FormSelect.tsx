@@ -31,6 +31,7 @@ export default function FormSelect({ id, name, label, control, error, options, p
             {...field}
             className={`${error ? 'select-register-error' : 'select-register'}  outline-none`}
           >
+
             <option value={0} disabled hidden>
               {placeholder}
             </option>
