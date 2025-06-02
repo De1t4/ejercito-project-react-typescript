@@ -13,13 +13,13 @@ export const SubOficialProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [page, setPage] = useState<number>(0)
   const { authTokens } = useGlobalContext()
 
-  const fetchSubOficials = async (search: string = "") => {
+  const fetchSubOficials = async (idStructure: string, search: string = "",) => {
     if (!authTokens) return
     setLoading(true)
-    const data = await getSubOfficialsList(authTokens.token, search, page)
+    const data = await getSubOfficialsList(authTokens.token, search, idStructure, page, 10)
     if (data) {
       if (data.empty) {
-        const newData = await getSubOfficialsList(authTokens.token, search, 0)
+        const newData = await getSubOfficialsList(authTokens.token, search, idStructure, 0, 10)
         if (newData) {
           setSubOficials(newData.content)
           setPagination(newData)

@@ -10,22 +10,26 @@ import { initialStateStructure, Structure } from "@/users/userSubOficial/models/
 import { getStructureMilitary } from "@/users/userSubOficial/services/AdminService"
 import { useGlobalContext } from "@/context/globalContext"
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 export default function UserSubOficials() {
   const { authTokens } = useGlobalContext()
+  const { idStructure } = useParams()
   const [selectedSubOficial, setSelectedSubOficial] = useState<number[]>([])
   const { page, fetchSubOficials, setPage, remove, subOficial, pagination } = useSubOficialContext()
   const [structure, setStructure] = useState<Structure>(initialStateStructure)
   const [searchQuery, setSearchQuery] = useState("")
 
+  if (!idStructure) return
+  if (!authTokens) return
+
   useEffect(() => {
     const fetchStructureData = async () => {
-      if (!authTokens) return
-      const res = await getStructureMilitary(authTokens?.token)
+      const res = await getStructureMilitary(authTokens?.token, idStructure)
       if (res) setStructure(res)
     }
     fetchStructureData()
-    fetchSubOficials(searchQuery)
+    fetchSubOficials(idStructure, searchQuery)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
@@ -33,7 +37,7 @@ export default function UserSubOficials() {
   const handleDeleteSubOficials = async () => {
     await remove(selectedSubOficial)
     toast.success("Sub oficials were deleted.")
-    fetchSubOficials()
+    fetchSubOficials(idStructure)
     setSelectedSubOficial([])
   }
 

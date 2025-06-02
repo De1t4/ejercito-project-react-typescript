@@ -5,9 +5,9 @@ import { urlParams } from "@/utils/utils"
 
 const API_URL = import.meta.env.VITE_BACK_END_URL
 
-export const getSubOfficialsList = async (token: string, search: string, page: number, size: number = 10) => {
+export const getSubOfficialsList = async (token: string, search: string, idStructure: string, page: number, size: number = 10,) => {
   try {
-    const res = await fetch(`${API_URL}/v1/sub-official?${urlParams(search.trim(), page, size).toString()}`, {
+    const res = await fetch(`${API_URL}/v1/sub-official?${urlParams(search.trim(), page, size, idStructure).toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
