@@ -30,7 +30,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <NavbarAdmin openSidebar={() => setCollapsed(!collapsed)} />
         {/* Contenedor con sidebar + contenido */}
         <div className="flex flex-1 overflow-hidden  w-full">
-          {/* Sidebar lateral */}
+          {/* Sidebar MODAL */}
           {
             !openSidebar ?
               (<>
@@ -41,7 +41,9 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                         className="fixed inset-0 bg-black/50 z-10 lg:hidden"
                         onClick={() => setCollapsed(false)}
                       />
-                      <aside className={`bg-primary-color absolute top-20 h-screen overflow-y-hidden text-white transition-all duration-300 w-64 flex flex-col z-20`}>
+                      <aside
+                        className={`bg-primary-color absolute top-20 h-screen overflow-y-hidden text-white transition-all duration-300 w-64 flex flex-col z-20`}
+                      >
                         <div className={` px-4 flex-1 py-4 space-y-6 text-sm overflow-y-auto`}>
                           <nav className={`space-y-4 w-full`}>
                             {itemsOficial.map(({ label, icon, href }) => (
@@ -62,6 +64,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   )
                 }
               </>)
+              /*SIDEBAR INITIAL*/
               : (<>
                 <aside className={`bg-primary-color text-white transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'} flex flex-col`}>
                   <div className={`${collapsed ? 'px-2' : 'px-4'} flex-1 py-4 space-y-6 text-sm overflow-y-auto`}>

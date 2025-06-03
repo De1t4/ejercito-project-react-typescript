@@ -48,17 +48,17 @@ export const registerService = async (dataRegister: FormRegister) => {
     const res = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataRegister),
+      body: JSON.stringify({ ...dataRegister, username: dataRegister.username.trim(), password: dataRegister.password.trim() }),
     });
 
     if (!res.ok) {
       const errorResponse: ResponseError = await res.json();
       if (errorResponse.httpStatus === "NOT_FOUND") {
-        toast(errorResponse.message, {icon:"🚧"})
+        toast(errorResponse.message, { icon: "🚧" })
         return "NOT_FOUND";
       }
-      if(errorResponse.httpStatus === "BAD_REQUEST"){
-        toast(errorResponse.message, {icon:"🚧"})
+      if (errorResponse.httpStatus === "BAD_REQUEST") {
+        toast(errorResponse.message, { icon: "🚧" })
         return "BAD_REQUEST"
       }
       throw new Error("Error en la respuesta del servidor");

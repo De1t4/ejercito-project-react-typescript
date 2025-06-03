@@ -45,6 +45,16 @@
   @layer focus {}
 }
 
+.textarea-login {
+  @apply placeholder:text-[#8897AD] max-h-60 focus:ring-1 focus:ring-primary-color/80 placeholder:font-roboto text-sm appearance-none w-full h-20 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+
+  @layer focus {}
+}
+
+.textarea-login-error {
+  @apply placeholder:text-[#8897AD] max-h-60 ring-1 ring-red-500 placeholder:font-roboto text-sm appearance-none w-full h-20 bg-[#F7FBFF] border rounded-lg py-2 px-3 text-gray-700 leading-tight;
+}
+
 .label-initial {
   @apply block text-gray-700 text-sm font-roboto font-medium mb-2
 }
