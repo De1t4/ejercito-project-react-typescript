@@ -45,7 +45,7 @@ export default function SectionStructures({ handleOpenPanel }: { handleOpenPanel
       <ul className="grid  grid-cols-1 md:grid-cols-3 gap-6">
         {
           profile.role === OFICIAL &&
-          <li onClick={handleOpenPanel} key={"create-new-structure"} className="bg-gray-700 h-40 hover:bg-gray-800/90 rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer">
+          <li onClick={handleOpenPanel} key={"create-new-structure"} className="bg-gray-700 h-40 hover:bg-gray-800/90 rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer shadow-md">
             <div className="p-8 h-full flex-col text-center flex justify-center items-center">
               <Empty
                 image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -60,7 +60,7 @@ export default function SectionStructures({ handleOpenPanel }: { handleOpenPanel
 
         {
           structures.map((data) => (
-            <Link key={data.id_structure} to={`/structure/${data.id_structure}`} className="bg-primary-color/90 hover:bg-primary-color/80 h-40  rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer">
+            <Link key={data.id_structure} to={`/structure/${data.id_structure}`} className="bg-primary-color/90 hover:bg-primary-color/80 h-40  rounded-lg border-gray-700 hover:border-gray-600 transition-colors cursor-pointer shadow-gray-300 shadow-xl">
               <li className=" p-8">
                 <h3 className="text-white  font-medium mb-2 text-2xl">{data.name}</h3>
                 <p className="text-gray-400 text-sm lowercase">{data.name}</p>

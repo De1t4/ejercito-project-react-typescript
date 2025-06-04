@@ -58,7 +58,7 @@ export default function FormStructure({ closePanel, isOpenPanel }: { closePanel:
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-bold text-white">Create New Structure</h2>
           </div>
-          <Button ghost onClick={closePanel} className="text-black hover:bg-black/80">
+          <Button variant="link" onClick={closePanel} className="text-black hover:bg-black/80">
             <CloseCircleOutlined className=" text-xl" />
           </Button>
         </div>
@@ -85,7 +85,11 @@ export default function FormStructure({ closePanel, isOpenPanel }: { closePanel:
             <div>
 
             </div>
-            <button className="btn-login" type="submit">Enviar</button>
+            <div className="flex w-full max-sm:flex-col max-sm:gap-4 gap-2">
+              <button onClick={closePanel} type="button" className="px-4 w-full py-2 text-center bg-gray-200 text-gray-700 rounded-md mr-2">Cancel</button>
+              <button className="btn-login w-full" type="submit">Create Structure</button>
+            </div>
+
           </form>
         </div>
       </div>
