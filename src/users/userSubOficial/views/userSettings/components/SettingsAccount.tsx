@@ -21,20 +21,15 @@ export default function SettingsAccount() {
 
   const onSubmit: SubmitHandler<FormValidation> = async (data) => {
     if (!authTokens) return
-    try {
-      setIsSubmit(true)
-      const res = await modifyPasswordUser(data, authTokens.token)
-      if (res === 'BAD_REQUEST') {
-        toast.error('The password is incorrect')
-        return
-      }
-      toast.success("Password changed successfully.")
-      reset(initialStatePassword)
-    } catch (err) {
-      console.error("error:", err)
-    } finally {
-      setIsSubmit(false)
+    setIsSubmit(true)
+    const res = await modifyPasswordUser(data, authTokens.token)
+    if (res === 'BAD_REQUEST') {
+      toast.error('The password is incorrect')
+      return
     }
+    toast.success("Password changed successfully.")
+    reset(initialStatePassword)
+
   }
 
   return (

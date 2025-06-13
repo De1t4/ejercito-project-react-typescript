@@ -58,7 +58,7 @@ export default function SettingsStructure() {
             <div className="w-1/2 max-md:w-full mt-1">
               <input
                 className={`max-md:w-full ${error ? "input-login-error " : "input-login"} `}
-                onChange={(e) => setStructure((prev) => prev ? { ...prev, name: e.target.value } : prev)}
+                onChange={(e) => setStructure({ ...structure, name: e.target.value })}
                 name="name"
                 required
                 minLength={3}

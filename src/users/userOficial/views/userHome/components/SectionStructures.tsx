@@ -31,7 +31,6 @@ export const SectionStructure: FC<PropsHome> = ({ handleOpenPanel }) => {
             </div>
           </li>
         }
-
         <Suspense fallback={<div className="flex justify-center items-center"><p>Loading...  </p> <Spin /> </div>}>
           <ListStructures
             getStructures={fetchStructure(authTokens.token)}

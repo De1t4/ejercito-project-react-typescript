@@ -20,7 +20,6 @@ export default function FormSelect({ id, name, label, control, error, options, p
   return (
     <div className="mb-2">
       <label htmlFor={name} className="label-initial">{label}</label>
-
       <Controller
         name={name}
         control={control}
@@ -31,7 +30,9 @@ export default function FormSelect({ id, name, label, control, error, options, p
             {...field}
             className={`${error ? 'select-register-error' : 'select-register'}  outline-none`}
           >
-
+            {
+              options.length === 0 && <option disabled className="p-2">There are no options</option>
+            }
             <option value={0} disabled hidden>
               {placeholder}
             </option>
