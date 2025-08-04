@@ -1,54 +1,41 @@
-# React + TypeScript + Vite
+# Sistema de Gestion Militar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Aplicación web que simula un entorno de gestión militar, permitiendo la administración basada en roles, la asignación de servicios.
 
-Currently, two official plugins are available:
+## Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React – Librería para construir interfaces de usuario.
+TypeScript – Superset de JavaScript con tipado estático.
+Tailwind CSS – Framework para estilos y responsivos.
+Ant Design – Conjunto de componentes UI profesionales.
+React Hook Form – Manejo de formularios con validaciones eficientes.
+Zod – Validación de esquemas y tipos.
+React Toastify – Notificaciones.
 
-## Expanding the ESLint configuration
+## Como iniciar el proyecto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Clonar el repositorio
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone https://github.com/De1t4/ejercito-project-react-typescript.git
+cd ejercito-project-react-typescript
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+3- Configurar variables de entorno
+Crear un archivo .env en la raíz del proyecto con el siguiente contenido:
+
+```bash
+VITE_BACK_END_URL=http://localhost:8080
+```
+
+4- Ejecutar la aplicación
+
+```bash
+npm run dev
 ```
