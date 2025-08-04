@@ -4,13 +4,13 @@
 
 ## Tecnologias
 
-React – Librería para construir interfaces de usuario.
-TypeScript – Superset de JavaScript con tipado estático.
-Tailwind CSS – Framework para estilos y responsivos.
-Ant Design – Conjunto de componentes UI profesionales.
-React Hook Form – Manejo de formularios con validaciones eficientes.
-Zod – Validación de esquemas y tipos.
-React Toastify – Notificaciones.
+- React – Librería para construir interfaces de usuario.
+- TypeScript – Superset de JavaScript con tipado estático.
+- Tailwind CSS – Framework para estilos y responsivos.
+- Ant Design – Conjunto de componentes UI profesionales.
+- React Hook Form – Manejo de formularios con validaciones eficientes.
+- Zod – Validación de esquemas y tipos.
+- React Toastify – Notificaciones.
 
 ## Como iniciar el proyecto
 
@@ -27,14 +27,14 @@ cd ejercito-project-react-typescript
 npm install
 ```
 
-3- Configurar variables de entorno
+3. Configurar variables de entorno
 Crear un archivo .env en la raíz del proyecto con el siguiente contenido:
 
 ```bash
 VITE_BACK_END_URL=http://localhost:8080
 ```
 
-4- Ejecutar la aplicación
+4. Ejecutar la aplicación
 
 ```bash
 npm run dev
