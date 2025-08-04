@@ -27,7 +27,7 @@ cd ejercito-project-react-typescript
 npm install
 ```
 
-3. Configurar variables de entorno
+3. Configurar variables de entorno.
 Crear un archivo .env en la raíz del proyecto con el siguiente contenido:
 
 ```bash
