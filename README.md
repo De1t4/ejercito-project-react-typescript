@@ -2,7 +2,7 @@
 
 > Aplicación web que simula un entorno de gestión militar, permitiendo la administración basada en roles, la asignación de servicios.
 
-## Tecnologias
+## Tecnologías 
 
 - React – Librería para construir interfaces de usuario.
 - TypeScript – Superset de JavaScript con tipado estático.
