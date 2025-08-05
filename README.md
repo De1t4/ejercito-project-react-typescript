@@ -39,3 +39,8 @@ VITE_BACK_END_URL=http://localhost:8080
 ```bash
 npm run dev
 ```
+
+###
+Arquitectura utilizada
+
+![image (2)](https://github.com/user-attachments/assets/7ebad6c3-5126-41a2-8620-3a79b59854e9)
