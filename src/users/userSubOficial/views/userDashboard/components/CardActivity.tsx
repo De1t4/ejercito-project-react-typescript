@@ -1,7 +1,6 @@
 import { DashboardData } from "@/users/userSubOficial/models/GeneralData.models";
 import { getDays, getDaysDifferenceFromToday } from "@/utils/utils";
 import { Empty } from "antd";
-import { Link } from "react-router-dom";
 
 export default function CardActivity({ data }: { data: DashboardData }) {
 
@@ -21,8 +20,9 @@ export default function CardActivity({ data }: { data: DashboardData }) {
       <h2 className="text-lg font-semibold mb-1">Recent Activity</h2>
       <p className="text-sm text-gray-600 mb-4">Overview of recent user activities and tasks over the past 7 days</p>
       <div className="space-y-4">
-        {filterDataServices.map(({ id_user, name, description, id_services_soldiers, days }) => (
-          <Link to={`/soldiers/${id_user}`} key={id_services_soldiers} className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
+        {filterDataServices.map(({ name, description, days }) => (
+          // <Link to={`/soldiers/${id_user}`} key={id_services_soldiers} className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
+          <div className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
             <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 font-bold">
               {name.charAt(0).toUpperCase()}
             </div>
@@ -32,7 +32,8 @@ export default function CardActivity({ data }: { data: DashboardData }) {
               </h3>
               <p className="text-sm text-gray-500">{getDaysDifferenceFromToday(days)}</p>
             </div>
-          </Link>
+          </div>
+          // </Link>
         ))}
       </div>
     </div>
